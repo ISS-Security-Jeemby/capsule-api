@@ -1,2 +1,2 @@
 require './app/controllers/app'
-# run Credence::Api.freeze.app
+run Capsule::CapsuleText.freeze.app

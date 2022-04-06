@@ -10,7 +10,7 @@ module Capsule
         plugin :halt
 
         configure do
-            Document.setup
+            Letter.setup
         end
 
         route do |routing|

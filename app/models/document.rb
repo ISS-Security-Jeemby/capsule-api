@@ -11,10 +11,10 @@ module Capsule
   class Letter
     # Create a new letter from hash of attributes
     def initialize(new_letter)
-      @id       = new_letter[:id] || new_id
-      @receiver = new_letter[:receiver]
-      @title    = new_letter[:title]
-      @content  = new_letter[:content]
+      @id       = new_letter['id'] || new_id
+      @receiver = new_letter['receiver']
+      @title    = new_letter['title']
+      @content  = new_letter['content']
     end
 
     attr_reader :id, :receiver, :title, :content
@@ -23,10 +23,10 @@ module Capsule
       JSON(
         {
           type: 'document',
-          id:,
-          receiver:,
-          title:,
-          content:
+          id: @id,
+          receiver:  @receiver,
+          title: @title,
+          content:@content
         },
         options
       )

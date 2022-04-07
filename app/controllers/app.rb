@@ -1,6 +1,10 @@
+# frozen_string_literal: true
 require 'json'
 require 'base64'
 require 'rbnacl'
+
+require 'roda'
+require 'json'
 
 require_relative '../models/document'
 
@@ -18,7 +22,7 @@ module Capsule
             response['Content-Type'] = 'application/json'
             # handle Root Route
             routing.root do
-                { message: 'CredenceAPI up at /api/v1' }.to_json
+                { message: 'CapsuleAPI up at /api/v1' }.to_json
             end
 
             routing.on 'api' do
@@ -29,6 +33,7 @@ module Capsule
                         routing.post do
                             new_data = JSON.parse(routing.body.read)
                             new_doc = Letter.new(new_data)
+                            
 
                             if new_doc.save
                                 response.status = 201

@@ -1,0 +1,11 @@
+---
+- type: 'document'
+  id: 'O9oV_fmBDM'
+  receiver: 'Sir'
+  title: 'Secret Msg'
+  content: 'Same, hope you will receiver it'
+- type: 'document'
+  id: 'nJSginE-h5'
+  receiver: 'Sir2'
+  title: 'Secret'
+  content: 'Hope you will receiver it'

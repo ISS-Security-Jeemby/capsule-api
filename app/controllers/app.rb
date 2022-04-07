@@ -4,11 +4,11 @@ require 'json'
 require 'base64'
 require 'rbnacl'
 require 'roda'
-require 'json'
 
 require_relative '../models/document'
 
 module Capsule
+  # api for CapsulText
   class CapsuleText < Roda
     plugin :environments
     plugin :halt
@@ -24,11 +24,9 @@ module Capsule
       routing.root do
         { message: 'CapsuleAPI up at /api/v1' }.to_json
       end
-
       routing.on 'api' do
         routing.on 'v1' do
           routing.on 'text' do
-
             # POST api/v1/text
             routing.post do
               new_data = JSON.parse(routing.body.read)
@@ -40,22 +38,21 @@ module Capsule
                 routing.halt 400, { message: 'Could not save document' }.to_json
               end
             end
-
             # GET api/v1/text/[id]
             routing.get String do |id|
               Letter.find(id).to_json
-              rescue StanardError     # Halt stops route and returns status, msg immediately
+            rescue StanardError
+              # Halt stops route and returns status, msg immediately
               routing.halt 404, { message: 'Letter not found' }.to_json
-              end
-
-              # GET api/v1/text
-              routing.get do
-                output = { document_ids: Letter.all }
-                JSON.pretty_generate(output)
-              end
+            end
+            # GET api/v1/text
+            routing.get do
+              output = { document_ids: Letter.all }
+              JSON.pretty_generate(output)
             end
           end
         end
       end
     end
+  end
 end

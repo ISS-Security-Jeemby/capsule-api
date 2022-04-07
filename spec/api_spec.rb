@@ -9,7 +9,7 @@ require_relative '../app/controllers/app'
 require_relative '../app/models/document'
 
 def app
- Capsule::CapsuleText
+  Capsule::CapsuleText
 end
 
 DATA = YAML.safe_load File.read('app/db/seeds/letter_seeds.yml')
@@ -29,18 +29,17 @@ describe 'TestCapsule Web API' do
 
   describe 'Handle Letters' do
     it 'HAPPY: should be able to get list of all Letters' do
-     Capsule::Letter.new(DATA[0]).save
-     Capsule::Letter.new(DATA[1]).save
+      Capsule::Letter.new(DATA[0]).save
+      Capsule::Letter.new(DATA[1]).save
 
-     get 'api/v1/text'
-     result = JSON.parse last_response.body
-     _(result['document_ids'].count).must_equal 2
+      get 'api/v1/text'
+      result = JSON.parse last_response.body
+      _(result['document_ids'].count).must_equal 2
     end
 
     it 'HAPPY: should be able to get details of a single Letter' do
-     Capsule::Letter.new(DATA[1]).save
+      Capsule::Letter.new(DATA[1]).save
       id = Dir.glob("#{Capsule::STORE_DIR}/*.txt").first.split(%r{[/.]})[3]
-
       get "/api/v1/text/#{id}"
       result = JSON.parse last_response.body
       _(last_response.status).must_equal 200

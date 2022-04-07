@@ -24,9 +24,9 @@ module Capsule
         {
           type: 'document',
           id: @id,
-          receiver:  @receiver,
+          receiver: @receiver,
           title: @title,
-          content:@content
+          content: @content
         },
         options
       )

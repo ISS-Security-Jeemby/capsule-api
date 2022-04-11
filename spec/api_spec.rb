@@ -6,7 +6,7 @@ require 'rack/test'
 require 'yaml'
 
 require_relative '../app/controllers/app'
-require_relative '../app/models/document'
+require_relative '../app/models/letter'
 
 def app
   Capsule::CapsuleText
@@ -34,7 +34,7 @@ describe 'TestCapsule Web API' do
 
       get 'api/v1/text'
       result = JSON.parse last_response.body
-      _(result['document_ids'].count).must_equal 2
+      _(result['letter_ids'].count).must_equal 2
     end
 
     it 'HAPPY: should be able to get details of a single Letter' do

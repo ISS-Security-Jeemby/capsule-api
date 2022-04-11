@@ -8,8 +8,6 @@ Sequel.migration do
       primary_key :id
       foreign_key :capsule_id, table: :capsules
 
-      # String :member_id, null: false, default: ''
-      String :receiver_id, null: false
       String :title, null: false
       String :content, null: false, default: ''
 

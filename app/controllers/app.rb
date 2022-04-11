@@ -7,15 +7,11 @@ require 'roda'
 
 require_relative '../models/letter'
 
-module Capsule
+module TimeCapsule
   # api for CapsulText
-  class CapsuleText < Roda
+  class Api < Roda
     plugin :environments
     plugin :halt
-
-    configure do
-      Letter.setup
-    end
 
     route do |routing|
       # set HTTP response header

@@ -4,7 +4,7 @@ require 'roda'
 require 'figaro'
 require 'sequel'
 
-module Capsule
+module TimeCapsule
   # Configuratino for the API
   class Api < Roda
     plugin :environments

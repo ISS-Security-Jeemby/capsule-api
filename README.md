@@ -1,4 +1,4 @@
-# capsule-api
+# timecapsule-api
 API to store and retrieve capsule text
 
 ## Routes

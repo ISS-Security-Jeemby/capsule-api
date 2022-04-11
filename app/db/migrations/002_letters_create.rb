@@ -8,7 +8,7 @@ Sequel.migration do
       primary_key :id
       foreign_key :capsule_id, table: :capsules
 
-      String :title, null: false
+      String :title, null: false, default: ''
       String :content, null: false, default: ''
 
       DateTime :send_at

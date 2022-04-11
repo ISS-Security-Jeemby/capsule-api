@@ -5,7 +5,7 @@ require 'base64'
 require 'rbnacl'
 require 'roda'
 
-require_relative '../models/document'
+require_relative '../models/letter'
 
 module Capsule
   # api for CapsulText
@@ -35,7 +35,7 @@ module Capsule
                 response.status = 201
                 { message: 'Letter saved', id: new_doc.id }.to_json
               else
-                routing.halt 400, { message: 'Could not save document' }.to_json
+                routing.halt 400, { message: 'Could not save letter' }.to_json
               end
             end
             # GET api/v1/text/[id]
@@ -47,7 +47,7 @@ module Capsule
             end
             # GET api/v1/text
             routing.get do
-              output = { document_ids: Letter.all }
+              output = { letter_ids: Letter.all }
               JSON.pretty_generate(output)
             end
           end

@@ -46,7 +46,7 @@ namespace :db do
     require 'sequel'
 
     Sequel.extension :migration
-    @app = Capsule::Api
+    @app = TimeCapsule::Api
   end
 
   desc 'Run migrations'
@@ -57,7 +57,7 @@ namespace :db do
 
   desc 'Destroy data in database; maintain tables'
   task :delete => :load do
-    Capsule::Account.dataset.destroy
+    TimeCapsule::Account.dataset.destroy
   end
 
   desc 'Delete dev or test database file'
@@ -67,7 +67,7 @@ namespace :db do
       return
     end
 
-    db_filename = "app/db/store/#{Capsule::Api.environment}.db"
+    db_filename = "app/db/store/#{TimeCapsule::Api.environment}.db"
     FileUtils.rm(db_filename)
     puts "Deleted #{db_filename}"
   end

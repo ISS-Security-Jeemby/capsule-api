@@ -3,4 +3,4 @@
 require './require_app'
 require_app
 
-run Capsule::Api.freeze.app
+run TimeCapsule::Api.freeze.app

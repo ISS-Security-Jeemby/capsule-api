@@ -7,9 +7,10 @@ require 'yaml'
 
 require_relative '../app/controllers/app'
 require_relative '../app/models/letters'
+require_relative '../app/models/capsules'
 
 def app
-  Capsule::CapsuleText
+  TimeCapsule::CapsuleText
 end
 
 DATA = YAML.safe_load File.read('app/db/seeds/letter_seeds.yml')
@@ -19,7 +20,7 @@ describe 'TestCapsule Web API' do
 
   before do
     # Wipe database before each test
-    Dir.glob("#{Capsule::STORE_DIR}/*.txt").each { |filename| FileUtils.rm(filename) }
+    Dir.glob("#{TimeCapsule::STORE_DIR}/*.txt").each { |filename| FileUtils.rm(filename) }
   end
 
   it 'should find the root route' do
@@ -29,8 +30,8 @@ describe 'TestCapsule Web API' do
 
   describe 'Handle Letters' do
     it 'HAPPY: should be able to get list of all Letters' do
-      Capsule::Letter.new(DATA[0]).save
-      Capsule::Letter.new(DATA[1]).save
+      TimeCapsule::Letter.new(DATA[0]).save
+      TimeCapsule::Letter.new(DATA[1]).save
 
       get 'api/v1/text'
       result = JSON.parse last_response.body
@@ -38,8 +39,8 @@ describe 'TestCapsule Web API' do
     end
 
     it 'HAPPY: should be able to get details of a single Letter' do
-      Capsule::Letter.new(DATA[1]).save
-      id = Dir.glob("#{Capsule::STORE_DIR}/*.txt").first.split(%r{[/.]})[3]
+      TimeCapsule::Letter.new(DATA[1]).save
+      id = Dir.glob("#{TimeCapsule::STORE_DIR}/*.txt").first.split(%r{[/.]})[3]
       get "/api/v1/text/#{id}"
       result = JSON.parse last_response.body
       _(last_response.status).must_equal 200

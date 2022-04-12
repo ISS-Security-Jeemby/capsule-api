@@ -4,6 +4,7 @@ require 'json'
 require 'base64'
 require 'rbnacl'
 require 'roda'
+require 'sequel'
 
 require_relative '../models/capsules'
 require_relative '../models/letters'

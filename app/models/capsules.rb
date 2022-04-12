@@ -3,10 +3,9 @@
 require 'json'
 require 'base64'
 require 'rbnacl'
+require 'sequel'
 
 module TimeCapsule
-  STORE_DIR = 'app/db/store'
-
   # Holds a full secret Capsule
   class Capsule < Sequel::Model
     one_to_many :letters

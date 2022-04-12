@@ -39,33 +39,62 @@ module TimeCapsule
               rescue StandardError => e
                 routing.halt 404, { message: e.message }.to_json
               end
-              # ---------------------------- below doesn't update yet -------
-              # POST api/v1/text
+
+              # GET api/v1/capsules/[caps_id]/letters
+              routing.get do
+                output = { data: Capsule.first(id: caps_id).letters }
+                JSON.pretty_generate(output)
+              rescue StandardError
+                routing.halt 404, message: 'Could not find letters'
+              end
+
+              # POST api/v1/capsules/[ID]/letters
               routing.post do
                 new_data = JSON.parse(routing.body.read)
-                new_doc = Letter.new(new_data)
-                if new_doc.save
+                caps = Capsule.first(id: caps_id)
+                new_caps = caps.add_letter(new_data)
+
+                if new_caps
                   response.status = 201
-                  { message: 'Letter saved', id: new_doc.id }.to_json
+                  response['Location'] = "#{@caps_route}/#{new_caps.id}"
+                  { message: 'Letter saved', data: new_caps }.to_json
                 else
-                  routing.halt 400, { message: 'Could not save letter' }.to_json
+                  routing.halt 400, 'Could not save letter'
                 end
-              end
 
-              # GET api/v1/text/[id]
-              routing.get String do |id|
-                Letter.find(id).to_json
-              rescue StanardError
-                # Halt stops route and returns status, msg immediately
-                routing.halt 404, { message: 'Letter not found' }.to_json
-              end
-
-              # GET api/v1/text
-              routing.get do
-                output = { letter_ids: Letter.all }
-                JSON.pretty_generate(output)
+                rescue StandardError
+                  routing.halt 500, { message: 'Database error' }.to_json
               end
             end
+
+            # GET api/v1/capsules/[ID]
+            routing.get do
+              caps = Capsule.first(id: caps_id)
+              caps ? caps.to_json : raise('Capsule not found')
+              rescue StandardError => e
+                routing.halt 404, { message: e.message }.to_json
+            end
+          end
+
+          # GET api/v1/capsules
+          routing.get do
+            output = { data: Capsule.all }
+            JSON.pretty_generate(output)
+          rescue StandardError
+            routing.halt 404, { message: 'Could not find capsules' }.to_json
+          end
+
+          # POST api/v1/capsules
+          routing.post do
+            new_data = JSON.parse(routing.body.read)
+            new_caps = Capsule.new(new_data)
+            raise('Could not save capsule') unless new_caps.save
+
+            response.status = 201
+            response['Location'] = "#{@caps_route}/#{new_caps.id}"
+            { message: 'Capsule saved', data: new_caps }.to_json
+          rescue StandardError => e
+            routing.halt 400, { message: e.message }.to_json
           end
         end
       end

@@ -31,7 +31,6 @@ module TimeCapsule
           routing.on 'text' do |caps_id|
             routing.on 'letters' do
               @let_route = "#{@api_root}/capsules/#{caps_id}/letters"
-              
               # GET api/v1/capsules/[caps_id]/letters/[let_id]
               routing.get String do |let_id|
                 letter = Letter.where(capsule_id: caps_id, id: let_id).first
@@ -62,8 +61,8 @@ module TimeCapsule
                   routing.halt 400, 'Could not save letter'
                 end
 
-                rescue StandardError
-                  routing.halt 500, { message: 'Database error' }.to_json
+              rescue StandardError
+                routing.halt 500, { message: 'Database error' }.to_json
               end
             end
 
@@ -71,8 +70,8 @@ module TimeCapsule
             routing.get do
               caps = Capsule.first(id: caps_id)
               caps ? caps.to_json : raise('Capsule not found')
-              rescue StandardError => e
-                routing.halt 404, { message: e.message }.to_json
+            rescue StandardError => e
+              routing.halt 404, { message: e.message }.to_json
             end
           end
 

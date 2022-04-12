@@ -37,7 +37,7 @@ end
 
 desc 'Run application console (pry)'
 task :console => :print_env do
-  sh 'pry'
+  sh 'pry -r ./spec/test_load_all'
 end
 
 namespace :db do

@@ -5,7 +5,8 @@ require 'base64'
 require 'rbnacl'
 require 'roda'
 
-require_relative '../models/letter'
+require_relative '../models/capsules'
+require_relative '../models/letters'
 
 module TimeCapsule
   # api for CapsulText

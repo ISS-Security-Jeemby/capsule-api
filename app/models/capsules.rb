@@ -4,33 +4,44 @@ require 'json'
 require 'base64'
 require 'rbnacl'
 
-module Capsule
+module TimeCapsule
   STORE_DIR = 'app/db/store'
 
-  # Holds a full secret letter
-  class Letter
-    # Create a new letter from hash of attributes
-    def initialize(new_letter)
-      @id       = new_letter['id'] || new_id
-      @receiver = new_letter['receiver']
-      @title    = new_letter['title']
-      @content  = new_letter['content']
-    end
+  # Holds a full secret Capsule
+  class Capsule < Sequel::Model
+    one_to_many :letters
+    plugin :association_dependencies, documents: :destroy
+    
+    plugin :timestamps
 
-    attr_reader :id, :receiver, :title, :content
-
+    # rubocop:disable Metrics/MethodLength
     def to_json(options = {})
       JSON(
         {
-          type: 'document',
-          id: @id,
-          receiver: @receiver,
-          title: @title,
-          content: @content
-        },
-        options
+          data: {
+            type: 'capsule',
+            attributes: {
+              id:,
+              name:,
+              type:
+            }
+          }
+        }, options
       )
     end
+
+#   id int
+#   name string
+#   user_id int?
+#   created_at timestamp
+#   updated_at timestamp
+#   type int
+#   1: private
+#   2: public
+#   3: received
+#   id 要連到 id(letter)
+
+    # rubocop:enable Metrics/MethodLength
 
     # File store must be setup once when application runs
     def self.setup

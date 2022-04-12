@@ -26,6 +26,9 @@ module TimeCapsule
               status:,
               is_private:
             }
+          },
+          included: {
+            capsule:
           }
         }, options
       )

@@ -11,7 +11,7 @@ module TimeCapsule
   class Capsule < Sequel::Model
     one_to_many :letters
     plugin :association_dependencies, documents: :destroy
-    
+
     plugin :timestamps
 
     # rubocop:disable Metrics/MethodLength
@@ -29,18 +29,6 @@ module TimeCapsule
         }, options
       )
     end
-
-#   id int
-#   name string
-#   user_id int?
-#   created_at timestamp
-#   updated_at timestamp
-#   type int
-#   1: private
-#   2: public
-#   3: received
-#   id 要連到 id(letter)
-
     # rubocop:enable Metrics/MethodLength
 
     # File store must be setup once when application runs

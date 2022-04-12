@@ -6,7 +6,7 @@ require 'rack/test'
 require 'yaml'
 
 require_relative '../app/controllers/app'
-require_relative '../app/models/letter'
+require_relative '../app/models/letters'
 
 def app
   Capsule::CapsuleText

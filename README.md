@@ -4,23 +4,49 @@ API to store and retrieve capsule text
 ## Routes
 All routes return Json
 * GET `/`: Root route shows if Web API is running
-* POST `api/v1/text/`: creates a new capsule text
-* GET `api/v1/text/`: returns all confiugration IDs
-* GET `api/v1/text/[id]`: returns details about a single capsule text with given ID
+* GET `api/v1/accounts/[username]`: Get account details
+* POST `api/v1/accounts`: Create a new acounts
+* GET `api/v1/capsules/[caps_id]/letters/[doc_id]`: Get a letter
+* GET `api/v1/capsules/[caps_id]/letters`: Get list of letters for capsule
+* POST `api/v1/capsules/[caps_id]/letters`: Upload letter for a capsule
+* GET `api/v1/capsules/[caps_]`: Get information about a capsule
+* GET `api/v1/capsules`: Get list of all capsules
+* POST `api/v1/capsules`: Create new capsule
 
 ## Install
 Install this API by cloning the relevant branch and installing required gems from `Gemfile.lock`:
 ```
 bundle install
 ```
-## Test
-Run the test script:
+Setup development database once:
 ```
-ruby spec/api_spec.rb
+rake db:migrate
+```
+
+## Test
+Setup test database once:
+```
+RACK_ENV=test rake db:migrate
+```
+Run the test specification script in `Rakefile`:
+```
+rake spec
+```
+
+## Develop/Debug
+Add fake data to the development database to work on this project:
+```
+rake db:seed
 ```
 
 ## Execute
-Run this API using:
+Launch the API using:
 ```
-rackup
+rake run:dev
+```
+
+## Release check
+Before submitting pull requests, please check if specs, style, and dependency audits pass (will need to be online to update dependency database):
+```
+rake release?
 ```

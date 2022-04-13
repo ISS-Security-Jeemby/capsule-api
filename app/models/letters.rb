@@ -19,19 +19,24 @@ module TimeCapsule
           data: {
             type: 'letter',
             attributes: {
-              id:,
-              title:,
-              content:,
-              status:,
-              is_private:
+              id: id || new_id,
+              title:title,
+              content:content,
+              status:status,
             }
           },
           included: {
-            capsule:
+            capsule:capsule
           }
         }, options
       )
     end
     # rubocop:enable Metrics/MethodLength
+    private
+
+    def new_id
+      timestamp = Time.now.to_f.to_s
+      Base64.urlsafe_encode64(RbNaCl::Hash.sha256(timestamp))[0..9]
+    end
   end
 end

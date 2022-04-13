@@ -9,7 +9,7 @@ module TimeCapsule
   # Holds a full secret Capsule
   class Capsule < Sequel::Model
     one_to_many :letters
-    plugin :association_dependencies, documents: :destroy
+    plugin :association_dependencies, letters: :destroy
 
     plugin :timestamps
 
@@ -20,14 +20,20 @@ module TimeCapsule
           data: {
             type: 'capsule',
             attributes: {
-              id:,
-              name:,
-              type:
+              id: id || new_id,
+              name: name,
+              type: type
             }
           }
         }, options
       )
     end
     # rubocop:enable Metrics/MethodLength
+    private
+
+    def new_id
+      timestamp = Time.now.to_f.to_s
+      Base64.urlsafe_encode64(RbNaCl::Hash.sha256(timestamp))[0..9]
+    end
   end
 end

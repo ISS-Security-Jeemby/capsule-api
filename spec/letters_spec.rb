@@ -9,12 +9,12 @@ describe 'Test Letter Handling' do
     wipe_database
 
     DATA[:capsules].each do |capsule_data|
-     TimeCapsule:Capsule.create(capsule_data)
+      TimeCapsule::Capsule.create(capsule_data)
     end
   end
 
   it 'HAPPY: should be able to get list of all letters' do
-    capsule =TimeCapsule:Capsule.first
+    capsule = TimeCapsule::Capsule.first
     DATA[:letters].each do |letter|
       capsule.add_letter(letter)
     end
@@ -28,7 +28,7 @@ describe 'Test Letter Handling' do
 
   it 'HAPPY: should be able to get details of a single letter' do
     letter_data = DATA[:letters][1]
-    
+
     letter = capsule.add_letter(letter_data).save
 
     get "/api/v1/capsules/#{capsule.id}/letters/#{letter.id}"
@@ -40,19 +40,19 @@ describe 'Test Letter Handling' do
   end
 
   it 'SAD: should return error if unknown letter requested' do
-    capsule =TimeCapsule:Capsule.first
+    capsule = TimeCapsule::Capsule.first
     get "/api/v1/capsules/#{capsule.id}/letters/foobar"
 
     _(last_response.status).must_equal 404
   end
 
   it 'HAPPY: should be able to create new letters' do
-    capsule =TimeCapsule::Capsule.first
+    capsule = TimeCapsule::Capsule.first
     letter_data = DATA[:letters][1]
 
     req_header = { 'CONTENT_TYPE' => 'application/json' }
     post "api/v1/capsules/#{capsule.id}/letters",
-      capsule_data.to_json, req_header
+         capsule_data.to_json, req_header
     _(last_response.status).must_equal 201
     _(last_response.header['Location'].size).must_be :>, 0
 

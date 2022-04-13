@@ -18,9 +18,10 @@ gem 'rbnacl', '~>7'
 # Database
 gem 'hirb'
 gem 'sequel', '~>5'
-group :development, :test do
-  gem 'sqlite3'
-end
+gem 'sqlite3'
+# group :development, :test do
+#   gem 'sqlite3'
+# end
 
 # Performance
 gem 'rubocop-performance'

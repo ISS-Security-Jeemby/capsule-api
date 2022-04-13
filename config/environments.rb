@@ -21,7 +21,7 @@ module TimeCapsule
 
     # Connect and make the database accessible to other classes
     db_url = ENV.delete('DATABASE_URL')
-    
+
     DB = Sequel.connect("#{db_url}?encoding=utf8")
     def self.DB = DB # rubocop:disable Naming/MethodName
 

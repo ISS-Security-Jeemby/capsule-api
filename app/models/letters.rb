@@ -14,7 +14,15 @@ module TimeCapsule
     plugin :whitelist_security
     set_allowed_columns :title, :content, :status, :receiver_id, :is_private
 
-    
+    # Secure getters and setters
+    def content
+      SecureDB.decrypt(content_secure)
+    end
+
+    def content=(plaintext)
+      self.content_secure = SecureDB.encrypt(plaintext)
+    end
+
     # rubocop:disable Metrics/MethodLength
     def to_json(options = {})
       JSON(
@@ -28,10 +36,11 @@ module TimeCapsule
               receiver_id:receiver_id,
               status:status,
               is_private: is_private
+
             }
           },
           included: {
-            capsule:capsule
+            capsule:
           }
         }, options
       )

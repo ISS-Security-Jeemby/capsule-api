@@ -2,6 +2,7 @@
 
 require 'roda'
 require 'figaro'
+require 'logger'
 require 'sequel'
 require './app/lib/secure_db'
 
@@ -32,6 +33,10 @@ module TimeCapsule
       SecureDB.setup(ENV.delete('DB_KEY'))
     end
     # rubocop:enable Lint/ConstantDefinitionInBlock
+
+    # Logger setup
+    LOGGER = Logger.new($stderr)
+    def self.logger = LOGGER
 
     configure :development, :test do
       require 'pry'

@@ -12,7 +12,7 @@ module TimeCapsule
 
     plugin :timestamps
     plugin :whitelist_security
-    set_allowed_columns :title, :content, :status
+    set_allowed_columns :title, :content, :status, :receiver_id, :is_private
 
     # Secure getters and setters
     def content
@@ -30,10 +30,13 @@ module TimeCapsule
           data: {
             type: 'letter',
             attributes: {
-              id: id || new_id,
-              title:,
-              content:,
-              status:
+              id: id ,
+              title:title,
+              content:content,
+              receiver_id:receiver_id,
+              status:status,
+              is_private: is_private
+
             }
           },
           included: {
@@ -43,12 +46,5 @@ module TimeCapsule
       )
     end
     # rubocop:enable Metrics/MethodLength
-
-    private
-
-    def new_id
-      timestamp = Time.now.to_f.to_s
-      Base64.urlsafe_encode64(RbNaCl::Hash.sha256(timestamp))[0..9]
-    end
   end
 end

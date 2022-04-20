@@ -9,7 +9,9 @@ Sequel.migration do
       foreign_key :capsule_id, table: :capsules
 
       String :title, null: false, default: ''
-      String :content_secure, null: false, default: ''
+      String :content, null: false, default: ''
+      String :receiver_id, null: false, default: ''
+
 
       DateTime :send_at
       DateTime :open_at

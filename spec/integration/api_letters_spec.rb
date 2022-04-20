@@ -45,17 +45,15 @@ describe 'Test Letter Handling' do
 
     _(last_response.status).must_equal 404
   end
+  
   describe 'Creating Letters' do
     before do
-      @proj = Credence::Project.first
-      @doc_data = DATA[:documents][1]
+      capsule = TimeCapsule::Capsule.first
+      letter_data = DATA[:letters][1]
       @req_header = { 'CONTENT_TYPE' => 'application/json' }
     end
 
-    it 'HAPPY: should be able to create new letters' do
-      capsule = TimeCapsule::Capsule.first
-      letter_data = DATA[:letters][1]
-  
+    it 'HAPPY: should be able to create new letters' do  
       req_header = { 'CONTENT_TYPE' => 'application/json' }
       post "api/v1/capsules/#{capsule.id}/letters",
            capsule_data.to_json, req_header
@@ -71,9 +69,9 @@ describe 'Test Letter Handling' do
     end
 
     it 'SECURITY: should not create documents with mass assignment' do
-      bad_data = @doc_data.clone
+      bad_data = letter_data.clone
       bad_data['created_at'] = '1900-01-01'
-      post "api/v1/projects/#{@proj.id}/documents",
+      post " api/v1/capsules/#{capsule.id}/letters",
            bad_data.to_json, @req_header
 
       _(last_response.status).must_equal 400

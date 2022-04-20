@@ -1,9 +1,7 @@
 ---
-- type: 'capsule'
-  # id: 'O9oV_fmBDM'
+- # id: 'O9oV_fmBDM'
   name: 'My Capsule'
   type: 1
-- type: 'capsule'
-  # id: 'nJSginE-h5'
+- # id: 'nJSginE-h5'
   name: 'Shared Capsule'
   type: 2

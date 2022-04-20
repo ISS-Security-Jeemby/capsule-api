@@ -56,6 +56,7 @@ describe 'Test Letter Handling' do
 
     it 'HAPPY: should be able to create new letters' do  
       req_header = { 'CONTENT_TYPE' => 'application/json' }
+      binding.pry
       post "api/v1/capsules/#{@capsule.id}/letters",
            @letter_data.to_json, req_header
       _(last_response.status).must_equal 201
@@ -72,7 +73,7 @@ describe 'Test Letter Handling' do
     it 'SECURITY: should not create documents with mass assignment' do
       bad_data = @letter_data.clone
       bad_data['created_at'] = '1900-01-01'
-      post " api/v1/capsules/#{@capsule.id}/letters",
+      post "api/v1/capsules/#{@capsule.id}/letters",
            bad_data.to_json, @req_header
 
       _(last_response.status).must_equal 400

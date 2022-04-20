@@ -29,7 +29,7 @@ describe 'Test Capsule Handling' do
       _(last_response.status).must_equal 200
 
       result = JSON.parse last_response.body
-      put "不懂"
+      puts "不懂"
       puts id
       puts _(result['data']['attributes']['id'])
       _(result['data']['attributes']['id']).must_equal id

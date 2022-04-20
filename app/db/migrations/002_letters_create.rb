@@ -10,6 +10,7 @@ Sequel.migration do
 
       String :title, null: false, default: ''
       String :content, null: false, default: ''
+      String :receiver_id, null: false, default: ''
 
       DateTime :send_at
       DateTime :open_at

@@ -2,6 +2,7 @@
 
 require 'roda'
 require 'figaro'
+require 'logger'
 require 'sequel'
 
 module TimeCapsule
@@ -24,6 +25,10 @@ module TimeCapsule
 
     DB = Sequel.connect("#{db_url}?encoding=utf8")
     def self.DB = DB # rubocop:disable Naming/MethodName
+
+    # Logger setup
+    LOGGER = Logger.new($stderr)
+    def self.logger = LOGGER
 
     configure :development, :test do
       require 'pry'

@@ -1,13 +1,13 @@
 ---
 - type: 'letter'
-  id: 'O9oV_fmBDM'
+  # id: 'O9oV_fmBDM'
   receiver: 'Sir'
   title: 'Secret Msg'
   content: 'Same, hope you will receiver it'
   status: 1
   is_private: true
 - type: 'letter'
-  id: 'nJSginE-h5'
+  # id: 'nJSginE-h5'
   receiver: 'Sir2'
   title: 'Secret'
   content: 'Hope you will receiver it'

@@ -29,6 +29,9 @@ describe 'Test Capsule Handling' do
       _(last_response.status).must_equal 200
 
       result = JSON.parse last_response.body
+      put "不懂"
+      puts id
+      puts _(result['data']['attributes']['id'])
       _(result['data']['attributes']['id']).must_equal id
       _(result['data']['attributes']['name']).must_equal existing_capsule['name']
     end
@@ -41,7 +44,7 @@ describe 'Test Capsule Handling' do
 
     it 'SECURITY: should prevent basic SQL injection targeting IDs' do
       TimeCapsule::Capsule.create(name: 'New Capsule')
-      TimeCapsule::Capsul.create(name: 'Newer Capsule')
+      TimeCapsule::Capsule.create(name: 'Newer Capsule')
       get 'api/v1/projects/2%20or%20id%3E0'
 
       # deliberately not reporting error -- don't give attacker information
@@ -52,12 +55,12 @@ describe 'Test Capsule Handling' do
   describe 'Creating New Projects' do
     before do
       @req_header = { 'CONTENT_TYPE' => 'application/json' }
-      existing_capsule = DATA[:capsules][1]
+      @existing_capsule = DATA[:capsules][1]
     end
 
     it 'HAPPY: should be able to create new Capsules' do
 
-      post 'api/v1/capsules', existing_capsule.to_json, req_header
+      post 'api/v1/capsules', @existing_capsule.to_json,@req_header
       _(last_response.status).must_equal 201
       _(last_response.header['Location'].size).must_be :>, 0
   
@@ -65,12 +68,12 @@ describe 'Test Capsule Handling' do
       capsule = TimeCapsule::Capsule.first
   
       _(created['id']).must_equal capsule.id
-      _(created['name']).must_equal existing_capsule['name']
-      _(created['type']).must_equal existing_capsule['type']
+      _(created['name']).must_equal @existing_capsule['name']
+      _(created['type']).must_equal @existing_capsule['type']
     end
 
     it 'SECURITY: should not create project with mass assignment' do
-      bad_data = existing_capsule.clone
+      bad_data = @existing_capsule.clone
       bad_data['created_at'] = '1900-01-01'
       post 'api/v1/capsules', bad_data.to_json, @req_header
 

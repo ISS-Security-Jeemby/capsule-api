@@ -22,7 +22,7 @@ module TimeCapsule
           data: {
             type: 'letter',
             attributes: {
-              id: id || new_id,
+              id: id ,
               title:title,
               content:content,
               status:status,
@@ -35,11 +35,5 @@ module TimeCapsule
       )
     end
     # rubocop:enable Metrics/MethodLength
-    private
-
-    def new_id
-      timestamp = Time.now.to_f.to_s
-      Base64.urlsafe_encode64(RbNaCl::Hash.sha256(timestamp))[0..9]
-    end
   end
 end

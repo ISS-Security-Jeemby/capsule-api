@@ -11,7 +11,10 @@ module TimeCapsule
     many_to_one :capsule
 
     plugin :timestamps
+    plugin :whitelist_security
+    set_allowed_columns :title, :content, :status
 
+    
     # rubocop:disable Metrics/MethodLength
     def to_json(options = {})
       JSON(

@@ -56,7 +56,6 @@ describe 'Test Letter Handling' do
 
     it 'HAPPY: should be able to create new letters' do  
       req_header = { 'CONTENT_TYPE' => 'application/json' }
-      binding.pry
       post "api/v1/capsules/#{@capsule.id}/letters",
            @letter_data.to_json, req_header
       _(last_response.status).must_equal 201

@@ -29,7 +29,6 @@ describe 'Test Capsule Handling' do
       _(last_response.status).must_equal 200
 
       result = JSON.parse last_response.body
-binding.pry
       _(result['data'][0]['data']['attributes']['id']).must_equal id
       _(result['data'][0]['data']['attributes']['name']).must_equal existing_capsule['name']
     end

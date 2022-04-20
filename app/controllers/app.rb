@@ -42,6 +42,7 @@ module TimeCapsule
 
               # GET api/v1/capsules/[caps_id]/letters
               routing.get do
+                binding.pry
                 output = { data: Capsule.first(id: caps_id).letters }
                 JSON.pretty_generate(output)
               rescue StandardError
@@ -50,6 +51,7 @@ module TimeCapsule
 
               # POST api/v1/capsules/[ID]/letters
               routing.post do
+                binding.pry
                 new_data = JSON.parse(routing.body.read)
                 caps = Capsule.first(id: caps_id)
                 new_caps = caps.add_letter(new_data)

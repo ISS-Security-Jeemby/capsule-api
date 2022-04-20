@@ -12,6 +12,8 @@ module TimeCapsule
     plugin :association_dependencies, letters: :destroy
 
     plugin :timestamps
+    plugin :whitelist_security
+    set_allowed_columns :name, :type
 
     # rubocop:disable Metrics/MethodLength
     def to_json(options = {})

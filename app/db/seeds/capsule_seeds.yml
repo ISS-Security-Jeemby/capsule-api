@@ -1,5 +1,5 @@
 ---
-- name: 'My Capsule'
+- name: My Capsule
   type: 1
-- name: 'Shared Capsule'
+- name: Shared Capsule
   type: 2

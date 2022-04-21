@@ -1,13 +1,7 @@
 # frozen_string_literal: true
 
 require 'json'
-require 'base64'
-require 'rbnacl'
 require 'roda'
-require 'sequel'
-
-require_relative '../models/capsules'
-require_relative '../models/letters'
 
 module TimeCapsule
   # api for CapsulText

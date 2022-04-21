@@ -12,7 +12,6 @@ Sequel.migration do
       String :content_secure, null: false, default: ''
       String :receiver_id, null: false, default: ''
 
-
       DateTime :send_at
       DateTime :open_at
       DateTime :created_at

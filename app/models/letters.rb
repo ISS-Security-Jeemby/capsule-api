@@ -41,7 +41,7 @@ module TimeCapsule
             }
           },
           included: {
-            capsule:
+            capsule:capsule
           }
         }, options
       )

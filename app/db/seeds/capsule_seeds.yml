@@ -1,7 +1,5 @@
 ---
-- # id: 'O9oV_fmBDM'
-  name: 'My Capsule'
+- name: 'My Capsule'
   type: 1
-- # id: 'nJSginE-h5'
-  name: 'Shared Capsule'
+- name: 'Shared Capsule'
   type: 2

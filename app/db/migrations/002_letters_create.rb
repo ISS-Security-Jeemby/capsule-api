@@ -5,11 +5,11 @@ require 'sequel'
 Sequel.migration do
   change do
     create_table(:letters) do
-      primary_key :id
+      uuid :id, primary_key: true
       foreign_key :capsule_id, table: :capsules
 
       String :title, null: false, default: ''
-      String :content, null: false, default: ''
+      String :content_secure, null: false, default: ''
       String :receiver_id, null: false, default: ''
 
 

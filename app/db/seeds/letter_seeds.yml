@@ -4,8 +4,7 @@
   receiver_id: 'Sir'
   status: 1
   is_private: true
-- # id: 'nJSginE-h5'
-  title: 'Secret'
+- title: 'Secret'
   content: 'Hope you will receiver it'
   receiver_id: 'Sir2'
   status: 2

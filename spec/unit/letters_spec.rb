@@ -12,7 +12,7 @@ describe 'Test Letter Handling' do
   end
 
   it 'HAPPY: should retrieve correct data from database' do
-    let_data = DATA[:capsules][1]
+    let_data = DATA[:letters][1]
     cap = TimeCapsule::Capsule.first
     new_let = cap.add_letter(let_data)
 

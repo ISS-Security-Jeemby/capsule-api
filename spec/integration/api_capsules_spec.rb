@@ -29,8 +29,8 @@ describe 'Test Capsule Handling' do
       _(last_response.status).must_equal 200
 
       result = JSON.parse last_response.body
-      _(result['data'][0]['data']['attributes']['id']).must_equal id
-      _(result['data'][0]['data']['attributes']['name']).must_equal existing_capsule['name']
+      _(result['data']['attributes']['id']).must_equal id
+      _(result['data']['attributes']['name']).must_equal existing_capsule['name']
     end
 
     it 'SAD: should return error if unknown Capsule requested' do

@@ -29,7 +29,7 @@ module TimeCapsule
         routing.on 'capsules' do
           @caps_route = "#{@api_root}/capsules"
 
-          routing.on 'text' do |caps_id|
+          routing.on String do |caps_id|
             routing.on 'letters' do
               @let_route = "#{@api_root}/capsules/#{caps_id}/letters"
               # GET api/v1/capsules/[caps_id]/letters/[let_id]

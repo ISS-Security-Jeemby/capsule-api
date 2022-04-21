@@ -11,7 +11,6 @@ describe 'Test Letter Handling' do
     DATA[:capsules].each do |capsule_data|
       TimeCapsule::Capsule.create(capsule_data)
     end
-   
   end
 
   it 'HAPPY: should be able to get list of all letters' do
@@ -46,7 +45,7 @@ describe 'Test Letter Handling' do
 
     _(last_response.status).must_equal 404
   end
-  
+
   describe 'Creating Letters' do
     before do
       @capsule = TimeCapsule::Capsule.first
@@ -60,10 +59,10 @@ describe 'Test Letter Handling' do
            @letter_data.to_json, req_header
       _(last_response.status).must_equal 201
       _(last_response.header['Location'].size).must_be :>, 0
-  
+
       created = JSON.parse(last_response.body)['data']['data']['attributes']
       letter = TimeCapsule::Letter.first
-  
+
       _(created['id']).must_equal letter.id
       _(created['title']).must_equal @letter_data['title']
       _(created['content']).must_equal @letter_data['content']

@@ -8,6 +8,7 @@ describe 'Test Capsule Handling' do
   before do
     wipe_database
   end
+
   describe 'Getting projects' do
     it 'HAPPY: should be able to get list of all Capsules' do
       TimeCapsule::Capsule.create(DATA[:capsules][0]).save
@@ -56,14 +57,13 @@ describe 'Test Capsule Handling' do
     end
 
     it 'HAPPY: should be able to create new Capsules' do
-
-      post 'api/v1/capsules', @existing_capsule.to_json,@req_header
+      post 'api/v1/capsules', @existing_capsule.to_json, @req_header
       _(last_response.status).must_equal 201
       _(last_response.header['Location'].size).must_be :>, 0
-  
+
       created = JSON.parse(last_response.body)['data']['data']['attributes']
       capsule = TimeCapsule::Capsule.first
-  
+
       _(created['id']).must_equal capsule.id
       _(created['name']).must_equal @existing_capsule['name']
       _(created['type']).must_equal @existing_capsule['type']

@@ -3,6 +3,7 @@
 require 'rake/testtask'
 require './require_app'
 
+# rubocop:disable Style/HashSyntax, Style/SymbolArray
 task :default => :spec
 
 desc 'Tests API specs only'

@@ -16,3 +16,9 @@ Security/YAMLLoad:
   Enabled: true
   Exclude:
     - spec/**/*
+
+Style/SymbolArray:
+  Enabled: true
+  Exclude:
+    # - Rakefile
+    - app/db/migrations/*.rb

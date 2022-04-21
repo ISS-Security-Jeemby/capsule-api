@@ -31,15 +31,16 @@ module TimeCapsule
 
       # Load crypto keys
       SecureDB.setup(ENV.delete('DB_KEY'))
+
+      # Logger setup
+      LOGGER = Logger.new($stderr)
+      def self.logger = LOGGER
     end
     # rubocop:enable Lint/ConstantDefinitionInBlock
 
-    # Logger setup
-    LOGGER = Logger.new($stderr)
-    def self.logger = LOGGER
-
     configure :development, :test do
       require 'pry'
+      logger.level = Logger::ERROR
     end
   end
 end

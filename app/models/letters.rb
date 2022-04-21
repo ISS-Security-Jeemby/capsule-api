@@ -10,6 +10,7 @@ module TimeCapsule
   class Letter < Sequel::Model
     many_to_one :capsule
 
+    plugin :uuid, field: :id
     plugin :timestamps
     plugin :whitelist_security
     set_allowed_columns :title, :content, :status, :receiver_id, :is_private

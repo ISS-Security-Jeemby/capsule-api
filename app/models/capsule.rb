@@ -6,6 +6,7 @@ require 'sequel'
 module TimeCapsule
   # Holds a full secret Capsule
   class Capsule < Sequel::Model
+    many_to_one :owner, class: :'Credence::Account'
     one_to_many :letters
     plugin :association_dependencies, letters: :destroy
 
@@ -20,9 +21,9 @@ module TimeCapsule
           data: {
             type: 'capsule',
             attributes: {
-              id:,
-              name:,
-              type:
+              id: id,
+              name: name,
+              type: type
             }
           }
         }, options

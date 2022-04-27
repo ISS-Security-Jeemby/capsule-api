@@ -8,8 +8,12 @@ module TimeCapsule
   class Letter < Sequel::Model
     many_to_one :capsule
 
+    many_to_many :collaborators,
+                 class: :'Credence::Account',
+                 join_table: :accounts_letters,
+                 left_key: :letter_id, right_key: :collaborator_id
     plugin :uuid, field: :id
-    plugin :timestamps
+    plugin :timestamps, collaborators: :nullify
     plugin :whitelist_security
     set_allowed_columns :title, :content, :status, :receiver_id, :is_private
 
@@ -29,16 +33,16 @@ module TimeCapsule
           data: {
             type: 'letter',
             attributes: {
-              id:,
-              title:,
-              content:,
-              receiver_id:,
-              status:,
-              is_private:
+              id: id,
+              title: title,
+              content: content,
+              receiver_id: receiver_id,
+              status: status,
+              is_private: is_private
             }
           },
           included: {
-            capsule:
+            capsule: capsule
           }
         }, options
       )

@@ -16,3 +16,4 @@ end
 DATA = {} # rubocop:disable Style/MutableConstant
 DATA[:letters] = YAML.safe_load File.read('app/db/seeds/letter_seeds.yml')
 DATA[:capsules] = YAML.safe_load File.read('app/db/seeds/capsule_seeds.yml')
+DATA[:accounts] = YAML.safe_load File.read('app/db/seeds/account_seeds.yml')

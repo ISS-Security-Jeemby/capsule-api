@@ -12,7 +12,7 @@ describe 'Test Account Handling' do
   describe 'Account information' do
     it 'HAPPY: should be able to get details of a single account' do
       account_data = DATA[:accounts][1]
-      account = Credence::Account.create(account_data)
+      account = TimeCapsule::Account.create(account_data)
 
       get "/api/v1/accounts/#{account.username}"
       _(last_response.status).must_equal 200
@@ -38,7 +38,7 @@ describe 'Test Account Handling' do
       _(last_response.header['Location'].size).must_be :>, 0
 
       created = JSON.parse(last_response.body)['data']
-      account = Credence::Account.first
+      account = TimeCapsule::Account.first
 
       _(created['id']).must_equal account.id
       _(created['username']).must_equal @account_data['username']

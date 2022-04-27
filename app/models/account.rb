@@ -9,9 +9,9 @@ module TimeCapsule
   class Account < Sequel::Model
     # one_to_many :owned_projects, class: :'Credence::Project', key: :owner_id
     # many_to_many :collaborations,
-    #              class: :'Credence::Project',
-    #              join_table: :accounts_projects,
-    #              left_key: :collaborator_id, right_key: :project_id
+    #              class: :'Credence::Letter',
+    #              join_table: :accounts_letters,
+    #              left_key: :collaborator_id, right_key: :letter_id
 
     # plugin :association_dependencies,
     #        owned_projects: :destroy,

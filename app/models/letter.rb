@@ -29,16 +29,16 @@ module TimeCapsule
           data: {
             type: 'letter',
             attributes: {
-              id:,
-              title:,
-              content:,
-              receiver_id:,
-              status:,
-              is_private:
+              id: id,
+              title: title,
+              content: content,
+              receiver_id: receiver_id,
+              status: status,
+              is_private: is_private
             }
           },
           included: {
-            capsule:
+            capsule: capsule
           }
         }, options
       )

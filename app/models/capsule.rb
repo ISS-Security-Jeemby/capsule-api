@@ -7,9 +7,7 @@ module TimeCapsule
   # Holds a full secret Capsule
   class Capsule < Sequel::Model
     many_to_one :owner, class: :'Credence::Account'
-    
     one_to_many :letters
-    
     plugin :association_dependencies, letters: :destroy
 
     plugin :timestamps

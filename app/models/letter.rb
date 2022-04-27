@@ -12,7 +12,6 @@ module TimeCapsule
                  class: :'Credence::Account',
                  join_table: :accounts_letters,
                  left_key: :letter_id, right_key: :collaborator_id
-    
     plugin :uuid, field: :id
     plugin :timestamps, collaborators: :nullify
     plugin :whitelist_security

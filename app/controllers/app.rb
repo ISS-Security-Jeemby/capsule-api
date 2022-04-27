@@ -87,7 +87,7 @@ module TimeCapsule
               rescue Sequel::MassAssignmentRestriction
                 Api.logger.warn "MASS-ASSIGNMENT: #{new_data.keys}"
                 routing.halt 400, { message: 'Illegal Attributes' }.to_json
-              rescue StandardError  => e
+              rescue StandardError => e
                 Api.logger.error "UNKOWN ERROR: #{e.message}"
                 routing.halt 500, { message: e.message }.to_json
               end

@@ -17,8 +17,8 @@ module TimeCapsule
            owned_capsules: :destroy,
            collaborations: :nullify
 
-    # plugin :whitelist_security
-    # set_allowed_columns :username, :email, :password
+    plugin :whitelist_security
+    set_allowed_columns :username, :email, :password
 
     plugin :timestamps, update_on_create: true
 

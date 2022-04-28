@@ -7,24 +7,15 @@ require_relative './password'
 module TimeCapsule
   # Models a registered account
   class Account < Sequel::Model
-    one_to_many :owned_capsules, class: :'Credence::Capsule', key: :owner_id
-    many_to_many :collaborations,
-                 class: :'Credence::Letter',
-                 join_table: :accounts_letters,
-                 left_key: :collaborator_id, right_key: :letter_id
+    one_to_many :capsules, class: :'TimeCapsule::Capsule', key: :account_id
 
     plugin :association_dependencies,
-           owned_capsules: :destroy,
-           collaborations: :nullify
+           capsules: :destroy
 
     plugin :whitelist_security
     set_allowed_columns :username, :email, :password
 
     plugin :timestamps, update_on_create: true
-
-    # def projects
-    #   owned_projects + collaborations
-    # end
 
     def password=(new_password)
       self.password_digest = Password.digest(new_password)
@@ -39,9 +30,9 @@ module TimeCapsule
       JSON(
         {
           type: 'account',
-          id: id,
-          username: username,
-          email: email
+          id:,
+          username:,
+          email:
         }, options
       )
     end

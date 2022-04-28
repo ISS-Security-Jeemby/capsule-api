@@ -28,8 +28,8 @@ module TimeCapsule
             routing.get do
               account = Account.first(username)
               account ? account.to_json : raise('Account not found')
-            rescue StandardError
-              routing.halt 404, { message: error.message }.to_json
+            rescue StandardError => e
+              routing.halt 404, { message: e.message }.to_json
             end
           end
 
@@ -70,7 +70,6 @@ module TimeCapsule
                 output = { data: Capsule.first(id: caps_id).letters }
                 JSON.pretty_generate(output)
               rescue StandardError
-                Api.logger.warn "LETTERS NOT FOUND: CAPS_ID - #{caps_id}"
                 routing.halt 404, message: 'Could not find letters'
               end
 
@@ -78,7 +77,7 @@ module TimeCapsule
               routing.post do
                 new_data = JSON.parse(routing.body.read)
                 caps = Capsule.first(id: caps_id)
-                new_caps = caps.add_letter(new_data)
+                new_caps = caps.add_owned_letter(new_data)
                 raise 'Could not save letter' unless new_caps
 
                 response.status = 201

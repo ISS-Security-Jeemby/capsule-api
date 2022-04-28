@@ -9,11 +9,12 @@ require 'yaml'
 require_relative 'test_load_all'
 
 def wipe_database
-  app.DB[:letters].delete
-  app.DB[:capsules].delete
+  TimeCapsule::Letter.map(&:destroy)
+  TimeCapsule::Capsule.map(&:destroy)
+  TimeCapsule::Account.map(&:destroy)
 end
 
 DATA = {} # rubocop:disable Style/MutableConstant
-DATA[:letters] = YAML.safe_load File.read('app/db/seeds/letter_seeds.yml')
-DATA[:capsules] = YAML.safe_load File.read('app/db/seeds/capsule_seeds.yml')
-DATA[:accounts] = YAML.safe_load File.read('app/db/seeds/account_seeds.yml')
+DATA[:letters] = YAML.safe_load File.read('app/db/seeds/letters_seed.yml')
+DATA[:capsules] = YAML.safe_load File.read('app/db/seeds/capsules_seed.yml')
+DATA[:accounts] = YAML.safe_load File.read('app/db/seeds/accounts_seed.yml')

@@ -16,7 +16,7 @@ describe 'Test Letter Handling' do
   it 'HAPPY: should be able to get list of all letters' do
     capsule = TimeCapsule::Capsule.first
     DATA[:letters].each do |letter|
-      capsule.add_letter(letter)
+      capsule.add_owned_letter(letter)
     end
 
     get "api/v1/capsules/#{capsule.id}/letters"
@@ -29,7 +29,7 @@ describe 'Test Letter Handling' do
   it 'HAPPY: should be able to get details of a single letter' do
     letter_data = DATA[:letters][1]
     capsule = TimeCapsule::Capsule.first
-    letter = capsule.add_letter(letter_data)
+    letter = capsule.add_owned_letter(letter_data)
 
     get "/api/v1/capsules/#{capsule.id}/letters/#{letter.id}"
     _(last_response.status).must_equal 200

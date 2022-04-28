@@ -14,7 +14,7 @@ describe 'Test Letter Handling' do
   it 'HAPPY: should retrieve correct data from database' do
     let_data = DATA[:letters][1]
     cap = TimeCapsule::Capsule.first
-    new_let = cap.add_letter(let_data)
+    new_let = cap.add_owned_letter(let_data)
 
     let = TimeCapsule::Letter.find(id: new_let.id)
     _(let.title).must_equal let_data['title']
@@ -27,7 +27,7 @@ describe 'Test Letter Handling' do
   it 'SECURITY: should not use deterministic integers' do
     let_data = DATA[:letters][1]
     cap = TimeCapsule::Capsule.first
-    new_let = cap.add_letter(let_data)
+    new_let = cap.add_owned_letter(let_data)
 
     _(new_let.id.is_a?(Numeric)).must_equal false
   end
@@ -35,7 +35,7 @@ describe 'Test Letter Handling' do
   it 'SECURITY: should secure sensitive attributes' do
     let_data = DATA[:letters][1]
     cap = TimeCapsule::Capsule.first
-    new_let = cap.add_letter(let_data)
+    new_let = cap.add_owned_letter(let_data)
     stored_let = app.DB[:letters].first
 
     _(stored_let[:content_secure]).wont_equal new_let.content

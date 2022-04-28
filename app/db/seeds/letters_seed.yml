@@ -1,0 +1,26 @@
+---
+  - title: 'Private 1'
+    content: 'Same, hope you will receiver it'
+    receiver_id: 'Sir'
+    status: 1
+    is_private: true
+  - title: 'Private 2'
+    content: 'Hope you will receiver it'
+    receiver_id: 'Sir2'
+    status: 2
+    is_private: true
+  - title: 'Private 3'
+    content: 'stupdi contnet'
+    receiver_id: 'Sir3'
+    status: 2
+    is_private: true
+  - title: 'Public 4'
+    content: 'test contnet'
+    receiver_id: 'Sir3'
+    status: 2
+    is_private: false
+  - title: 'Received 5'
+    content: 'test contnet'
+    receiver_id: 'Sir3'
+    status: 3
+    is_private: true

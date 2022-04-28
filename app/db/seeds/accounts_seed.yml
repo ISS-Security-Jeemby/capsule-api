@@ -1,0 +1,10 @@
+---
+- username: emily.liu
+  email: eliu@nthu.edu.tw
+  password: mypa$$w0rd
+- username: jessica.huang
+  email: jhuang@nthu.edu.tw
+  password: randompass
+- username: ruby.yu
+  email: ryu@gmail.com
+  password: passrand

@@ -1,0 +1,7 @@
+---
+  - name: My Capsule
+    type: 1
+  - name: Shared Capsule
+    type: 2
+  - name: Received Capsule
+    type: 3

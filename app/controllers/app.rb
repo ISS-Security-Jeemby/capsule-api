@@ -67,10 +67,10 @@ module TimeCapsule
 
               # GET api/v1/capsules/[caps_id]/letters
               routing.get do
-                output = { data: Capsule.first(id: caps_id).letters }
+                output = { data: Capsule.first(id: caps_id).owned_letters }
                 JSON.pretty_generate(output)
               rescue StandardError
-                routing.halt 404, message: 'Could not find letters'
+                routing.halt 404, message: "Could not find letters: CAPS_ID = #{caps_id}"
               end
 
               # POST api/v1/capsules/[ID]/letters

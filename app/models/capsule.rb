@@ -9,7 +9,7 @@ module TimeCapsule
     many_to_one :owner, class: :'TimeCapsule::Account'
 
     one_to_many :owned_letters, class: :'TimeCapsule::Letter', key: :capsule_id
-    many_to_many :collaborated_letters,
+    many_to_many :collaborated_letters, 
                  class: :'TimeCapsule::Letter',
                  join_table: :capsules_letters,
                  left_key: :capsule_id, right_key: :letter_id

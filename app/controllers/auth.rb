@@ -4,7 +4,7 @@ require 'roda'
 require_relative './app'
 
 module TimeCapsule
-  # Web controller for Credence API
+  # Web controller for TimeCapsule API
   class Api < Roda
     route('auth') do |routing|
       routing.is 'authenticate' do

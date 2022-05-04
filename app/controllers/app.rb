@@ -3,8 +3,8 @@
 require 'roda'
 require 'json'
 
-module Credence
-  # Web controller for Credence API
+module TimeCapsule
+  # Web controller for TimeCapsule API
   class Api < Roda
     plugin :halt
     plugin :multi_route
@@ -20,7 +20,7 @@ module Credence
         routing.halt(403, { message: 'TLS/SSL Required' }.to_json)
 
       routing.root do
-        { message: 'CredenceAPI up at /api/v1' }.to_json
+        { message: 'TimeCapsuleAPI up at /api/v1' }.to_json
       end
 
       routing.on 'api' do

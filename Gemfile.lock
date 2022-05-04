@@ -59,6 +59,8 @@ GEM
       rubocop-ast (>= 0.4.0)
     ruby-progressbar (1.11.0)
     sequel (5.55.0)
+    sequel-seed (1.1.2)
+      sequel (>= 4.49.0)
     sqlite3 (1.4.2)
     thor (1.2.1)
     unicode-display_width (2.1.0)
@@ -71,20 +73,21 @@ PLATFORMS
 DEPENDENCIES
   bundler-audit
   figaro (~> 1)
-  hirb
+  hirb (~> 0)
   json
   minitest
   minitest-rg
   pry
-  puma (~> 5.6)
+  puma (~> 5)
   rack-test
-  rake
+  rake (~> 13)
   rbnacl (~> 7)
   rerun
-  roda (~> 3.54)
+  roda (~> 3)
   rubocop
   rubocop-performance
   sequel (~> 5)
+  sequel-seed
   sqlite3
 
 BUNDLED WITH

@@ -32,6 +32,7 @@ def create_owned_capsules
       # to find capsule type
       capsule = CAPSULE_INFO.find { |caps| caps['name'] == capsule_name } # Data Letter == Data Letter
       # 但這樣一個capsule會有多個Owner?
+      
       TimeCapsule::CreateCapsuleForOwner.call(
         owner_id: account.id, capsule_data: capsule # should be the corresponding capsule id
       )

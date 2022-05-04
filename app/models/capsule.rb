@@ -8,7 +8,7 @@ module TimeCapsule
   class Capsule < Sequel::Model
     many_to_one :owner, class: :'TimeCapsule::Account'
 
-    one_to_many :owned_letters, class: :'TimeCapsule::Letter', key: :capsule_id
+    one_to_many :owned_letters, class: :'TimeCapsule::Letter', key: :capsule_id, dependent: :destroy
     many_to_many :collaborated_letters, 
                  class: :'TimeCapsule::Letter',
                  join_table: :capsules_letters,

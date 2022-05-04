@@ -9,6 +9,7 @@ require 'yaml'
 require_relative 'test_load_all'
 
 def wipe_database
+  binding.pry
   TimeCapsule::Letter.map(&:destroy)
   TimeCapsule::Capsule.map(&:destroy)
   TimeCapsule::Account.map(&:destroy)

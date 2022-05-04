@@ -1,132 +1,32 @@
 # frozen_string_literal: true
 
-require 'json'
 require 'roda'
+require 'json'
 
 module TimeCapsule
-  # api for CapsulText
+  # Web controller for TimeCapsule API
   class Api < Roda
-    plugin :environments
     plugin :halt
+    plugin :multi_route
+
+    def secure_request?(routing)
+      routing.scheme.casecmp(Api.config.SECURE_SCHEME).zero?
+    end
 
     route do |routing|
-      # set HTTP response header
       response['Content-Type'] = 'application/json'
 
-      # handle Root Route
+      secure_request?(routing) ||
+        routing.halt(403, { message: 'TLS/SSL Required' }.to_json)
+
       routing.root do
-        { message: 'CapsuleAPI up at /api/v1' }.to_json
+        { message: 'TimeCapsuleAPI up at /api/v1' }.to_json
       end
 
-      @api_root = 'api/v1'
-      routing.on @api_root do
-        routing.on 'accounts' do
-          @account_route = "#{@api_root}/accounts"
-
-          routing.on String do |username|
-            # GET api/v1/accounts/[username]
-            routing.get do
-              account = Account.first(username:)
-              account ? account.to_json : raise('Account not found')
-            rescue StandardError => e
-                routing.halt 404, {message: "#{e.message}: USRNAME = #{username}"}.to_json
-            end
-          end
-
-          # POST api/v1/accounts
-          routing.post do
-            new_data = JSON.parse(routing.body.read)
-            new_account = Account.new(new_data)
-            raise('Could not save account') unless new_account.save
-
-            response.status = 201
-            response['Location'] = "#{@account_route}/#{new_account.id}"
-            { message: 'Account created', data: new_account }.to_json
-          rescue Sequel::MassAssignmentRestriction
-            Api.logger.warn "MASS-ASSIGNMENT:: #{new_data.keys}"
-            routing.halt 400, { message: 'Illegal Request' }.to_json
-          rescue StandardError => e
-            Api.logger.error 'Unknown error saving account'
-            routing.halt 500, { message: e.message }.to_json
-          end
-        end
-        routing.on 'capsules' do
-          @caps_route = "#{@api_root}/capsules"
-
-          routing.on String do |caps_id|
-            routing.on 'letters' do
-              @let_route = "#{@api_root}/capsules/#{caps_id}/letters"
-              # GET api/v1/capsules/[caps_id]/letters/[let_id]
-              routing.get String do |let_id|
-                letter = Letter.where(capsule_id: caps_id, id: let_id).first
-                letter ? letter.to_json : raise('Letter not found')
-              rescue StandardError => e
-                Api.logger.warn "LETTER NOT FOUND: CAPS_ID - #{caps_id} / LAT_ID - #{let_id}"
-                routing.halt 404, { message: e.message }.to_json
-              end
-
-              # GET api/v1/capsules/[caps_id]/letters
-              routing.get do
-                output = { data: Capsule.first(id: caps_id).owned_letters }
-                JSON.pretty_generate(output)
-              rescue StandardError
-                routing.halt 404, message: "Could not find letters: CAPS_ID = #{caps_id}"
-              end
-
-              # POST api/v1/capsules/[ID]/letters
-              routing.post do
-                new_data = JSON.parse(routing.body.read)
-                caps = Capsule.first(id: caps_id)
-                new_caps = caps.add_owned_letter(new_data)
-                raise 'Could not save letter' unless new_caps
-
-                response.status = 201
-                response['Location'] = "#{@caps_route}/#{new_caps.id}"
-                { message: 'Letter saved', data: new_caps }.to_json
-              rescue Sequel::MassAssignmentRestriction
-                Api.logger.warn "MASS-ASSIGNMENT: #{new_data.keys}"
-                routing.halt 400, { message: 'Illegal Attributes' }.to_json
-              rescue StandardError => e
-                Api.logger.error "UNKOWN ERROR: #{e.message}"
-                routing.halt 500, { message: e.message }.to_json
-              end
-            end
-
-            # GET api/v1/capsules/[ID]
-            routing.get do
-              caps = Capsule.first(id: caps_id)
-              caps ? caps.to_json : raise('Capsule not found')
-            rescue StandardError => e
-              Api.logger.warn "CAPSULE NOT FOUND: #{caps_id}"
-              routing.halt 404, { message: e.message }.to_json
-            end
-          end
-
-          # GET api/v1/capsules
-          routing.get do
-            output = { data: Capsule.all }
-            JSON.pretty_generate(output)
-          rescue StandardError => e
-            Api.logger.warn "ALL CAPSULES NOT FOUND: #{e.message}"
-            routing.halt 404, { message: 'Could not find capsules' }.to_json
-          end
-
-          # POST api/v1/capsules
-          routing.post do
-            new_data = JSON.parse(routing.body.read)
-            new_caps = Capsule.new(new_data)
-            raise('Could not save capsule') unless new_caps.save
-
-            response.status = 201
-            response['Location'] = "#{@caps_route}/#{new_caps.id}"
-            { message: 'Capsule saved', data: new_caps }.to_json
-          rescue Sequel::MassAssignmentRestriction
-            Api.logger.warn "MASS-ASSIGNMENT: #{new_data.keys}"
-            routing.halt 400, { message: 'Illegal Attributes' }.to_json
-          rescue StandardError => e
-            Api.logger.error "UNKOWN ERROR: #{e.message}"
-            routing.halt 500, { message: 'Unknown server error' }.to_json
-          end
+      routing.on 'api' do
+        routing.on 'v1' do
+          @api_root = 'api/v1'
+          routing.multi_route
         end
       end
     end

@@ -7,10 +7,11 @@ require_relative './password'
 module TimeCapsule
   # Models a registered account
   class Account < Sequel::Model
-    one_to_many :capsules, class: :'TimeCapsule::Capsule', key: :owner_id
+    one_to_many :owned_capsules, class: :'TimeCapsule::Capsule', key: :owner_id
+
 
     plugin :association_dependencies,
-           capsules: :destroy
+           owned_capsules: :destroy
 
     plugin :whitelist_security
     set_allowed_columns :username, :email, :password

@@ -10,7 +10,7 @@ module TimeCapsule
 
     def self.call(collaborator_name:, letter_data:)
       collaborator = TimeCapsule::Account.first(username: collaborator_name)
-      collaborator_capsule = TimeCapsule::Capsule.first(account_id: collaborator.id, type: 2)
+      collaborator_capsule = TimeCapsule::Capsule.first(owner_id: collaborator.id, type: 2)
       # pass in the collaborator_capsule and the account
       collaborator_capsule.add_collaborator(letter_data)
     end

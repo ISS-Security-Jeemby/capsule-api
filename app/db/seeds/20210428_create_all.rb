@@ -42,7 +42,7 @@ def create_owned_letters
   # loop capsules_letters to find owned letters
   CAPSULES_LETTERS_INFO.each do |capsule_info|
     account = TimeCapsule::Account.first(username: capsule_info['username'])
-    capsule = TimeCapsule::Capsule.first(account_id: account.id, name: capsule_info['capsule_name'])
+    capsule = TimeCapsule::Capsule.first(owner_id: account.id, name: capsule_info['capsule_name'])
     capsule_info['letters'].each do |letter_title|
       letter = LETTER_INFO.find { |let| let['title'] == letter_title }
       TimeCapsule::CreateLetterForOwner.call(
@@ -55,7 +55,7 @@ end
 def add_collaborators
   CONTRIB_INFO.each do |contrib_info|
     account = TimeCapsule::Account.first(username: contrib_info['ownername'])
-    capsule = TimeCapsule::Capsule.first(account_id: account.id, name: contrib_info['capsule_name'])
+    capsule = TimeCapsule::Capsule.first(owner_id: account.id, name: contrib_info['capsule_name'])
     letter = TimeCapsule::Letter.first(capsule_id: capsule.id, title: contrib_info['title_name'])
     contrib_info['collaborator'].each do |collaborator_name|
       # find collaborator's id, letter_id and join

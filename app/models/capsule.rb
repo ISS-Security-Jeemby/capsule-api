@@ -29,9 +29,9 @@ module TimeCapsule
           data: {
             type: 'capsule',
             attributes: {
-              id:,
-              name:,
-              type:
+              id: id,
+              name: name,
+              type: type
             }
           }
         }, options

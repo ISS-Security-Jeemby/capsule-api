@@ -37,5 +37,11 @@ end
 gem 'pry'
 gem 'rerun'
 
+group :development, :test do
+  gem 'rack-test'
+  gem 'sequel-seed'
+  gem 'sqlite3'
+end
+
 # Quality
 gem 'rubocop'

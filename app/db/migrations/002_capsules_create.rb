@@ -6,7 +6,7 @@ Sequel.migration do
   change do
     create_table(:capsules) do
       primary_key :id
-      foreign_key :account_id, table: :accounts
+      foreign_key :owner_id, table: :accounts
 
       String :name, null: false
 

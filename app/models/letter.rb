@@ -6,9 +6,10 @@ require 'sequel'
 module TimeCapsule
   # Holds a full secret letter
   class Letter < Sequel::Model
-    many_to_one :capsule
+    # private_capsule
+    many_to_one :capsule, class: :'TimeCapsule::Capsule'
 
-    many_to_many :capsule,
+    many_to_many :shared_capsule,
                  class: :'TimeCapsule::Capsule',
                  join_table: :capsules_letters,
                  left_key: :letter_id, right_key: :capsule_id
@@ -34,12 +35,12 @@ module TimeCapsule
           data: {
             type: 'letter',
             attributes: {
-              id:,
-              title:,
-              content:,
-              receiver_id:,
-              status:,
-              is_private:
+              id: id,
+              title: title,
+              content: content,
+              receiver_id: receiver_id,
+              status: status,
+              is_private:  is_private
             }
           },
           included: {

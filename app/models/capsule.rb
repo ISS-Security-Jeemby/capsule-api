@@ -9,14 +9,14 @@ module TimeCapsule
     many_to_one :owner, class: :'TimeCapsule::Account'
 
     one_to_many :owned_letters, class: :'TimeCapsule::Letter', key: :capsule_id
-    many_to_many :collaborators,
+    many_to_many :collaborated_letters, 
                  class: :'TimeCapsule::Letter',
                  join_table: :capsules_letters,
                  left_key: :capsule_id, right_key: :letter_id
 
     plugin :association_dependencies,
            owned_letters: :destroy,
-           collaborators: :nullify
+           collaborated_letters: :nullify
 
     plugin :timestamps
     plugin :whitelist_security
@@ -29,9 +29,9 @@ module TimeCapsule
           data: {
             type: 'capsule',
             attributes: {
-              id:,
-              name:,
-              type:
+              id: id,
+              name: name,
+              type: type
             }
           }
         }, options

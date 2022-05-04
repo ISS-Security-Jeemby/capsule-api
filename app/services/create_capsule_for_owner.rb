@@ -5,7 +5,7 @@ module TimeCapsule
   class CreateCapsuleForOwner
     def self.call(owner_id:, capsule_data:)
       Account.find(id: owner_id)
-             .add_capsule(capsule_data)
+             .add_owned_capsule(capsule_data)
     end
   end
 end

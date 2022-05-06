@@ -14,8 +14,10 @@ module TimeCapsule
                  join_table: :capsules_letters,
                  left_key: :letter_id, right_key: :capsule_id
 
+    plugin :association_dependencies, shared_capsule: :nullify
+
     plugin :uuid, field: :id
-    plugin :timestamps, shared_capsule: :nullify
+    plugin :timestamps
     plugin :whitelist_security
     set_allowed_columns :title, :content, :status, :receiver_id, :is_private
 

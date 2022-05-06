@@ -10,9 +10,11 @@ module TimeCapsule
 
     def self.call(collaborator_name:, letter_data:)
       collaborator = TimeCapsule::Account.first(username: collaborator_name)
+      # 先找到account，強制進去shared capsule，存letter進去
       collaborator_capsule = TimeCapsule::Capsule.first(owner_id: collaborator.id, type: 2)
       # pass in the collaborator_capsule and the account
       collaborator_capsule.add_collaborated_letter(letter_data)
+      # 反向找的
     end
   end
 end

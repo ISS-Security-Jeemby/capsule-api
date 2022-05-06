@@ -15,7 +15,7 @@ module TimeCapsule
                  left_key: :letter_id, right_key: :capsule_id
 
     plugin :uuid, field: :id
-    plugin :timestamps, collaborators: :nullify
+    plugin :timestamps, shared_capsule: :nullify
     plugin :whitelist_security
     set_allowed_columns :title, :content, :status, :receiver_id, :is_private
 

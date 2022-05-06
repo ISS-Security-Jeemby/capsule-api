@@ -1,20 +1,25 @@
 # frozen_string_literal: true
 
+# rubocop:disable Style/HashSyntax, Style/SymbolArray, Metrics/BlockLength
 require 'rake/testtask'
 require './require_app'
 
-# rubocop:disable Style/HashSyntax, Style/SymbolArray
 task :default => :spec
 
 desc 'Tests API specs only'
 task :api_spec do
-  sh 'ruby spec/integration/api_spec.rb'
+  sh 'ruby spec/api_spec.rb'
 end
 
 desc 'Test all the specs'
 Rake::TestTask.new(:spec) do |t|
   t.pattern = 'spec/**/*_spec.rb'
   t.warning = false
+end
+
+desc 'Rerun tests on live code changes'
+task :respec do
+  sh 'rerun -c rake spec'
 end
 
 desc 'Runs rubocop on tested code'
@@ -56,8 +61,7 @@ namespace :db do
 
   desc 'Delete database'
   task :delete do
-    app.DB[:letters].delete
-    app.DB[:capsules].delete
+    TimeCapsule::Letter.dataset.destroy
   end
 
   desc 'Delete dev or test database file'
@@ -100,4 +104,12 @@ namespace :newkey do
     puts "DB_KEY: #{SecureDB.generate_key}"
   end
 end
-# rubocop:enable Style/HashSyntax, Style/SymbolArray
+
+namespace :run do
+  # Run in development mode
+  desc 'Run API in development mode'
+  task :dev do
+    sh 'rackup -p 3000'
+  end
+end
+# rubocop:enable Style/HashSyntax, Style/SymbolArray, Metrics/BlockLength

@@ -9,7 +9,6 @@ module TimeCapsule
   class Account < Sequel::Model
     one_to_many :owned_capsules, class: :'TimeCapsule::Capsule', key: :owner_id
 
-
     plugin :association_dependencies,
            owned_capsules: :destroy
 

@@ -15,12 +15,22 @@ describe 'Test AddCollaboratorToLetter service' do
     @owner = TimeCapsule::Account.all[0]
     @collaborator = TimeCapsule::Account.all[1]
 
-    # DATA[:capsules].each do |capsule_data|
-    #   TimeCapsule::CreateCapsuleForOwner.call(
-    #     owner_id: @owner.id, capssule_data: capsule_data # should be the corresponding capsule id
-    #   )
-    # end
-    # @capsule = @owner.owned_capsules.first
+    # Owner's Capsules
+    DATA[:capsules].each do |capsule_data|
+      TimeCapsule::CreateCapsuleForOwner.call(
+        # should be the corresponding capsule id
+        owner_id: @owner.id, capsule_data:
+      )
+    end
+    @capsule = @owner.owned_capsules.first
+
+    # Collaborator's Capsules
+    DATA[:capsules].each do |capsule_data|
+      TimeCapsule::CreateCapsuleForOwner.call(
+        # should be the corresponding capsule id
+        owner_id: @collaborator.id, capsule_data:
+      )
+    end
 
     # need to find the owner's capsule first
     @letter = TimeCapsule::CreateLetterForOwner.call(
@@ -30,12 +40,15 @@ describe 'Test AddCollaboratorToLetter service' do
 
   it 'HAPPY: should be able to add a collaborator to a letter' do
     TimeCapsule::AddCollaboratorToLetter.call(
-      email: @collaborator.email,
-      letter: @letter
+      collaborator_name: @collaborator.username,
+      letter_data: @letter
     )
 
-    _(@collaborator.letters.count).must_equal 1
-    _(@collaborator.letters.first).must_equal @letter
+    collaborator_capsule = TimeCapsule::Capsule.first(owner_id: @collaborator.id,
+                                                      type: 2)
+
+    _(collaborator_capsule.collaborated_letters.count).must_equal 1
+    _(collaborator_capsule.collaborated_letters.first).must_equal @letter
   end
 
   it 'BAD: should not add owner as a collaborator' do

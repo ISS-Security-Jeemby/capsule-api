@@ -53,7 +53,7 @@ describe 'Test Letter Handling' do
       @req_header = { 'CONTENT_TYPE' => 'application/json' }
     end
 
-    it 'HAPPY: should be able to create new letters' do  
+    it 'HAPPY: should be able to create new letters' do
       req_header = { 'CONTENT_TYPE' => 'application/json' }
       post "api/v1/capsules/#{@capsule.id}/letters",
            @letter_data.to_json, req_header

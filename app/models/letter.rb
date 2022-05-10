@@ -37,12 +37,12 @@ module TimeCapsule
           data: {
             type: 'letter',
             attributes: {
-              id: id,
-              title: title,
-              content: content,
-              receiver_id: receiver_id,
-              status: status,
-              is_private:  is_private
+              id:,
+              title:,
+              content:,
+              receiver_id:,
+              status:,
+              is_private:
             }
           },
           included: {

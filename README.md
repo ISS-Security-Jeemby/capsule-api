@@ -40,9 +40,11 @@ rake db:seed
 ```
 
 ## Execute
+
 Launch the API using:
-```
-rake run:dev
+
+```shell
+rackup
 ```
 
 ## Release check

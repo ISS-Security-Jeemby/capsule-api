@@ -14,13 +14,13 @@ describe 'Test AddCollaboratorToLetter service' do
 
     @owner = TimeCapsule::Account.all[0]
     @collaborator = TimeCapsule::Account.all[1]
-
-    # DATA[:capsules].each do |capsule_data|
-    #   TimeCapsule::CreateCapsuleForOwner.call(
-    #     owner_id: @owner.id, capssule_data: capsule_data # should be the corresponding capsule id
-    #   )
-    # end
-    # @capsule = @owner.owned_capsules.first
+    
+    DATA[:capsules].each do |capsule_data|
+      TimeCapsule::CreateCapsuleForOwner.call(
+        owner_id: @owner.id, capsule_data: capsule_data # should be the corresponding capsule id
+      )
+    end
+    @capsule = @owner.owned_capsules.first
 
     # need to find the owner's capsule first
     @letter = TimeCapsule::CreateLetterForOwner.call(
@@ -30,8 +30,8 @@ describe 'Test AddCollaboratorToLetter service' do
 
   it 'HAPPY: should be able to add a collaborator to a letter' do
     TimeCapsule::AddCollaboratorToLetter.call(
-      email: @collaborator.email,
-      letter: @letter
+      collaborator_name: @collaborator.username,
+      letter_data: @letter
     )
 
     _(@collaborator.letters.count).must_equal 1

@@ -10,7 +10,7 @@ module TimeCapsule
 
     def self.call(collaborator_name:, letter_data:)
       collaborator = TimeCapsule::Account.first(username: collaborator_name)
-      # 先找到account，強制進去shared capsule，存letter進去
+      # Find the account, and force to get into the shared capsule to add letter data
       collaborator_capsule = TimeCapsule::Capsule.first(owner_id: collaborator.id, type: 2)
       # pass in the collaborator_capsule and the account
       collaborator_capsule.add_collaborated_letter(letter_data)

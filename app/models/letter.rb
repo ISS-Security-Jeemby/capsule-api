@@ -9,12 +9,12 @@ module TimeCapsule
     # private_capsule
     many_to_one :capsule, class: :'TimeCapsule::Capsule'
 
-    many_to_many :shared_capsule,
+    many_to_many :shared_capsules,
                  class: :'TimeCapsule::Capsule',
                  join_table: :capsules_letters,
                  left_key: :letter_id, right_key: :capsule_id
 
-    plugin :association_dependencies, shared_capsule: :nullify
+    plugin :association_dependencies, shared_capsules: :nullify
 
     plugin :uuid, field: :id
     plugin :timestamps

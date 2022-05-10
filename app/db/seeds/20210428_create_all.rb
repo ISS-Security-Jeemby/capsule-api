@@ -31,7 +31,6 @@ def create_owned_capsules
     owner['capsule_names'].each do |capsule_name|
       # to find capsule type
       capsule = CAPSULE_INFO.find { |caps| caps['name'] == capsule_name } # Data Letter == Data Letter
-      # 但這樣一個capsule會有多個Owner?
       
       TimeCapsule::CreateCapsuleForOwner.call(
         owner_id: account.id, capsule_data: capsule # should be the corresponding capsule id
@@ -40,8 +39,7 @@ def create_owned_capsules
   end
 end
 
-# 跟老師的create document差別?
-# 找到他account capsule 之後找到對應的letter塞進去
+# Find the account capsule, and put the correspond letter into the account capsule
 def create_owned_letters
   # loop capsules_letters to find owned letters
   CAPSULES_LETTERS_INFO.each do |capsule_info|
@@ -56,7 +54,7 @@ def create_owned_letters
   end
 end
 
-# 輸入名子後，找到這個名子有的letter，放入，名子貢邊letter
+# Enter the username, and find the letters that belong to or collaberate with this user
 def add_collaborators
   CONTRIB_INFO.each do |contrib_info|
     account = TimeCapsule::Account.first(username: contrib_info['ownername'])

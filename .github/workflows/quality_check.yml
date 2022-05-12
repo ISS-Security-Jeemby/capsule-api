@@ -36,9 +36,6 @@ jobs:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
           ruby-version: ${{ matrix.ruby-version }}
 
-      - name: Check style and performance
-        run: bundle exec rake style
-      
       - name: Install packages
         run: sudo apt-get -yqq install libsodium23
 
@@ -48,3 +45,6 @@ jobs:
              RACK_ENV=test bundle exec rake db:migrate
              bundle exec rake spec
              
+      - name: Check style and performance
+        run: bundle exec rake style
+      

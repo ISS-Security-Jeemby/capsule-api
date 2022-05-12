@@ -36,9 +36,12 @@ jobs:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
           ruby-version: ${{ matrix.version }}
 
-      - name: install packages
-        run: sudo apt-get -yqq install libsodium23
+      - name: Check style and performance
+        run: bundle exec rake style
       
+      - name: Install packages
+        run: sudo apt-get -yqq install libsodium23
+
       - name: Setup test database
         run: |
              cp config/secrets-example.yml config/secrets.yml

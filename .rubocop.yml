@@ -4,6 +4,7 @@ AllCops:
   NewCops: enable         # enable new upcoming cops for rubocop
   Exclude:
     - _snippets/**/*
+    - vendor/bundle/**/*
     - Rakefile
 # Respect block length rules except for testing code
 Metrics/BlockLength:

@@ -7,6 +7,22 @@ module TimeCapsule
   # Web controller for TimeCapsule API
   class Api < Roda
     route('auth') do |routing|
+      routing.on 'register' do
+        # POST api/v1/auth/register
+        routing.post do
+          VerifyRegistration.new(Api.config, @request_data).call
+
+          response.status = 202
+          { message: 'Verification email sent' }.to_json
+        rescue VerifyRegistration::InvalidRegistration => e
+          routing.halt 400, { message: e.message }.to_json
+        rescue StandardError => e
+          puts "ERROR VERIFYING REGISTRATION: #{e.inspect}"
+          puts e.message
+          routing.halt 500
+        end
+      end
+
       routing.is 'authenticate' do
         # POST /api/v1/auth/authenticate
         routing.post do

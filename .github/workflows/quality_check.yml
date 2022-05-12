@@ -22,6 +22,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu]
+        ruby-version: ['3.1.1']
     runs-on: ${{ matrix.os }}-latest  # Runs on latest builds of matrix OSes
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -33,6 +34,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+          ruby-version: ${{ matrix.version }}
 
       - name: Setup test database
         env: # define secrets in Github project -> settings -> secrets

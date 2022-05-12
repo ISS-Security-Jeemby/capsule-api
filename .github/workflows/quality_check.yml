@@ -24,7 +24,7 @@ jobs:
         os: [ubuntu]
         ruby-version: ['3.1.1']
     runs-on: ${{ matrix.os }}-latest  # Runs on latest builds of matrix OSes
-
+    
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -36,14 +36,12 @@ jobs:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
           ruby-version: ${{ matrix.version }}
 
+      - name: install packages
+        run: sudo apt-get -yqq install libsodium23
+      
       - name: Setup test database
-        env: # define secrets in Github project -> settings -> secrets
-            DATABASE_URL: ${{ secrets.DATABASE_URL }}
-            DB_KEY: ${{ secrets.DB_KEY }}
-        run: RACK_ENV=test bundle exec rake db:migrate
-
-      - name: Run all specs
-        env: # define secrets in Github project -> settings -> secrets
-            DATABASE_URL: ${{ secrets.DATABASE_URL }}
-            DB_KEY: ${{ secrets.DB_KEY }}
-        run: bundle exec rake spec
+        run: |
+             cp config/secrets-example.yml config/secrets.yml
+             RACK_ENV=test bundle exec rake db:migrate
+             bundle exec rake spec
+             

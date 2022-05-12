@@ -22,7 +22,7 @@ module TimeCapsule
           routing.halt 500
         end
       end
-      
+
       routing.is 'authenticate' do
         # POST /api/v1/auth/authenticate
         routing.post do

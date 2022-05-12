@@ -29,8 +29,8 @@ module TimeCapsule
           credentials = JsonRequestBody.parse_symbolize(request.body.read)
           auth_account = AuthenticateAccount.call(credentials)
           auth_account.to_json
-        rescue UnauthorizedError => e
-          Api.logger.error "Could not authenticate credentials"
+        rescue UnauthorizedError
+          Api.logger.error 'Could not authenticate credentials'
           routing.halt '403', { message: 'Invalid credentials' }.to_json
         end
       end

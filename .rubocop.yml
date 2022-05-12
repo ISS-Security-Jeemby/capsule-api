@@ -4,13 +4,16 @@ AllCops:
   NewCops: enable         # enable new upcoming cops for rubocop
   Exclude:
     - _snippets/**/*
-
+    - vendor/bundle/**/*
+    - Rakefile
 # Respect block length rules except for testing code
 Metrics/BlockLength:
   Enabled: true
   Exclude:
     - spec/**/*
+    - Rakefile
     - app/controllers/app.rb
+    - app/controllers/capsules.rb
 
 Metrics/ClassLength:
   Enabled: true
@@ -25,5 +28,4 @@ Security/YAMLLoad:
 Style/SymbolArray:
   Enabled: true
   Exclude:
-    # - Rakefile
     - app/db/migrations/*.rb

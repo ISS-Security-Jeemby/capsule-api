@@ -49,7 +49,7 @@ module TimeCapsule
           to: [{ 'email' => @registration[:email] }]
         }],
         from: { 'email' => from_email },
-        subject: 'Credent Registration Verification',
+        subject: 'Time Capsule Registration Verification',
         content: [
           { type: 'text/html',
             value: html_email }
@@ -62,7 +62,8 @@ module TimeCapsule
                 .post(mail_url, json: mail_json)
       raise EmailProviderError if res.status >= 300
     rescue EmailProviderError
-      raise EmailProviderError
+      raise(EmailProviderError,
+            "Email Provider Error: #{res} / mail_json: #{mail_json}")
     rescue StandardError
       raise(InvalidRegistration,
             'Could not send verification email; please check email address')

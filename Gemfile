@@ -3,14 +3,14 @@
 source 'https://rubygems.org'
 ruby File.read('.ruby-version').strip
 
-# Web
-gem 'puma', '~> 5.3.1'
-gem 'roda'
-gem 'slim'
+# Web API
+gem 'json'
+gem 'puma', '~>5.6.2'
+gem 'roda', '~>3'
 
 # Configuration
-gem 'figaro'
-gem 'rake'
+gem 'figaro', '~>1'
+gem 'rake', '~>13'
 
 # Communication
 gem 'http'
@@ -18,28 +18,36 @@ gem 'redis'
 gem 'redis-rack'
 
 # Security
-gem 'rack-ssl-enforcer'
-gem 'rbnacl' # assumes libsodium package already installed
+gem 'bundler-audit'
+gem 'rbnacl', '~>7'
 
-# Debugging
-gem 'pry'
-gem 'rack-test'
+# Database
+gem 'hirb', '~>0'
+gem 'sequel', '~>5'
 
-# Development
-group :development do
-  gem 'rubocop'
-  gem 'rubocop-performance'
+group :production do
+  gem 'pg'
 end
 
 # Testing
 group :test do
   gem 'minitest'
   gem 'minitest-rg'
-  gem 'webmock'
+end
+
+# Debugging
+gem 'pry' # necessary for rake console
+
+# Development
+group :development do
+  gem 'rerun'
+
+  # Quality
+  gem 'rubocop'
+  gem 'rubocop-performance'
 end
 
 group :development, :test do
-  gem 'rerun'
   gem 'rack-test'
   gem 'sequel-seed'
   gem 'sqlite3'

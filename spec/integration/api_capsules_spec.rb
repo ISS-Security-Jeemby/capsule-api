@@ -16,6 +16,7 @@ describe 'Test Capsule Handling' do
         account = TimeCapsule::Account.create(@account_data)
         account.add_owned_capsule(DATA[:capsules][0])
         account.add_owned_capsule(DATA[:capsules][1])
+        account.add_owned_capsule(DATA[:capsules][2])
       end
 
       it 'HAPPY: should get list for authorized account' do
@@ -23,13 +24,11 @@ describe 'Test Capsule Handling' do
           username: @account_data['username'],
           password: @account_data['password']
         )
-
         header 'AUTHORIZATION', "Bearer #{auth[:attributes][:auth_token]}"
         get 'api/v1/capsules'
         _(last_response.status).must_equal 200
-
         result = JSON.parse last_response.body
-        _(result['data'].count).must_equal 2
+        _(result['data'].count).must_equal 3
       end
 
       it 'BAD: should not process for unauthorized account' do

@@ -36,7 +36,7 @@ module TimeCapsule
 
     def html_email
       <<~END_EMAIL
-        <H1>Credence App Registration Received</H1>
+        <H1>TimeCapsule App Registration Received</H1>
         <p>Please <a href=\"#{@registration[:verification_url]}\">click here</a>
         to validate your email.
         You will be asked to set a password to activate your account.</p>

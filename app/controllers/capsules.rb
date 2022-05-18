@@ -58,13 +58,13 @@ module TimeCapsule
         end
       end
 
-      # GET api/v1/capsules
+      # GET api/v1/capsules/
       routing.get do
-        output = { data: Capsule.all }
-        JSON.pretty_generate(output)
-      rescue StandardError => e
-        Api.logger.warn "ALL CAPSULES NOT FOUND: #{e.message}"
-        routing.halt 404, { message: 'Could not find capsules' }.to_json
+        account = Account.first(username: @auth_account['username'])
+        capsules = account.capsules
+        JSON.pretty_generate(data: capsules)
+      rescue StandardError
+        routing.halt 403, { message: 'Could not find any capsules' }.to_json
       end
 
       # POST api/v1/capsules

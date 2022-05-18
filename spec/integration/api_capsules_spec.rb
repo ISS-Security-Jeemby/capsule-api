@@ -10,15 +10,35 @@ describe 'Test Capsule Handling' do
   end
 
   describe 'Getting projects' do
-    it 'HAPPY: should be able to get list of all Capsules' do
-      TimeCapsule::Capsule.create(DATA[:capsules][0]).save
-      TimeCapsule::Capsule.create(DATA[:capsules][1]).save
+    describe 'Getting list of capsules' do
+      before do
+        @account_data = DATA[:accounts][0]
+        account = TimeCapsule::Account.create(@account_data)
+        account.add_owned_capsule(DATA[:capsules][0])
+        account.add_owned_capsule(DATA[:capsules][1])
+        account.add_owned_capsule(DATA[:capsules][2])
+      end
 
-      get 'api/v1/capsules'
-      _(last_response.status).must_equal 200
+      it 'HAPPY: should get list for authorized account' do
+        auth = TimeCapsule::AuthenticateAccount.call(
+          username: @account_data['username'],
+          password: @account_data['password']
+        )
+        header 'AUTHORIZATION', "Bearer #{auth[:attributes][:auth_token]}"
+        get 'api/v1/capsules'
+        _(last_response.status).must_equal 200
+        result = JSON.parse last_response.body
+        _(result['data'].count).must_equal 3
+      end
 
-      result = JSON.parse last_response.body
-      _(result['data'].count).must_equal 2
+      it 'BAD: should not process for unauthorized account' do
+        header 'AUTHORIZATION', 'Bearer bad_token'
+        get 'api/v1/projects'
+        _(last_response.status).must_equal 403
+
+        result = JSON.parse last_response.body
+        _(result['data']).must_be_nil
+      end
     end
 
     it 'HAPPY: should be able to get details of a single Capsule' do

@@ -17,6 +17,10 @@ module TimeCapsule
 
     plugin :timestamps, update_on_create: true
 
+    def capsules
+      owned_capsules
+    end
+
     def password=(new_password)
       self.password_digest = Password.digest(new_password)
     end

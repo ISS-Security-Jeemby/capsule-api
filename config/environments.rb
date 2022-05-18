@@ -4,7 +4,7 @@ require 'roda'
 require 'figaro'
 require 'logger'
 require 'sequel'
-require './app/lib/secure_db'
+require_app('lib')
 
 module TimeCapsule
   # Configuratino for the API
@@ -30,7 +30,8 @@ module TimeCapsule
       def self.DB = DB # rubocop:disable Naming/MethodName
 
       # Load crypto keys
-      SecureDB.setup(ENV.delete('DB_KEY'))
+      SecureDB.setup(ENV.delete('DB_KEY')) # Load crypto key
+      AuthToken.setup(ENV.fetch('MSG_KEY')) # Load crypto key
 
       # Logger setup
       LOGGER = Logger.new($stderr)

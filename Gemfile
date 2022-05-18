@@ -13,7 +13,6 @@ gem 'figaro', '~>1'
 gem 'rake', '~>13'
 
 # Communication
-gem 'http'
 gem 'redis'
 gem 'redis-rack'
 
@@ -29,6 +28,9 @@ group :production do
   gem 'pg'
 end
 
+# External Services
+gem 'http'
+
 # Testing
 group :test do
   gem 'minitest'
@@ -37,6 +39,7 @@ end
 
 # Debugging
 gem 'pry' # necessary for rake console
+gem 'rack-test'
 
 # Development
 group :development do
@@ -48,7 +51,6 @@ group :development do
 end
 
 group :development, :test do
-  gem 'rack-test'
   gem 'sequel-seed'
   gem 'sqlite3'
 end

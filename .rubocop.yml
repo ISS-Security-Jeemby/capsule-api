@@ -15,6 +15,11 @@ Metrics/BlockLength:
     - app/controllers/app.rb
     - app/controllers/capsules.rb
 
+Metrics/MethodLength:
+  Enabled: true
+  Exclude:
+    - app/policies/*.rb
+
 Metrics/ClassLength:
   Enabled: true
   Exclude:

@@ -50,11 +50,18 @@ module TimeCapsule
 
         # GET api/v1/capsules/[ID]
         routing.get do
-          caps = Capsule.first(id: caps_id)
-          caps ? caps.to_json : raise('Capsule not found')
-        rescue StandardError => e
-          Api.logger.warn "CAPSULE NOT FOUND: #{caps_id}"
+          req_caps = Capsule.first(id: caps_id)
+          caps = GetCapsuleQuery.call(
+            account: @auth_account, capsule: req_caps, letter: nil
+          )
+          caps.to_json
+        rescue GetCapsuleQuery::ForbiddenError => e
+          routing.halt 403, { message: e.message }.to_json
+        rescue GetCapsuleQuery::NotFoundError => e
           routing.halt 404, { message: e.message }.to_json
+        rescue StandardError => e
+          puts "FIND PROJECT ERROR: #{e.inspect}"
+          routing.halt 500, { message: 'API server error' }.to_json
         end
       end
 
@@ -62,6 +69,7 @@ module TimeCapsule
       routing.get do
         account = Account.first(username: @auth_account)
         capsules = account.capsules
+        # capsules = CapsulePolicy::AccountScope.new(account).viewable
         JSON.pretty_generate(data: capsules)
       rescue StandardError
         routing.halt 403, { message: 'Could not find any capsules' }.to_json

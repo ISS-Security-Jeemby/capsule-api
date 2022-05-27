@@ -51,8 +51,8 @@ module TimeCapsule
         can_edit: can_edit?,
         can_delete: can_delete?,
         can_leave: can_leave?,
-        can_add_documents: can_add_documents?,
-        can_delete_documents: can_remove_documents?,
+        can_add_letters: can_add_letters?,
+        can_delete_letters: can_remove_letters?,
         can_add_collaborators: can_add_collaborators?,
         can_remove_collaborators: can_remove_collaborators?,
         can_collaborate: can_collaborate?

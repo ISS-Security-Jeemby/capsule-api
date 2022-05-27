@@ -69,7 +69,6 @@ module TimeCapsule
       routing.get do
         account = Account.first(username: @auth_account)
         capsules = account.capsules
-        # capsules = CapsulePolicy::AccountScope.new(account).viewable
         JSON.pretty_generate(data: capsules)
       rescue StandardError
         routing.halt 403, { message: 'Could not find any capsules' }.to_json

@@ -20,11 +20,7 @@ describe 'Test Capsule Handling' do
       end
 
       it 'HAPPY: should get list for authorized account' do
-        auth = TimeCapsule::AuthenticateAccount.call(
-          username: @account_data['username'],
-          password: @account_data['password']
-        )
-        header 'AUTHORIZATION', "Bearer #{auth[:attributes][:auth_token]}"
+        header 'AUTHORIZATION', auth_header(@account_data)
         get 'api/v1/capsules'
         _(last_response.status).must_equal 200
         result = JSON.parse last_response.body

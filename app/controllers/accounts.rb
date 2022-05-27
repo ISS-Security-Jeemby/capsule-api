@@ -15,7 +15,7 @@ module TimeCapsule
           account = GetAccountQuery.call(
             requestor: @auth_account, username:
           )
-          account ? account.to_json : raise('Account not found')
+          account.to_json
         rescue GetAccountQuery::ForbiddenError => e
           routing.halt 404, { message: e.message }.to_json
         rescue StandardError => e

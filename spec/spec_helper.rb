@@ -14,6 +14,15 @@ def wipe_database
   TimeCapsule::Account.map(&:destroy)
 end
 
+def auth_header(account_data)
+  auth = TimeCapsule::AuthenticateAccount.call(
+    username: account_data['username'],
+    password: account_data['password']
+  )
+
+  "Bearer #{auth[:attributes][:auth_token]}"
+end
+
 DATA = {} # rubocop:disable Style/MutableConstant
 DATA[:letters] = YAML.safe_load File.read('app/db/seeds/letters_seed.yml')
 DATA[:capsules] = YAML.safe_load File.read('app/db/seeds/capsules_seed.yml')

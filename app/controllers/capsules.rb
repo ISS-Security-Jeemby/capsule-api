@@ -14,7 +14,11 @@ module TimeCapsule
           @let_route = "#{@api_root}/capsules/#{caps_id}/letters"
           # GET api/v1/capsules/[caps_id]/letters/[let_id]
           routing.get String do |let_id|
-            letter = Letter.where(capsule_id: caps_id, id: let_id).first
+            @req_letter = Letter.first(id: let_id)
+            letter = GetLetterQuery.call(
+              requestor: @auth_account, letter: @req_letter
+            )
+            # letter = Letter.where(capsule_id: caps_id, id: let_id).first
             letter ? letter.to_json : raise('Letter not found')
           rescue StandardError => e
             Api.logger.warn "LETTER NOT FOUND: CAPS_ID - #{caps_id} / LAT_ID - #{let_id}"
@@ -23,8 +27,12 @@ module TimeCapsule
 
           # GET api/v1/capsules/[caps_id]/letters
           routing.get do
-            output = { data: Capsule.first(id: caps_id).owned_letters }
-            JSON.pretty_generate(output)
+            # binding.pry
+            # caps = GetCapsuleQuery.call(
+            #   account: @auth_account, capsule: Capsule.first(id: caps_id), letter: nil
+            # )
+            letters = { data: Capsule.first(id: caps_id).owned_letters }
+            JSON.pretty_generate(letters)
           rescue StandardError
             routing.halt 404, message: "Could not find letters: CAPS_ID = #{caps_id}"
           end

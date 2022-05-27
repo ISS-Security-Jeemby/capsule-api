@@ -34,6 +34,6 @@ class LetterPolicy
   end
 
   def account_collaborates_on_capsule?
-    @letter.capsule.collaborators.include?(@account)
+    @letter.capsule.collaborated_letters.include?(@letter)
   end
 end

@@ -22,21 +22,29 @@ module TimeCapsule
     plugin :whitelist_security
     set_allowed_columns :name, :type
 
-    # rubocop:disable Metrics/MethodLength
-    def to_json(options = {})
-      JSON(
-        {
-          data: {
-            type: 'capsule',
-            attributes: {
-              id:,
-              name:,
-              type:
-            }
-          }
-        }, options
+    def to_h
+      {
+        type: 'capsule',
+        attributes: {
+          id:,
+          name:,
+          type:
+        }
+      }
+    end
+
+    def full_details
+      to_h.merge(
+        relationships: {
+          owner:,
+          collaborated_letters:,
+          owned_letters:
+        }
       )
     end
-    # rubocop:enable Metrics/MethodLength
+
+    def to_json(options = {})
+      JSON(to_h, options)
+    end
   end
 end

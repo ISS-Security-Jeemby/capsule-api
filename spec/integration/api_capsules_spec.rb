@@ -20,11 +20,7 @@ describe 'Test Capsule Handling' do
       end
 
       it 'HAPPY: should get list for authorized account' do
-        auth = TimeCapsule::AuthenticateAccount.call(
-          username: @account_data['username'],
-          password: @account_data['password']
-        )
-        header 'AUTHORIZATION', "Bearer #{auth[:attributes][:auth_token]}"
+        header 'AUTHORIZATION', auth_header(@account_data)
         get 'api/v1/capsules'
         _(last_response.status).must_equal 200
         result = JSON.parse last_response.body
@@ -50,8 +46,8 @@ describe 'Test Capsule Handling' do
       _(last_response.status).must_equal 200
 
       result = JSON.parse last_response.body
-      _(result['data']['attributes']['id']).must_equal id
-      _(result['data']['attributes']['name']).must_equal existing_capsule['name']
+      _(result['attributes']['id']).must_equal id
+      _(result['attributes']['name']).must_equal existing_capsule['name']
     end
 
     it 'SAD: should return error if unknown Capsule requested' do
@@ -81,7 +77,7 @@ describe 'Test Capsule Handling' do
       _(last_response.status).must_equal 201
       _(last_response.header['Location'].size).must_be :>, 0
 
-      created = JSON.parse(last_response.body)['data']['data']['attributes']
+      created = JSON.parse(last_response.body)['data']['attributes']
       capsule = TimeCapsule::Capsule.first
 
       _(created['id']).must_equal capsule.id

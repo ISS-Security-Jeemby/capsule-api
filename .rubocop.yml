@@ -14,6 +14,12 @@ Metrics/BlockLength:
     - Rakefile
     - app/controllers/app.rb
     - app/controllers/capsules.rb
+    - app/controllers/accounts.rb
+
+Metrics/MethodLength:
+  Enabled: true
+  Exclude:
+    - app/policies/*.rb
 
 Metrics/ClassLength:
   Enabled: true

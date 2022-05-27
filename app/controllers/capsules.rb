@@ -14,7 +14,10 @@ module TimeCapsule
           @let_route = "#{@api_root}/capsules/#{caps_id}/letters"
           # GET api/v1/capsules/[caps_id]/letters/[let_id]
           routing.get String do |let_id|
-            letter = Letter.where(capsule_id: caps_id, id: let_id).first
+            @req_letter = Letter.first(id: let_id)
+            letter = GetLetterQuery.call(
+              requestor: @auth_account, letter: @req_letter
+            )
             letter ? letter.to_json : raise('Letter not found')
           rescue StandardError => e
             Api.logger.warn "LETTER NOT FOUND: CAPS_ID - #{caps_id} / LAT_ID - #{let_id}"
@@ -23,10 +26,18 @@ module TimeCapsule
 
           # GET api/v1/capsules/[caps_id]/letters
           routing.get do
-            output = { data: Capsule.first(id: caps_id).owned_letters }
-            JSON.pretty_generate(output)
-          rescue StandardError
-            routing.halt 404, message: "Could not find letters: CAPS_ID = #{caps_id}"
+            caps = GetCapsuleQuery.get_capsule(
+              account: @auth_account, capsule: Capsule.first(id: caps_id)
+            )
+            letters = { data: caps.owned_letters }
+            JSON.pretty_generate(letters)
+          rescue GetCapsuleQuery::ForbiddenError => e
+            routing.halt 403, { message: e.message }.to_json
+          rescue GetCapsuleQuery::NotFoundError => e
+            routing.halt 404, { message: e.message }.to_json
+          rescue StandardError => e
+            puts "FIND CAPSULE ERROR: #{e.inspect}"
+            routing.halt 500, { message: 'API server error' }.to_json
           end
 
           # POST api/v1/capsules/[ID]/letters
@@ -50,11 +61,18 @@ module TimeCapsule
 
         # GET api/v1/capsules/[ID]
         routing.get do
-          caps = Capsule.first(id: caps_id)
-          caps ? caps.to_json : raise('Capsule not found')
-        rescue StandardError => e
-          Api.logger.warn "CAPSULE NOT FOUND: #{caps_id}"
+          req_caps = Capsule.first(id: caps_id)
+          caps = GetCapsuleQuery.call(
+            account: @auth_account, capsule: req_caps
+          )
+          caps.to_json
+        rescue GetCapsuleQuery::ForbiddenError => e
+          routing.halt 403, { message: e.message }.to_json
+        rescue GetCapsuleQuery::NotFoundError => e
           routing.halt 404, { message: e.message }.to_json
+        rescue StandardError => e
+          puts "FIND PROJECT ERROR: #{e.inspect}"
+          routing.halt 500, { message: 'API server error' }.to_json
         end
       end
 

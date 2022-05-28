@@ -74,25 +74,17 @@ module TimeCapsule
           puts "FIND PROJECT ERROR: #{e.inspect}"
           routing.halt 500, { message: 'API server error' }.to_json
         end
-      end
 
-      # GET api/v1/capsules/
-      routing.get do
-        account = Account.first(username: @auth_account)
-        capsules = account.capsules
-        JSON.pretty_generate(data: capsules)
-      rescue StandardError
-        routing.halt 403, { message: 'Could not find any capsules' }.to_json
-      end
-
-      # POST api/v1/capsules/[account_id]
-      routing.on String do |account_id|
+        # POST api/v1/capsules/[account_id]
         routing.post do
+          account_id = caps_id
           capsules = YAML.safe_load File.read('app/db/seeds/capsules_seed.yml')
+          new_caps = Array.new{TimeCapsule::Capsule.new}
           capsules.each do |capsule_data|
             # add each capsule
-            new_caps = Capsule.new(capsule_data)
-            raise('Could not save capsule') unless new_caps.save
+            new_cap = Capsule.new(capsule_data)
+            raise('Could not save capsule') unless new_cap.save
+            new_caps.push(new_cap)
 
             # assign capsules to owner
             CreateCapsuleForOwner.call(
@@ -102,7 +94,7 @@ module TimeCapsule
 
           response.status = 201
           response['Location'] = "#{@caps_route}"
-          { message: 'Capsules created for owner', data: capsules }.to_json
+          { message: 'Capsules created for owner', data: new_caps }.to_json
         rescue Sequel::MassAssignmentRestriction
           Api.logger.warn "MASS-ASSIGNMENT: #{new_data.keys}"
           routing.halt 400, { message: 'Illegal Attributes' }.to_json
@@ -110,6 +102,15 @@ module TimeCapsule
           Api.logger.error "UNKOWN ERROR: #{e.message}"
           routing.halt 500, { message: 'Unknown server error' }.to_json
         end
+      end
+
+      # GET api/v1/capsules/
+      routing.get do
+        account = Account.first(username: @auth_account)
+        capsules = account.capsules
+        JSON.pretty_generate(data: capsules)
+      rescue StandardError
+        routing.halt 403, { message: 'Could not find any capsules' }.to_json
       end
     end
   end

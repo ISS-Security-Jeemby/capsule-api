@@ -9,7 +9,7 @@ describe 'Test Capsule Handling' do
     wipe_database
   end
 
-  describe 'Getting projects' do
+  describe 'Getting capsules' do
     describe 'Getting list of capsules' do
       before do
         @account_data = DATA[:accounts][0]
@@ -69,29 +69,19 @@ describe 'Test Capsule Handling' do
   describe 'Creating New Projects' do
     before do
       @req_header = { 'CONTENT_TYPE' => 'application/json' }
-      @existing_capsule = DATA[:capsules][1]
     end
 
-    it 'HAPPY: should be able to create new Capsules' do
-      post 'api/v1/capsules', @existing_capsule.to_json, @req_header
+    it 'HAPPY: should be able to create new Capsules for owner' do
+      account_data = DATA[:accounts][1]
+      account = TimeCapsule::Account.create(account_data)
+      post "api/v1/capsules/#{account.id}", @req_header
       _(last_response.status).must_equal 201
-      _(last_response.header['Location'].size).must_be :>, 0
-
-      created = JSON.parse(last_response.body)['data']['attributes']
+      created_capsules = JSON.parse(last_response.body)['data'][0]['attributes']
       capsule = TimeCapsule::Capsule.first
 
-      _(created['id']).must_equal capsule.id
-      _(created['name']).must_equal @existing_capsule['name']
-      _(created['type']).must_equal @existing_capsule['type']
-    end
-
-    it 'SECURITY: should not create project with mass assignment' do
-      bad_data = @existing_capsule.clone
-      bad_data['created_at'] = '1900-01-01'
-      post 'api/v1/capsules', bad_data.to_json, @req_header
-
-      _(last_response.status).must_equal 400
-      _(last_response.header['Location']).must_be_nil
+      _(created_capsules['id']).must_equal capsule.id
+      _(created_capsules['name']).must_equal capsule.name
+      _(created_capsules['type']).must_equal capsule.type
     end
   end
 end

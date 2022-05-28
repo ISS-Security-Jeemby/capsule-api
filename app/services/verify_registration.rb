@@ -61,9 +61,6 @@ module TimeCapsule
       res = HTTP.auth("Bearer #{mail_api_key}")
                 .post(mail_url, json: mail_json)
       raise EmailProviderError if res.status >= 300
-    rescue EmailProviderError
-      raise(EmailProviderError,
-            "Email Provider Error: #{res} / mail_json: #{mail_json}")
     rescue StandardError
       raise(InvalidRegistration,
             'Could not send verification email; please check email address')

@@ -34,7 +34,6 @@ module TimeCapsule
       JSON(
         {
           type: 'account',
-          id:,
           username:,
           email:
         }, options

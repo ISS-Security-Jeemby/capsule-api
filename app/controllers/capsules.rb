@@ -85,21 +85,31 @@ module TimeCapsule
         routing.halt 403, { message: 'Could not find any capsules' }.to_json
       end
 
-      # POST api/v1/capsules
-      routing.post do
-        new_data = JSON.parse(routing.body.read)
-        new_caps = Capsule.new(new_data)
-        raise('Could not save capsule') unless new_caps.save
+      # POST api/v1/capsules/[account_id]
+      routing.on String do |account_id|
+        routing.post do
+          capsules = YAML.safe_load File.read('app/db/seeds/capsules_seed.yml')
+          capsules.each do |capsule_data|
+            # add each capsule
+            new_caps = Capsule.new(capsule_data)
+            raise('Could not save capsule') unless new_caps.save
 
-        response.status = 201
-        response['Location'] = "#{@caps_route}/#{new_caps.id}"
-        { message: 'Capsule saved', data: new_caps }.to_json
-      rescue Sequel::MassAssignmentRestriction
-        Api.logger.warn "MASS-ASSIGNMENT: #{new_data.keys}"
-        routing.halt 400, { message: 'Illegal Attributes' }.to_json
-      rescue StandardError => e
-        Api.logger.error "UNKOWN ERROR: #{e.message}"
-        routing.halt 500, { message: 'Unknown server error' }.to_json
+            # assign capsules to owner
+            CreateCapsuleForOwner.call(
+              owner_id: account_id, capsule_data:
+            )
+          end
+
+          response.status = 201
+          response['Location'] = "#{@caps_route}"
+          { message: 'Capsules created for owner', data: capsules }.to_json
+        rescue Sequel::MassAssignmentRestriction
+          Api.logger.warn "MASS-ASSIGNMENT: #{new_data.keys}"
+          routing.halt 400, { message: 'Illegal Attributes' }.to_json
+        rescue StandardError => e
+          Api.logger.error "UNKOWN ERROR: #{e.message}"
+          routing.halt 500, { message: 'Unknown server error' }.to_json
+        end
       end
     end
   end

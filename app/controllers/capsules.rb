@@ -79,11 +79,12 @@ module TimeCapsule
         routing.post do
           account_id = caps_id
           capsules = YAML.safe_load File.read('app/db/seeds/capsules_seed.yml')
-          new_caps = Array.new{TimeCapsule::Capsule.new}
+          new_caps = Array.new { TimeCapsule::Capsule.new }
           capsules.each do |capsule_data|
             # add each capsule
             new_cap = Capsule.new(capsule_data)
             raise('Could not save capsule') unless new_cap.save
+
             new_caps.push(new_cap)
 
             # assign capsules to owner
@@ -93,7 +94,7 @@ module TimeCapsule
           end
 
           response.status = 201
-          response['Location'] = "#{@caps_route}"
+          response['Location'] = @caps_route.to_s
           { message: 'Capsules created for owner', data: new_caps }.to_json
         rescue Sequel::MassAssignmentRestriction
           Api.logger.warn "MASS-ASSIGNMENT: #{new_data.keys}"

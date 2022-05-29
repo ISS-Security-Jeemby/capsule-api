@@ -7,7 +7,6 @@ module TimeCapsule
   # api for CapsulText
   class Api < Roda
     route('capsules') do |routing|
-      @proj_route = "#{@api_root}/capsules"
 
       routing.on String do |caps_id|
         routing.on 'letters' do
@@ -34,41 +33,46 @@ module TimeCapsule
           rescue GetCapsuleQuery::ForbiddenError => e
             routing.halt 403, { message: e.message }.to_json
           rescue GetCapsuleQuery::NotFoundError => e
+            puts e.full_message
             routing.halt 404, { message: e.message }.to_json
           rescue StandardError => e
             puts "FIND CAPSULE ERROR: #{e.inspect}"
             routing.halt 500, { message: 'API server error' }.to_json
           end
 
-          # POST api/v1/capsules/[ID]/letters
-          routing.post do
-            new_data = JSON.parse(routing.body.read)
-            caps = Capsule.first(id: caps_id)
-            new_caps = caps.add_owned_letter(new_data)
-            raise 'Could not save letter' unless new_caps
-
-            response.status = 201
-            response['Location'] = "#{@caps_route}/#{new_caps.id}"
-            { message: 'Letter saved', data: new_caps }.to_json
-          rescue Sequel::MassAssignmentRestriction
-            Api.logger.warn "MASS-ASSIGNMENT: #{new_data.keys}"
-            routing.halt 400, { message: 'Illegal Attributes' }.to_json
-          rescue StandardError => e
-            Api.logger.error "UNKOWN ERROR: #{e.message}"
-            routing.halt 500, { message: e.message }.to_json
+          routing.on('letters') do
+            # POST api/v1/capsules/[ID]/letters
+            routing.post do
+              new_letter = CreateLetter.call(
+                account: @auth_account,
+                capsule: @req_project,
+                letter_data: JSON.parse(routing.body.read)
+              )
+              response.status = 201
+              response['Location'] = "#{@letter_route}/#{new_letter.id}"
+              { message: 'Letter saved', data: new_letter }.to_json
+            rescue CreateLetter::ForbiddenError => e
+              routing.halt 403, { message: e.message }.to_json
+            rescue CreateLetter::IllegalRequestError => e
+              routing.halt 400, { message: e.message }.to_json
+            rescue StandardError => e
+              Api.logger.warn "Could not create letter: #{e.message}"
+              routing.halt 500, { message: 'API server error' }.to_json
+            end
           end
         end
 
         # GET api/v1/capsules/[ID]
         routing.get do
           req_caps = Capsule.first(id: caps_id)
-          caps = GetCapsuleQuery.call(
-            account: @auth_account, capsule: req_caps
-          )
-          caps.to_json
+          # caps = GetCapsuleQuery.call(
+          #   account: @auth_account, capsule: req_caps
+          # )
+          { data: req_caps }.to_json
         rescue GetCapsuleQuery::ForbiddenError => e
           routing.halt 403, { message: e.message }.to_json
         rescue GetCapsuleQuery::NotFoundError => e
+          puts e.full_message
           routing.halt 404, { message: e.message }.to_json
         rescue StandardError => e
           puts "FIND PROJECT ERROR: #{e.inspect}"
@@ -89,10 +93,9 @@ module TimeCapsule
 
             # assign capsules to owner
             CreateCapsuleForOwner.call(
-              owner_id: account_id, capsule_data:
+              owner_id: account_id, capsule_data: new_cap
             )
           end
-
           response.status = 201
           response['Location'] = @caps_route.to_s
           { message: 'Capsules created for owner', data: new_caps }.to_json

@@ -20,9 +20,9 @@ module TimeCapsule
       account_is_owner?
     end
 
-    def can_add_letters?
-      account_is_owner?
-    end
+    # def can_add_letters?
+    #   account_is_owner?
+    # end
 
     def can_remove_letters?
       account_is_owner?
@@ -40,6 +40,10 @@ module TimeCapsule
       !account_is_owner?
     end
 
+    def shared?
+      @capsule.type == 2
+    end
+
     def summary
       {
         can_view: can_view?,
@@ -49,7 +53,8 @@ module TimeCapsule
         can_delete_letters: can_remove_letters?,
         can_add_collaborators: can_add_collaborators?,
         can_remove_collaborators: can_remove_collaborators?,
-        can_collaborate: can_collaborate?
+        can_collaborate: can_collaborate?,
+        shared: shared?
       }
     end
 

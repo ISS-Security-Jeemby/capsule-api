@@ -7,33 +7,60 @@ class LetterPolicy
     @letter = letter
   end
 
-  def can_view?
-    account_owns_capsule? || account_collaborates_on_capsule?
-  end
-
+  # duplication is ok!
   def can_edit?
-    account_owns_capsule? || account_collaborates_on_capsule?
+    account_is_owner? || account_is_collaborator?
   end
 
   def can_delete?
-    account_owns_capsule? || account_collaborates_on_capsule?
+    account_is_owner?
+  end
+
+  def can_leave?
+    account_is_collaborator?
+  end
+
+  def can_add_letters?
+    account_is_owner? || account_is_collaborator?
+  end
+
+  def can_remove_letters?
+    account_is_owner? || account_is_collaborator?
+  end
+
+  def can_add_collaborators?
+    account_is_owner?
+  end
+
+  def can_remove_collaborators?
+    account_is_owner?
+  end
+
+  def can_collaborate?
+    not (account_is_owner? or account_is_collaborator?)
   end
 
   def summary
     {
       can_view: can_view?,
       can_edit: can_edit?,
-      can_delete: can_delete?
+      can_delete: can_delete?,
+      can_leave: can_leave?,
+      can_add_letters: can_add_letters?,
+      can_delete_letters: can_remove_letters?,
+      can_add_collaborators: can_add_collaborators?,
+      can_remove_collaborators: can_remove_collaborators?,
+      can_collaborate: can_collaborate?
     }
   end
 
   private
 
-  def account_owns_capsule?
-    @letter.capsule.owner == @account
+  def account_is_owner?
+    @letter.owner == @account
   end
 
-  def account_collaborates_on_capsule?
-    @letter.capsule.collaborated_letters.include?(@letter)
+  def account_is_collaborator?
+    @letter.collaborators.include?(@account)
   end
 end

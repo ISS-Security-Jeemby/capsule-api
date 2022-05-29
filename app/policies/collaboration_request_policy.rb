@@ -3,12 +3,12 @@
 module TimeCapsule
   # Policy to determine if an account can view a particular capsule
   class CollaborationRequestPolicy
-    def initialize(capsule, requestor_account, target_account)
-      @capsule = capsule
+    def initialize(letter, requestor_account, target_account)
+      @letter = letter
       @requestor_account = requestor_account
       @target_account = target_account
-      @requestor = CapsulePolicy.new(requestor_account, capsule)
-      @target = CapsulePolicy.new(target_account, capsule)
+      @requestor = LetterPolicy.new(requestor_account, letter)
+      @target = LetterPolicy.new(target_account, letter)
     end
 
     def can_invite?
@@ -22,7 +22,7 @@ module TimeCapsule
     private
 
     def target_is_collaborator?
-      @capsule.collaborators.include?(@target_account)
+      @letter.collaborators.include?(@target_account)
     end
   end
 end

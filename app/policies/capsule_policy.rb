@@ -20,9 +20,9 @@ module TimeCapsule
       account_is_owner?
     end
 
-    # def can_add_letters?
-    #   account_is_owner?
-    # end
+    def can_add_letters?
+      account_is_owner?
+    end
 
     def can_remove_letters?
       account_is_owner?
@@ -41,7 +41,7 @@ module TimeCapsule
     end
 
     def shared?
-      @capsule.type == 2
+      @capsule.type == '2'
     end
 
     def summary

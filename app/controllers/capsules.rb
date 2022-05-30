@@ -40,27 +40,27 @@ module TimeCapsule
             routing.halt 500, { message: 'API server error' }.to_json
           end
 
-          routing.on('letters') do
-            # POST api/v1/capsules/[ID]/letters
-            routing.post do
-              new_letter = CreateLetter.call(
-                account: @auth_account,
-                capsule: @req_project,
-                letter_data: JSON.parse(routing.body.read)
-              )
-              response.status = 201
-              response['Location'] = "#{@letter_route}/#{new_letter.id}"
-              { message: 'Letter saved', data: new_letter }.to_json
-            rescue CreateLetter::ForbiddenError => e
-              routing.halt 403, { message: e.message }.to_json
-            rescue CreateLetter::IllegalRequestError => e
-              routing.halt 400, { message: e.message }.to_json
-            rescue StandardError => e
-              Api.logger.warn "Could not create letter: #{e.message}"
-              routing.halt 500, { message: 'API server error' }.to_json
-            end
+          # routing.on('letters') do
+          # POST api/v1/capsules/[ID]/letters
+          routing.post do
+            CreateLetter.call(
+              # account: @auth_account,
+              capsule: caps_id,
+              letter_data: JSON.parse(routing.body.read)
+            )
+            response.status = 201
+            response['Location'] = "#{@letter_route}/#{new_letter.id}"
+            { message: 'Letter saved', data: new_letter }.to_json
+          rescue CreateLetter::ForbiddenError => e
+            routing.halt 403, { message: e.message }.to_json
+          rescue CreateLetter::IllegalRequestError => e
+            routing.halt 400, { message: e.message }.to_json
+          rescue StandardError => e
+            Api.logger.warn "Could not create letter: #{e.message}"
+            routing.halt 500, { message: 'API server error' }.to_json
           end
         end
+        # end
 
         # GET api/v1/capsules/[ID]
         routing.get do

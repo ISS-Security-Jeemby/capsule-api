@@ -17,10 +17,10 @@ module TimeCapsule
       end
     end
 
-    def self.call(account:, capsule:, letter_data:)
-      policy = Capsule.new(account, capsule)
-      raise ForbiddenError unless policy.can_add_letters?
-
+    def self.call(capsule:, letter_data:)
+      # binding.irb
+      # policy = CapsulePolicy.new(account, capsule)
+      # raise ForbiddenError unless policy.can_add_letters?
       add_letter(capsule, letter_data)
     end
 

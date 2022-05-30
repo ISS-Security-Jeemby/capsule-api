@@ -31,6 +31,7 @@ module TimeCapsule
             letters = { data: caps.owned_letters }
             JSON.pretty_generate(letters)
           rescue GetCapsuleQuery::ForbiddenError => e
+            puts e.full_message
             routing.halt 403, { message: e.message }.to_json
           rescue GetCapsuleQuery::NotFoundError => e
             puts e.full_message
@@ -43,9 +44,9 @@ module TimeCapsule
           # routing.on('letters') do
           # POST api/v1/capsules/[ID]/letters
           routing.post do
-            CreateLetter.call(
+            new_letter = CreateLetterForOwner.call(
               # account: @auth_account,
-              capsule: caps_id,
+              capsule_id: caps_id,
               letter_data: JSON.parse(routing.body.read)
             )
             response.status = 201
@@ -56,6 +57,7 @@ module TimeCapsule
           rescue CreateLetter::IllegalRequestError => e
             routing.halt 400, { message: e.message }.to_json
           rescue StandardError => e
+            puts e.full_message
             Api.logger.warn "Could not create letter: #{e.message}"
             routing.halt 500, { message: 'API server error' }.to_json
           end

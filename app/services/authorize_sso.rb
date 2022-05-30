@@ -12,12 +12,13 @@ module TimeCapsule
       account_and_token(sso_account)
     end
 
+    # rubocop:disable Style/FetchEnvVar
     def get_github_account(access_token)
       gh_response = HTTP.headers(
         user_agent: 'TimeCapsule',
         authorization: "token #{access_token}",
         accept: 'application/json'
-      ).get(ENV.fetch['GITHUB_ACCOUNT_URL'])
+      ).get(ENV['GITHUB_ACCOUNT_URL'])
 
       raise unless gh_response.status == 200
 
@@ -25,6 +26,7 @@ module TimeCapsule
       account = GithubAccount.new(JSON.parse(gh_response))
       { username: account.username, email: account.email }
     end
+    # rubocop:enable Style/FetchEnvVar
 
     def find_or_create_sso_account(account_data)
       Account.first(email: account_data[:email]) ||

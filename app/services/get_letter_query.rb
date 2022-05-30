@@ -24,7 +24,7 @@ module TimeCapsule
       raise NotFoundError unless letter
 
       policy = LetterPolicy.new(requestor, letter)
-      raise ForbiddenError unless policy.can_view?
+      raise ForbiddenError unless policy.can_edit?
 
       letter
     end

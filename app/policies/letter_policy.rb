@@ -42,7 +42,6 @@ class LetterPolicy
 
   def summary
     {
-      can_view: can_view?,
       can_edit: can_edit?,
       can_delete: can_delete?,
       can_leave: can_leave?,
@@ -57,7 +56,9 @@ class LetterPolicy
   private
 
   def account_is_owner?
-    @letter.owner == @account
+    capsule = TimeCapsule::Capsule.first(id: @letter.capsule_id)
+    owner = TimeCapsule::Account.first(id: capsule.owner_id)
+    owner.username == @account
   end
 
   def account_is_collaborator?

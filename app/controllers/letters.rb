@@ -30,6 +30,16 @@ module TimeCapsule
           puts "GET LETTER ERROR: #{e.inspect}"
           routing.halt 500, { message: 'API server error' }.to_json
         end
+
+        routing.put do
+          letter = JSON.parse(routing.body.read)
+          UpdateLetter.call(letter_data: letter, letter_id:)
+
+          { data: letter }.to_json
+        rescue StandardError => e
+          puts e.full_message
+          routing.halt 500, { message: 'API server error' }.to_json
+        end
       end
     end
   end

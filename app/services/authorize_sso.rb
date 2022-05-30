@@ -21,6 +21,7 @@ module TimeCapsule
 
       raise unless gh_response.status == 200
 
+      # 有人的github email private
       account = GithubAccount.new(JSON.parse(gh_response))
       { username: account.username, email: account.email }
     end

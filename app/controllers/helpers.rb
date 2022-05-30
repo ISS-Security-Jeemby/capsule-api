@@ -3,6 +3,9 @@
 module TimeCapsule
   # Methods for controllers to mixin
   module SecureRequestHelpers
+    class UnauthorizedRequestError < StandardError; end
+    class NotFoundError < StandardError; end
+
     def secure_request?(routing)
       routing.scheme.casecmp(Api.config.SECURE_SCHEME).zero?
     end
@@ -10,7 +13,7 @@ module TimeCapsule
     def authenticated_account(headers)
       return nil unless headers['AUTHORIZATION']
 
-      scheme, auth_token = headers['AUTHORIZATION'].split
+      scheme, auth_token = headers['AUTHORIZATION'].split(' ')
       account_payload = AuthToken.new(auth_token).payload
       scheme.match?(/^Bearer$/i) ? account_payload['username'] : nil
     end

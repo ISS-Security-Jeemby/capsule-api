@@ -38,6 +38,17 @@ module TimeCapsule
           routing.halt '403', { message: 'Invalid credentials' }.to_json
         end
       end
+      # POST /api/v1/auth/sso
+      routing.post 'sso' do
+        auth_request = JsonRequestBody.parse_symbolize(request.body.read)
+
+        auth_account = AuthorizeSso.new.call(auth_request[:access_token])
+        { data: auth_account }.to_json
+      rescue StandardError => error
+        puts "FAILED to validate Github account: #{error.inspect}"
+        puts error.backtrace
+        routing.halt 400
+      end
     end
   end
 end

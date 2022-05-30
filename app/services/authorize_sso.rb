@@ -17,7 +17,7 @@ module TimeCapsule
         user_agent: 'TimeCapsule',
         authorization: "token #{access_token}",
         accept: 'application/json'
-      ).get(ENV['GITHUB_ACCOUNT_URL'])
+      ).get(ENV.fetch['GITHUB_ACCOUNT_URL'])
 
       raise unless gh_response.status == 200
 
@@ -31,6 +31,7 @@ module TimeCapsule
         Account.create_github_account(account_data)
     end
 
+    # rubocop:disable Style/HashSyntax
     def account_and_token(account)
       {
         type: 'sso_account',
@@ -40,5 +41,6 @@ module TimeCapsule
         }
       }
     end
+    # rubocop:enable Style/HashSyntax
   end
 end

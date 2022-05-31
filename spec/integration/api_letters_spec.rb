@@ -53,6 +53,7 @@ describe 'Test Letter Handling' do
 
   it 'SAD: should return error if unknown letter requested' do
     capsule = TimeCapsule::Capsule.first
+    header 'AUTHORIZATION', auth_header(@account_data)
     get "/api/v1/capsules/#{capsule.id}/letters/foobar"
 
     _(last_response.status).must_equal 404

@@ -76,7 +76,7 @@ module TimeCapsule
         routing.get do
           req_caps = Capsule.first(id: caps_id)
           caps = GetCapsuleQuery.call(
-            account: @auth_account, capsule: req_caps
+            auth: @auth, capsule: req_caps
           )
           raise GetCapsuleQuery::NotFoundError unless req_caps
 

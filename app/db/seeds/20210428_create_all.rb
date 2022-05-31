@@ -58,10 +58,10 @@ def add_collaborators
     account = TimeCapsule::Account.first(username: contrib_info['ownername'])
     capsule = TimeCapsule::Capsule.first(owner_id: account.id, name: contrib_info['capsule_name'])
     letter = TimeCapsule::Letter.first(capsule_id: capsule.id, title: contrib_info['title_name'])
-    contrib_info['collaborator'].each do |collaborator_name|
+    contrib_info['collaborator'].each do |collaborator_email|
       # find collaborator's id, letter_id and join
       TimeCapsule::AddCollaboratorToLetter.call(
-        collaborator_name:, letter_data: letter
+        collaborator_email:, letter_data: letter
       )
     end
   end

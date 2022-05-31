@@ -5,10 +5,8 @@ require_relative './app'
 module TimeCapsule
   # Web controller for Credence API
   class Api < Roda
-    route('letters') do |routing|
-      unless @auth_account
-        routing.halt 403, { message: 'Not authorized' }.to_json
-      end
+    route('letters') do |routing| # rubocop:disable Metrics/BlockLength
+      routing.halt 403, { message: 'Not authorized' }.to_json unless @auth_account
 
       @letter_route = "#{@api_root}/letters"
 

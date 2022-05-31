@@ -7,7 +7,6 @@ module TimeCapsule
   # api for CapsulText
   class Api < Roda
     route('capsules') do |routing|
-
       routing.on String do |caps_id|
         routing.on 'letters' do
           @let_route = "#{@api_root}/capsules/#{caps_id}/letters"

@@ -37,7 +37,7 @@ class LetterPolicy
   end
 
   def can_collaborate?
-    not (account_is_owner? or account_is_collaborator?)
+    !(account_is_owner? or account_is_collaborator?)
   end
 
   def summary

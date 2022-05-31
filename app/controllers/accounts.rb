@@ -12,11 +12,12 @@ module TimeCapsule
       routing.on String do |username|
         # GET api/v1/accounts/[username]
         routing.get do
-          account = GetAccountQuery.call(
-            requestor: @auth_account, username:
+          auth = AuthorizeAccount.call(
+            auth: @auth, username:,
+            auth_scope: AuthScope.new(AuthScope::READ_ONLY)
           )
-          account.to_json
-        rescue GetAccountQuery::ForbiddenError => e
+          { data: auth }.to_json
+        rescue AuthorizeAccount::ForbiddenError => e
           routing.halt 404, { message: e.message }.to_json
         rescue StandardError => e
           puts "GET ACCOUNT ERROR: #{e.inspect}"

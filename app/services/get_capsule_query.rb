@@ -19,10 +19,10 @@ module TimeCapsule
       end
     end
 
-    def self.call(account:, capsule:)
+    def self.call(auth:, capsule:)
       raise NotFoundError unless capsule
 
-      policy = CapsulePolicy.new(account, capsule)
+      policy = CapsulePolicy.new(auth[:account], capsule, auth[:scope])
       raise ForbiddenError unless policy.can_view?
 
       capsule

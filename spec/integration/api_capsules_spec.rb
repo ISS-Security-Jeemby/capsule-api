@@ -33,6 +33,7 @@ describe 'Test Capsule Handling' do
       end
 
       it 'BAD: should not process for unauthorized account' do
+        header 'AUTHORIZATION', 'Bearer bad_token'
         get 'api/v1/capsules'
         _(last_response.status).must_equal 403
 

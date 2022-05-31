@@ -19,7 +19,7 @@ module TimeCapsule
             raise GetLetterQuery::NotFoundError unless @req_letter
 
             letter = GetLetterQuery.call(
-              requestor: @auth_account, letter: @req_letter
+              requestor: @auth, letter: @req_letter
             )
             letter ? letter.to_json : raise('Letter not found')
           rescue GetLetterQuery::ForbiddenError => e
@@ -34,7 +34,7 @@ module TimeCapsule
           # GET api/v1/capsules/[caps_id]/letters
           routing.get do
             caps = GetCapsuleQuery.call(
-              account: @auth_account, capsule: Capsule.first(id: caps_id)
+              auth: @auth, capsule: Capsule.first(id: caps_id)
             )
             letters = { data: caps.owned_letters }
             JSON.pretty_generate(letters)
@@ -76,7 +76,7 @@ module TimeCapsule
         routing.get do
           req_caps = Capsule.first(id: caps_id)
           caps = GetCapsuleQuery.call(
-            account: @auth_account, capsule: req_caps
+            auth: @auth, capsule: req_caps
           )
           raise GetCapsuleQuery::NotFoundError unless req_caps
 
@@ -121,7 +121,7 @@ module TimeCapsule
 
       # GET api/v1/capsules/
       routing.get do
-        account = Account.first(username: @auth_account)
+        account = Account.first(username: @auth_account[:username])
         capsules = account.capsules
         JSON.pretty_generate(data: capsules)
       rescue StandardError

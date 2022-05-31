@@ -34,7 +34,7 @@ module TimeCapsule
 
         routing.get do
           letter = GetLetterQuery.call(
-            requestor: @auth_account, letter: @req_letter
+            requestor: @auth, letter: @req_letter
           )
 
           { data: letter }.to_json

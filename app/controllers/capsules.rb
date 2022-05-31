@@ -5,7 +5,7 @@ require_relative './app'
 
 module TimeCapsule
   # api for CapsulText
-  class Api < Roda
+  class Api < Roda # rubocop:disable Metrics/ClassLength
     route('capsules') do |routing|
       unauthorized_message = { message: 'Unauthorized Request' }.to_json
       routing.halt(403, unauthorized_message) unless @auth_account

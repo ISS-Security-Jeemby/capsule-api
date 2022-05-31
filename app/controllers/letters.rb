@@ -11,7 +11,7 @@ module TimeCapsule
       @letter_route = "#{@api_root}/letters"
 
       # GET api/v1/letters/[letter_id]
-      routing.on String do |letter_id|
+      routing.on String do |letter_id| # rubocop:disable Metrics/BlockLength
         @req_letter = Letter.first(id: letter_id)
 
         routing.on('collaborator') do

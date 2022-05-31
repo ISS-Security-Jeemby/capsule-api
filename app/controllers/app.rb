@@ -8,6 +8,7 @@ module TimeCapsule
   # Web controller for TimeCapsule API
   class Api < Roda
     plugin :halt
+    plugin :all_verbs
     plugin :multi_route
     plugin :request_headers
     plugin :all_verbs

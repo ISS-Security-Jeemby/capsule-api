@@ -11,6 +11,7 @@ module TimeCapsule
     plugin :all_verbs
     plugin :multi_route
     plugin :request_headers
+    plugin :all_verbs
 
     include SecureRequestHelpers
 

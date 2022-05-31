@@ -32,6 +32,7 @@ module TimeCapsule
 
         response.status = 201
         response['Location'] = "#{@account_route}/#{new_account.username}"
+        response['id'] = new_account.id.to_s
         { message: 'Account created', data: new_account }.to_json
       rescue Sequel::MassAssignmentRestriction
         Api.logger.warn "MASS-ASSIGNMENT:: #{new_data.keys}"

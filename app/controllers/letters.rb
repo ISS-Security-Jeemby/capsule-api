@@ -14,6 +14,24 @@ module TimeCapsule
       routing.on String do |letter_id|
         @req_letter = Letter.first(id: letter_id)
 
+        routing.on('collaborator') do
+          # POST api/v1/letters/[letter_id]/collaborator
+          routing.post do
+            req_data = JSON.parse(routing.body.read)
+
+            collaborator = AddCollaboratorToLetter.call(
+              collaborator_email: req_data['email'],
+              letter_data: @req_letter
+            )
+
+            { data: collaborator }.to_json
+          rescue AddCollaboratorToLetter::ForbiddenError => e
+            routing.halt 403, { message: e.message }.to_json
+          rescue StandardError
+            routing.halt 500, { message: 'API server error' }.to_json
+          end
+        end
+
         routing.get do
           letter = GetLetterQuery.call(
             requestor: @auth_account, letter: @req_letter

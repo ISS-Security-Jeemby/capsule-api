@@ -25,7 +25,7 @@ module TimeCapsule
           # GET api/v1/capsules/[caps_id]/letters
           routing.get do
             caps = GetCapsuleQuery.get_capsule(
-              account: @auth_account, capsule: Capsule.first(id: caps_id)
+              auth: @auth, capsule: Capsule.first(id: caps_id)
             )
             letters = { data: caps.owned_letters }
             JSON.pretty_generate(letters)
@@ -66,15 +66,7 @@ module TimeCapsule
         # GET api/v1/capsules/[ID]
         routing.get do
           req_caps = Capsule.first(id: caps_id)
-          # caps = GetCapsuleQuery.call(
-          #   account: @auth_account, capsule: req_caps
-          # )
           { data: req_caps }.to_json
-        rescue GetCapsuleQuery::ForbiddenError => e
-          routing.halt 403, { message: e.message }.to_json
-        rescue GetCapsuleQuery::NotFoundError => e
-          puts e.full_message
-          routing.halt 404, { message: e.message }.to_json
         rescue StandardError => e
           puts "FIND PROJECT ERROR: #{e.inspect}"
           routing.halt 500, { message: 'API server error' }.to_json

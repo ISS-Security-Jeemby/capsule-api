@@ -22,8 +22,8 @@ module TimeCapsule
         routing.halt(403, { message: 'TLS/SSL Required' }.to_json)
 
       begin
-        @auth = authorization(routing.headers)
-        @auth_account = @auth[:account] if @auth token = AuthToken.new(auth_token)
+        @auth = authenticated_account(routing.headers)
+        @auth_account = @auth[:account] if @auth
       rescue AuthToken::InvalidTokenError
         routing.halt 403, { message: 'Invalid auth token' }.to_json
       rescue AuthToken::ExpiredTokenError

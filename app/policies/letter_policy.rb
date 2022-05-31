@@ -2,38 +2,42 @@
 
 # Policy to determine if an account can view a particular letter
 class LetterPolicy
-  def initialize(account, letter)
+  def initialize(account, letter, auth_scope = nil)
     @account = account
     @letter = letter
+    @auth_scope = auth_scope 
   end
 
-  # duplication is ok!
+  def can_view?
+    can_read? && (account_is_owner? || account_is_collaborator?)
+  end
+
   def can_edit?
-    account_is_owner? || account_is_collaborator?
+    can_write? && (account_is_owner? || account_is_collaborator?)
   end
 
   def can_delete?
-    account_is_owner?
+    (can_write? || can_read?) && account_is_owner?
   end
 
   def can_leave?
-    account_is_collaborator?
+    can_write? && account_is_collaborator?
   end
 
   def can_add_letters?
-    account_is_owner? || account_is_collaborator?
+    can_write? && (account_is_owner? || account_is_collaborator?)
   end
 
   def can_remove_letters?
-    account_is_owner? || account_is_collaborator?
+    can_write? && (account_is_owner? || account_is_collaborator?)
   end
 
   def can_add_collaborators?
-    account_is_owner?
+    can_write? && account_is_owner?
   end
 
   def can_remove_collaborators?
-    account_is_owner?
+    can_write? && account_is_owner?
   end
 
   def can_collaborate?
@@ -42,6 +46,7 @@ class LetterPolicy
 
   def summary
     {
+      can_view: can_view?,  
       can_edit: can_edit?,
       can_delete: can_delete?,
       can_leave: can_leave?,
@@ -54,6 +59,14 @@ class LetterPolicy
   end
 
   private
+
+  def can_read?
+    @auth_scope ? @auth_scope.can_read?('letters') : false
+  end
+
+  def can_write?
+    @auth_scope ? @auth_scope.can_write?('letters') : false
+  end
 
   def account_is_owner?
     capsule = TimeCapsule::Capsule.first(id: @letter.capsule_id)

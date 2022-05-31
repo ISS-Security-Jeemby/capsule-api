@@ -40,7 +40,7 @@ describe 'Test AddCollaboratorToLetter service' do
 
   it 'HAPPY: should be able to add a collaborator to a letter' do
     TimeCapsule::AddCollaboratorToLetter.call(
-      collaborator_name: @collaborator.username,
+      collaborator_email: @collaborator.email,
       letter_data: @letter
     )
 
@@ -54,7 +54,7 @@ describe 'Test AddCollaboratorToLetter service' do
   it 'BAD: should not add owner as a collaborator' do
     _(proc {
       TimeCapsule::AddCollaboratorToLetter.call(
-        collaborator_name: @owner.username,
+        collaborator_email: @owner.email,
         letter_data: @letter
       )
     }).must_raise TimeCapsule::AddCollaboratorToLetter::OwnerNotCollaboratorError

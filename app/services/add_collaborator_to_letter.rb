@@ -3,14 +3,19 @@
 module TimeCapsule
   # Add a collaborator to another owner's existing letter
   class AddCollaboratorToLetter
+    # Error for not allowed to add collaborators
+    class ForbiddenError < StandardError
+      def message = 'You are not allowed to add collaborators'
+    end
+
     # Error for owner cannot be collaborator
     class OwnerNotCollaboratorError < StandardError
       def message = 'Owner cannot be collaborator of letter'
     end
 
-    def self.call(collaborator_name:, letter_data:)
+    def self.call(collaborator_email:, letter_data:)
       # find account and its "shared capsule"
-      collaborator = TimeCapsule::Account.first(username: collaborator_name)
+      collaborator = TimeCapsule::Account.first(email: collaborator_email)
       collaborator_capsule = TimeCapsule::Capsule.first(owner_id: collaborator.id, type: 2)
 
       owner_id = TimeCapsule::Capsule.first(id: letter_data.capsule_id).owner_id

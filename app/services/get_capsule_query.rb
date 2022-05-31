@@ -25,15 +25,6 @@ module TimeCapsule
       policy = CapsulePolicy.new(account, capsule)
       raise ForbiddenError unless policy.can_view?
 
-      capsule.full_details.merge(policies: policy.summary)
-    end
-
-    def self.get_capsule(account:, capsule:)
-      raise NotFoundError unless capsule
-
-      policy = CapsulePolicy.new(account, capsule)
-      raise ForbiddenError unless policy.can_view?
-
       capsule
     end
   end

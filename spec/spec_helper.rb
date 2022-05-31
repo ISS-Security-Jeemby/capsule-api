@@ -19,11 +19,11 @@ def auth_header(account_data)
     username: account_data['username'],
     password: account_data['password']
   )
-
   "Bearer #{auth[:attributes][:auth_token]}"
 end
 
-DATA = {} # rubocop:disable Style/MutableConstant
-DATA[:letters] = YAML.safe_load File.read('app/db/seeds/letters_seed.yml')
-DATA[:capsules] = YAML.safe_load File.read('app/db/seeds/capsules_seed.yml')
-DATA[:accounts] = YAML.safe_load File.read('app/db/seeds/accounts_seed.yml')
+DATA = {
+  letters: YAML.load(File.read('app/db/seeds/letters_seed.yml')),
+  capsules: YAML.load(File.read('app/db/seeds/capsules_seed.yml')),
+  accounts: YAML.load(File.read('app/db/seeds/accounts_seed.yml'))
+}.freeze

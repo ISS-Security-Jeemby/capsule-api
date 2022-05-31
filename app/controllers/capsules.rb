@@ -51,9 +51,9 @@ module TimeCapsule
             response.status = 201
             response['Location'] = "#{@letter_route}/#{new_letter.id}"
             { message: 'Letter saved', data: new_letter }.to_json
-          rescue CreateLetter::ForbiddenError => e
+          rescue CreateLetterForOwner::ForbiddenError => e
             routing.halt 403, { message: e.message }.to_json
-          rescue CreateLetter::IllegalRequestError => e
+          rescue CreateLetterForOwner::IllegalRequestError => e
             routing.halt 400, { message: e.message }.to_json
           rescue StandardError => e
             puts e.full_message

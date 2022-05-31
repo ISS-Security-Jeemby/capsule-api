@@ -13,7 +13,7 @@ module TimeCapsule
     end
 
     def self.call(auth:, username:, auth_scope:)
-      account = Account.first(username: username)
+      account = Account.first(username:)
       policy = AccountPolicy.new(auth[:account], account)
       policy.can_view? ? account : raise(ForbiddenError)
 
@@ -26,7 +26,7 @@ module TimeCapsule
       {
         type: 'authorized_account',
         attributes: {
-          account: account,
+          account:,
           auth_token: AuthToken.create(account, auth_scope)
         }
       }

@@ -10,7 +10,7 @@ class AuthScope
 
   SEPARATOR = ' '
   DIVIDER = ':'
-  
+
   def initialize(scopes = EVERYTHING)
     @scopes_str = scopes
     @scopes = {}
@@ -49,4 +49,3 @@ class AuthScope
     @scopes[resource] << permission
   end
 end
-  

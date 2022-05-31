@@ -5,7 +5,7 @@ class LetterPolicy
   def initialize(account, letter, auth_scope = nil)
     @account = account
     @letter = letter
-    @auth_scope = auth_scope 
+    @auth_scope = auth_scope
   end
 
   def can_view?
@@ -46,7 +46,7 @@ class LetterPolicy
 
   def summary
     {
-      can_view: can_view?,  
+      can_view: can_view?,
       can_edit: can_edit?,
       can_delete: can_delete?,
       can_leave: can_leave?,

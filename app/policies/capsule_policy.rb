@@ -6,7 +6,7 @@ module TimeCapsule
     def initialize(account, capsule, auth_scope = nil)
       @account = account
       @capsule = capsule
-      @auth_scope = auth_scope 
+      @auth_scope = auth_scope
     end
 
     def can_view?

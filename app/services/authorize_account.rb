@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative '../policies/account_policy'
+
 module TimeCapsule
   # Authorize an account
   class AuthorizeAccount

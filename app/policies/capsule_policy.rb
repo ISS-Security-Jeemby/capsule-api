@@ -3,7 +3,7 @@
 module TimeCapsule
   # Policy to determine if an account can view a particular capsule
   class CapsulePolicy
-    def initialize(account, capsule, letter, auth_scope = nil)
+    def initialize(account, capsule, auth_scope = nil)
       @account = account
       @capsule = capsule
       @auth_scope = auth_scope 

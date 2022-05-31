@@ -14,7 +14,7 @@ module TimeCapsule
           routing.get String do |let_id|
             @req_letter = Letter.first(id: let_id)
             letter = GetLetterQuery.call(
-              requestor: @auth_account, letter: @req_letter
+              requestor: @auth, letter: @req_letter
             )
             letter ? letter.to_json : raise('Letter not found')
           rescue StandardError => e

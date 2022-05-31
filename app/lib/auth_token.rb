@@ -25,6 +25,7 @@ class AuthToken
     @token = token
     contents = AuthToken.detokenize(@token)
     @expiration = contents['exp']
+    @scope = contents['scope']
     @payload = contents['payload']
   end
 
@@ -41,6 +42,10 @@ class AuthToken
   # Extract data from token
   def payload
     expired? ? raise(ExpiredTokenError) : @payload
+  end
+
+  def scope
+    expired? ? raise(ExpiredTokenError) : @scope
   end
 
   def to_s = @token

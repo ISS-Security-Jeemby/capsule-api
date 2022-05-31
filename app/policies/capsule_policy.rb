@@ -70,7 +70,7 @@ module TimeCapsule
     end
 
     def account_is_owner?
-      @capsule.owner.username == @account
+      @capsule.owner == @account
     end
   end
 end

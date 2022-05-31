@@ -121,7 +121,7 @@ module TimeCapsule
 
       # GET api/v1/capsules/
       routing.get do
-        account = Account.first(username: @auth_account)
+        account = Account.first(username: @auth_account[:username])
         capsules = account.capsules
         JSON.pretty_generate(data: capsules)
       rescue StandardError

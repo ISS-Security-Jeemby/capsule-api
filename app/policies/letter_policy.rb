@@ -71,10 +71,10 @@ class LetterPolicy
   def account_is_owner?
     capsule = TimeCapsule::Capsule.first(id: @letter.capsule_id)
     owner = TimeCapsule::Account.first(id: capsule.owner_id)
-    owner.username == @account
+    owner == @account
   end
 
   def account_is_collaborator?
-    @letter.collaborators.include?(@account)
+    @letter.capsule.collaborated_letters.include?(@letter)
   end
 end

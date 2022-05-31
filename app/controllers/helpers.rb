@@ -14,8 +14,17 @@ module TimeCapsule
       return nil unless headers['AUTHORIZATION']
 
       scheme, auth_token = headers['AUTHORIZATION'].split
-      account_payload = AuthToken.new(auth_token).payload
-      scheme.match?(/^Bearer$/i) ? account_payload['username'] : nil
+      return nil unless scheme.match?(/^Bearer$/i)
+
+      scoped_auth(auth_token)
+    end
+
+    def scoped_auth(auth_token)
+      token = AuthToken.new(auth_token)
+      account_payload = token.payload
+
+      { account: Account.first(username: account_payload['username']),
+        scope: AuthScope.new(token.scope) }
     end
   end
 end

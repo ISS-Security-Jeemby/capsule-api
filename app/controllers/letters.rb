@@ -10,12 +10,28 @@ module TimeCapsule
 
       @letter_route = "#{@api_root}/letters"
 
+       # GET api/v1/letters/collaborators
+       routing.is 'collaborators' do
+        routing.get do
+          letters = JSON.parse(routing.body.read)
+          collaborators = GetAllCollaborators.call(letters:)
+
+          { data: collaborators }.to_json
+        rescue GetAllCollaborators::ForbiddenError => e
+          puts e.full_message
+          routing.halt 403, { message: e.message }.to_json
+        rescue StandardError => e
+          puts e.full_message
+          routing.halt 500, { message: 'API server error' }.to_json
+        end
+      end
+
       # GET api/v1/letters/[letter_id]
       routing.on String do |letter_id| # rubocop:disable Metrics/BlockLength
         @req_letter = Letter.first(id: letter_id)
 
-        routing.on('collaborator') do
-          # POST api/v1/letters/[letter_id]/collaborator
+        routing.on('collaborators') do
+          # POST api/v1/letters/[letter_id]/collaborators
           routing.post do
             req_data = JSON.parse(routing.body.read)
 
@@ -26,8 +42,10 @@ module TimeCapsule
 
             { data: collaborator }.to_json
           rescue AddCollaboratorToLetter::ForbiddenError => e
+            puts e.full_message
             routing.halt 403, { message: e.message }.to_json
-          rescue StandardError
+          rescue StandardError => e
+            puts e.full_message
             routing.halt 500, { message: 'API server error' }.to_json
           end
         end

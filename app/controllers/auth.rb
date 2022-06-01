@@ -59,7 +59,7 @@ module TimeCapsule
         puts "FAILED to validate Google account: #{e.inspect}"
         puts e.backtrace
         routing.halt 400
-      end     
+      end
     end
   end
 end

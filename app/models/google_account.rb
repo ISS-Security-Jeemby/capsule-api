@@ -8,8 +8,7 @@ module TimeCapsule
     end
 
     def username
-      "#{@google_account['login']}@gmail"
-      # @gh_account['login'] + '@github'
+      "#{@google_account['given_name']}@gmail"
     end
 
     def email

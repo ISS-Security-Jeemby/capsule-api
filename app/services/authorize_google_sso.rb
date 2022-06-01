@@ -18,8 +18,7 @@ module TimeCapsule
       #   authorization: "token #{access_token}",
       #   accept: 'application/json'
       # ).get(ENV.fetch('GOOGLE_ACCOUNT_URL'))
-      google_response = HTTP.auth("Bearer #{access_token}"
-                        ).get(ENV.fetch('GOOGLE_ACCOUNT_URL'))
+      google_response = HTTP.auth("Bearer #{access_token}").get(ENV.fetch('GOOGLE_ACCOUNT_URL'))
 
       raise unless google_response.status == 200
 

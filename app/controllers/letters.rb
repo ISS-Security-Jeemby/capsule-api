@@ -10,8 +10,8 @@ module TimeCapsule
 
       @letter_route = "#{@api_root}/letters"
 
-       # GET api/v1/letters/collaborators
-       routing.is 'collaborators' do
+      # GET api/v1/letters/collaborators
+      routing.is 'collaborators' do
         routing.get do
           letters = JSON.parse(routing.body.read)
           collaborators = GetAllCollaborators.call(letters:)

@@ -8,7 +8,7 @@ module TimeCapsule
       def message = 'You are not allowed to get collaborators'
     end
 
-    def self.call(letters:)
+    def self.call(letters:) # rubocop:disable Metrics/MethodLength
       # find letter and its shared capsule
       letter_array = []
       letters.each do |letter|

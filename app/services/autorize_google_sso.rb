@@ -13,16 +13,15 @@ module TimeCapsule
     end
 
     def get_google_account(access_token)
-      gh_response = HTTP.headers(
+      google_response = HTTP.headers(
         user_agent: 'TimeCapsule',
         authorization: "token #{access_token}",
         accept: 'application/json'
       ).get(ENV.fetch('GOOGLE_ACCOUNT_URL'))
 
-      raise unless gh_response.status == 200
+      raise unless google_response.status == 200
 
-      # 有人的github email private
-      account = GithubAccount.new(JSON.parse(gh_response))
+      account = GithubAccount.new(JSON.parse(google_response))
       { username: account.username, email: account.email }
     end
 

@@ -51,14 +51,14 @@ module TimeCapsule
       # POST /api/v1/auth/google_sso
       routing.post 'google_sso' do
         auth_request = JsonRequestBody.parse_symbolize(request.body.read).to_json
-        auth_request_token=JSON.parse(auth_request)["access_token"]
+        auth_request_token = JSON.parse(auth_request)['access_token']
         auth_account = AuthorizeGoogleSso.new.call(auth_request_token)
         { data: auth_account }.to_json
       rescue StandardError => e
         puts "FAILED to validate Google account: #{e.inspect}"
         puts e.backtrace
         routing.halt 400
-      end     
+      end
     end
   end
 end

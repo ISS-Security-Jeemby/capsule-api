@@ -20,10 +20,10 @@ describe 'Test Account Handling' do
       _(last_response.status).must_equal 200
 
       result = JSON.parse last_response.body
-      _(result['username']).must_equal account.username
-      _(result['salt']).must_be_nil
-      _(result['password']).must_be_nil
-      _(result['password_hash']).must_be_nil
+      _(result['data']['attributes']['account']['username']).must_equal account.username
+      _(result['data']['attributes']['account']['salt']).must_be_nil
+      _(result['data']['attributes']['account']['password']).must_be_nil
+      _(result['data']['attributes']['account']['password_hash']).must_be_nil
     end
   end
 

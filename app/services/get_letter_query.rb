@@ -23,8 +23,8 @@ module TimeCapsule
     def self.call(requestor:, letter:)
       raise NotFoundError unless letter
 
-      policy = LetterPolicy.new(requestor, letter)
-      raise ForbiddenError unless policy.can_view?
+      policy = LetterPolicy.new(requestor[:account], letter, requestor[:scope])
+      raise ForbiddenError unless policy.can_edit?
 
       letter
     end

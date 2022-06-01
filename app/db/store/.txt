@@ -1,1 +1,0 @@
-{"type":"document","id":null,"receiver":null,"title":null,"content":null}

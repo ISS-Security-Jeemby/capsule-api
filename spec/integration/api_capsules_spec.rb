@@ -7,16 +7,21 @@ describe 'Test Capsule Handling' do
 
   before do
     wipe_database
+    @account_data = DATA[:accounts][0]
+    @wrong_account_data = DATA[:accounts][1]
+
+    @account = TimeCapsule::Account.create(@account_data)
+    @wrong_account = TimeCapsule::Account.create(@wrong_account_data)
+
+    header 'CONTENT_TYPE', 'application/json'
   end
 
   describe 'Getting capsules' do
     describe 'Getting list of capsules' do
       before do
-        @account_data = DATA[:accounts][0]
-        account = TimeCapsule::Account.create(@account_data)
-        account.add_owned_capsule(DATA[:capsules][0])
-        account.add_owned_capsule(DATA[:capsules][1])
-        account.add_owned_capsule(DATA[:capsules][2])
+        @account.add_owned_capsule(DATA[:capsules][0])
+        @account.add_owned_capsule(DATA[:capsules][1])
+        @account.add_owned_capsule(DATA[:capsules][2])
       end
 
       it 'HAPPY: should get list for authorized account' do
@@ -38,50 +43,50 @@ describe 'Test Capsule Handling' do
     end
 
     it 'HAPPY: should be able to get details of a single Capsule' do
-      existing_capsule = DATA[:capsules][1]
-      TimeCapsule::Capsule.create(existing_capsule).save
-      id = TimeCapsule::Capsule.first.id
+      capsule = @account.add_owned_capsule(DATA[:capsules][0])
 
-      get "/api/v1/capsules/#{id}"
+      header 'AUTHORIZATION', auth_header(@account_data)
+      get "/api/v1/capsules/#{capsule.id}"
       _(last_response.status).must_equal 200
-
-      result = JSON.parse last_response.body
-      _(result['attributes']['id']).must_equal id
-      _(result['attributes']['name']).must_equal existing_capsule['name']
+      result = JSON.parse(last_response.body)['data']
+      _(result['attributes']['id']).must_equal capsule.id
+      _(result['attributes']['name']).must_equal capsule.name
     end
 
     it 'SAD: should return error if unknown Capsule requested' do
+      header 'AUTHORIZATION', auth_header(@account_data)
       get '/api/v1/capsules/foobar'
 
       _(last_response.status).must_equal 404
     end
 
-    it 'SECURITY: should prevent basic SQL injection targeting IDs' do
-      TimeCapsule::Capsule.create(name: 'New Capsule')
-      TimeCapsule::Capsule.create(name: 'Newer Capsule')
+    it 'BAD AUTHORIZATION: should not get capsule with wrong authorization' do
+      capsule = @account.add_owned_capsule(DATA[:capsules][0])
+
+      header 'AUTHORIZATION', auth_header(@wrong_account_data)
+      get "/api/v1/capsules/#{capsule.id}"
+      _(last_response.status).must_equal 403
+
+      result = JSON.parse last_response.body
+      _(result['attributes']).must_be_nil
+    end
+
+    it 'BAD SQL VULNERABILTY: should prevent basic SQL injection of id' do
+      @account.add_owned_capsule(DATA[:capsules][0])
+      @account.add_owned_capsule(DATA[:capsules][1])
+
+      header 'AUTHORIZATION', auth_header(@account_data)
       get 'api/v1/capsules/2%20or%20id%3E0'
 
-      # deliberately not reporting error -- don't give attacker information
+      # deliberately not reporting detection -- don't give attacker information
       _(last_response.status).must_equal 404
       _(last_response.body['data']).must_be_nil
     end
   end
+
   describe 'Creating New Capsules' do
     before do
-      @req_header = { 'CONTENT_TYPE' => 'application/json' }
-    end
-
-    it 'HAPPY: should be able to create new Capsules for owner' do
-      account_data = DATA[:accounts][1]
-      account = TimeCapsule::Account.create(account_data)
-      post "api/v1/capsules/#{account.id}", @req_header
-      _(last_response.status).must_equal 201
-      created_capsules = JSON.parse(last_response.body)['data'][0]['attributes']
-      capsule = TimeCapsule::Capsule.first
-
-      _(created_capsules['id']).must_equal capsule.id
-      _(created_capsules['name']).must_equal capsule.name
-      _(created_capsules['type']).must_equal capsule.type
+      @capsule_data = DATA[:capsules][0]
     end
   end
 end

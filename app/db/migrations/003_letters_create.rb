@@ -19,6 +19,7 @@ Sequel.migration do
       # 1: draft, 2: ready to be send, 3: sent
       Integer :status, null: false, default: 1
 
+      TrueClass :is_locked, null: false, default: true
       TrueClass :is_private, null: false, default: true
     end
   end

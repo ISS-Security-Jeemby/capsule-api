@@ -34,7 +34,7 @@ describe 'Test Letter Handling' do
     _(last_response.status).must_equal 200
 
     result = JSON.parse last_response.body
-    _(result['data'].count).must_equal 5
+    _(result['data'].count).must_equal 6
   end
 
   it 'HAPPY: should be able to get details of a single letter' do

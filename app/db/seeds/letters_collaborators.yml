@@ -3,4 +3,9 @@
     capsule_name: Shared Capsule
     title_name: Public 4
     collaborator:
-      - jessica.huang
+      - jhuang@nthu.edu.tw
+  - ownername: emily.liu
+    capsule_name: Shared Capsule
+    title_name: Public 33
+    collaborator:
+      - jhuang@nthu.edu.tw

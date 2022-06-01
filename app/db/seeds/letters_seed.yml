@@ -24,3 +24,8 @@
     receiver_id: 'Sir3'
     status: 3
     is_private: true
+  - title: 'Public 33'
+    content: 'content 33'
+    receiver_id: 'Sir33'
+    status: 1
+    is_private: false

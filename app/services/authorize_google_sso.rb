@@ -6,10 +6,10 @@ module TimeCapsule
   # Find or create an SsoAccount based on Github code
   class AuthorizeGoogleSso
     def call(access_token)
-      github_account = get_google_account(access_token)
-      sso_account = find_or_create_sso_account(github_account)
+      google_account = get_google_account(access_token)
+      google_sso_account = find_or_create_google_sso_account(google_account)
 
-      account_and_token(sso_account)
+      account_and_token(google_sso_account)
     end
 
     def get_google_account(access_token)
@@ -27,9 +27,9 @@ module TimeCapsule
       { username: account.username, email: account.email }
     end
 
-    def find_or_create_sso_account(account_data)
+    def find_or_create_google_sso_account(account_data)
       Account.first(email: account_data[:email]) ||
-        Account.create_github_account(account_data)
+        Account.create_sso_account(account_data)
     end
 
     # rubocop:disable Style/HashSyntax

@@ -28,7 +28,7 @@ module TimeCapsule
 
     def find_or_create_sso_account(account_data)
       Account.first(email: account_data[:email]) ||
-        Account.create_github_account(account_data)
+        Account.create_sso_account(account_data)
     end
 
     # rubocop:disable Style/HashSyntax

@@ -31,7 +31,7 @@ def authorization(account_data)
   auth = authenticate(account_data)
   token = AuthToken.new(auth[:attributes][:auth_token])
   account = token.payload['attributes']
-  { account: Credence::Account.first(username: account['username']),
+  { account: TimeCapsule::Account.first(username: account['username']),
     scope: AuthScope.new(token.scope) }
 end
 

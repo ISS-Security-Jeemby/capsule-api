@@ -18,7 +18,7 @@ module TimeCapsule
            owned_letters: :destroy,
            collaborated_letters: :nullify
 
-    plugin :timestamps
+    plugin :timestamps, update_on_create: true
     plugin :whitelist_security
     set_allowed_columns :name, :type
 

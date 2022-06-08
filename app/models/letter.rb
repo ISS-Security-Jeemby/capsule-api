@@ -17,9 +17,9 @@ module TimeCapsule
     plugin :association_dependencies, shared_capsule: :nullify
 
     plugin :uuid, field: :id
-    plugin :timestamps
+    plugin :timestamps, update_on_create: true
     plugin :whitelist_security
-    set_allowed_columns :title, :content, :status, :receiver_id, :is_private
+    set_allowed_columns :title, :content, :status, :receiver_id, :is_private, :is_locked
 
     # Secure getters and setters
     def content
@@ -42,7 +42,8 @@ module TimeCapsule
               content:,
               receiver_id:,
               status:,
-              is_private:
+              is_private:,
+              is_locked:
             }
           },
           included: {

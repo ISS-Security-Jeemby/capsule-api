@@ -17,6 +17,7 @@ module TimeCapsule
       # find account and its "shared capsule"
       collaborator = TimeCapsule::Account.first(email: collaborator_email)
       collaborator_capsule = TimeCapsule::Capsule.first(owner_id: collaborator.id, type: 2)
+
       # see if the new collaborator is already a collaborator
       if collaborator_capsule.collaborated_letters.select { |letter| letter.id == letter_data.id }.first
         return 'Already a collaborator'
@@ -27,6 +28,7 @@ module TimeCapsule
       raise OwnerNotCollaboratorError if collaborator_capsule.owner_id == owner_id
 
       collaborator_capsule.add_collaborated_letter(letter_data)
+      collaborator
     end
   end
 end

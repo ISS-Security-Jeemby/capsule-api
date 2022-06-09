@@ -37,7 +37,15 @@ module TimeCapsule
             caps = GetCapsuleQuery.call(
               auth: @auth, capsule: Capsule.first(id: caps_id)
             )
-            letters = { data: caps.owned_letters }
+            letters = Array.new { TimeCapsule::Letter.new }
+            caps.owned_letters.each do |letter|
+              policy_letter = GetLetterQuery.call(
+                requestor: @auth, letter: caps.owned_letters[0]
+              )
+              letters.push(policy_letter)
+            end
+
+            letters = { data: letters }
             JSON.pretty_generate(letters)
           rescue GetCapsuleQuery::ForbiddenError => e
             puts e.full_message

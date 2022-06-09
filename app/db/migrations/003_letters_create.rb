@@ -16,7 +16,7 @@ Sequel.migration do
       DateTime :open_at
       DateTime :created_at
 
-      # 1: draft, 2: ready to be send, 3: sent
+      # 1: draft, 2: sended, 3: reciever recieved
       Integer :status, null: false, default: 1
 
       FalseClass :is_locked, null: true, default: false

@@ -12,7 +12,7 @@ module TimeCapsule
       # find letter and its shared capsule
       letter_array = []
       letters.each do |letter|
-        letter_result = TimeCapsule::Letter.first(id: letter['data']['attributes']['id'])
+        letter_result = TimeCapsule::Letter.first(id: letter['attributes']['id'])
         shared_capsules = letter_result.shared_capsule
         user_array = []
         shared_capsules.each do |shared_capsule|

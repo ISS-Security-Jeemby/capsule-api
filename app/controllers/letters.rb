@@ -48,13 +48,25 @@ module TimeCapsule
             puts e.full_message
             routing.halt 500, { message: 'API server error' }.to_json
           end
+
+          # GET api/v1/letters/[letter_id]/collaborators
+          routing.get do
+            collaborators = GetLetterCollaborators.call(letter_id:)
+
+            { data: collaborators }.to_json
+          rescue GetLetterCollaborators::ForbiddenError => e
+            puts e.full_message
+            routing.halt 403, { message: e.message }.to_json
+          rescue StandardError => e
+            puts e.full_message
+            routing.halt 500, { message: 'API server error' }.to_json
+          end
         end
 
         routing.get do
           letter = GetLetterQuery.call(
             requestor: @auth, letter: @req_letter
           )
-
           { data: letter }.to_json
         rescue GetLetterQuery::ForbiddenError => e
           routing.halt 403, { message: e.message }.to_json

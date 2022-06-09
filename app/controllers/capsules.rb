@@ -16,6 +16,7 @@ module TimeCapsule
           # GET api/v1/capsules/[caps_id]/letters/[let_id]
           routing.get String do |let_id|
             @req_letter = Letter.first(id: let_id)
+
             raise GetLetterQuery::NotFoundError unless @req_letter
 
             letter = GetLetterQuery.call(

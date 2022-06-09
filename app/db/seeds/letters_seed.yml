@@ -4,28 +4,34 @@
     receiver_id: 'Sir'
     status: 1
     is_private: true
+    is_locked: false
   - title: 'Private 2'
     content: 'Hope you will receiver it'
     receiver_id: 'Sir2'
     status: 2
     is_private: true
+    is_locked: false
   - title: 'Private 3'
     content: 'stupdi contnet'
     receiver_id: 'Sir3'
     status: 2
     is_private: true
+    is_locked: false
   - title: 'Public 4'
     content: 'test contnet'
     receiver_id: 'Sir3'
     status: 2
     is_private: false
+    is_locked: false
   - title: 'Received 5'
     content: 'test contnet'
     receiver_id: 'Sir3'
     status: 3
     is_private: true
+    is_locked: false
   - title: 'Public 33'
     content: 'content 33'
     receiver_id: 'Sir33'
     status: 1
     is_private: false
+    is_locked: false

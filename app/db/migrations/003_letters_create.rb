@@ -19,8 +19,8 @@ Sequel.migration do
       # 1: draft, 2: sended, 3: reciever recieved
       Integer :status, null: false, default: 1
 
-      FalseClass :is_locked, null: true, default: false
       TrueClass :is_private, null: false, default: true
+      FalseClass :is_locked, null: true, default: false
     end
   end
 end

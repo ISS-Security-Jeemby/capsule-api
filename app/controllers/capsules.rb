@@ -40,7 +40,7 @@ module TimeCapsule
             letters = Array.new { TimeCapsule::Letter.new }
             caps.owned_letters.each do |letter|
               policy_letter = GetLetterQuery.call(
-                requestor: @auth, letter: caps.owned_letters[0]
+                requestor: @auth, letter:
               )
               letters.push(policy_letter)
             end

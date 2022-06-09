@@ -47,8 +47,8 @@ describe 'Test Letter Handling' do
     _(last_response.status).must_equal 200
 
     result = JSON.parse last_response.body
-    _(result['data']['attributes']['id']).must_equal letter.id
-    _(result['data']['attributes']['title']).must_equal letter_data['title']
+    _(result['attributes']['id']).must_equal letter.id
+    _(result['attributes']['title']).must_equal letter_data['title']
   end
 
   it 'SAD: should return error if unknown letter requested' do
@@ -73,9 +73,9 @@ describe 'Test Letter Handling' do
 
       created = JSON.parse(last_response.body)['data']
       letter = TimeCapsule::Letter.first
-      _(created['data']['attributes']['id']).must_equal letter.id
-      _(created['data']['attributes']['title']).must_equal @letter_data['title']
-      _(created['data']['attributes']['content']).must_equal @letter_data['content']
+      _(created['attributes']['id']).must_equal letter.id
+      _(created['attributes']['title']).must_equal @letter_data['title']
+      _(created['attributes']['content']).must_equal @letter_data['content']
     end
   end
 end

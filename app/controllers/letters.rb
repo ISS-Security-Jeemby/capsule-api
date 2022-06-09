@@ -40,7 +40,8 @@ module TimeCapsule
               letter_data: @req_letter
             )
 
-            { data: collaborator }.to_json
+            collaborator = { data: collaborator }
+            JSON.pretty_generate(collaborator)
           rescue AddCollaboratorToLetter::ForbiddenError => e
             puts e.full_message
             routing.halt 403, { message: e.message }.to_json

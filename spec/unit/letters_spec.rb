@@ -22,6 +22,7 @@ describe 'Test Letter Handling' do
     _(let.receiver_id).must_equal let_data['receiver_id']
     _(let.status).must_equal let_data['status']
     _(let.is_private).must_equal let_data['is_private']
+    _(let.is_locked).must_equal let_data['is_locked']
   end
 
   it 'SECURITY: should not use deterministic integers' do

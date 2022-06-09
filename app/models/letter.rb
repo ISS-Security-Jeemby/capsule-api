@@ -31,26 +31,32 @@ module TimeCapsule
     end
 
     # rubocop:disable Metrics/MethodLength
-    def to_json(options = {})
-      JSON(
-        {
-          data: {
-            type: 'letter',
-            attributes: {
-              id:,
-              title:,
-              content:,
-              receiver_id:,
-              status:,
-              is_private:,
-              is_locked:
-            }
-          },
-          included: {
-            capsule:
-          }
-        }, options
+    def to_h
+      {
+        type: 'letter',
+        attributes: {
+          id:,
+          title:,
+          content:,
+          receiver_id:,
+          status:,
+          is_private:,
+          is_locked:
+        }
+      }
+    end
+
+    def full_details
+      to_h.merge(
+        relationships: {
+          capsule:,
+          shared_capsule:
+        }
       )
+    end
+
+    def to_json(options = {})
+      JSON(to_h, options)
     end
     # rubocop:enable Metrics/MethodLength
   end

@@ -67,7 +67,6 @@ module TimeCapsule
           letter = GetLetterQuery.call(
             requestor: @auth, letter: @req_letter
           )
-          
           { data: letter }.to_json
         rescue GetLetterQuery::ForbiddenError => e
           routing.halt 403, { message: e.message }.to_json

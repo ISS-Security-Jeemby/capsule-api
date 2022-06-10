@@ -13,6 +13,35 @@ module TimeCapsule
       routing.on String do |caps_id|
         routing.on 'letters' do
           @let_route = "#{@api_root}/capsules/#{caps_id}/letters"
+          routing.is 'received' do
+            # GET api/v1/capsules/[caps_id]/letters/received
+            routing.get do
+              received_letters = Letter.where(receiver_id: @auth_account[:username])
+                                       .where { status > 1 }
+              # .where { send_at < DateTime.now() } <-- add when send letter with send_at date
+
+              letters = Array.new { TimeCapsule::Letter.new }
+              received_letters.all.each do |letter|
+                policy_letter = GetLetterQuery.call(
+                  requestor: @auth, letter:
+                )
+                letters.push(policy_letter)
+              end
+
+              letters = { data: letters }
+              JSON.pretty_generate(letters)
+            rescue GetCapsuleQuery::ForbiddenError => e
+              puts e.full_message
+              routing.halt 403, { message: e.message }.to_json
+            rescue GetCapsuleQuery::NotFoundError => e
+              puts e.full_message
+              routing.halt 404, { message: e.message }.to_json
+            rescue StandardError => e
+              puts "FIND CAPSULE ERROR: #{e.inspect}"
+              routing.halt 500, { message: 'API server error' }.to_json
+            end
+          end
+
           # GET api/v1/capsules/[caps_id]/letters/[let_id]
           routing.get String do |let_id|
             @req_letter = Letter.first(id: let_id)

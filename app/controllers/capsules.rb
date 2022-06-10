@@ -17,8 +17,9 @@ module TimeCapsule
             # GET api/v1/capsules/[caps_id]/letters/received
             routing.get do
               received_letters = Letter.where(receiver_id: @auth_account[:username])
-                              .where{status > 1}
-                              # .where{send_at < DateTime.now()}
+                                       .where { status > 1 }
+              # .where { send_at < DateTime.now() } <-- add when send letter with send_at date
+
               letters = Array.new { TimeCapsule::Letter.new }
               received_letters.all.each do |letter|
                 policy_letter = GetLetterQuery.call(
@@ -26,7 +27,7 @@ module TimeCapsule
                 )
                 letters.push(policy_letter)
               end
-  
+
               letters = { data: letters }
               JSON.pretty_generate(letters)
             rescue GetCapsuleQuery::ForbiddenError => e

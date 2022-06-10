@@ -66,15 +66,11 @@ module TimeCapsule
 
         # DELETE api/v1/letters/[letter_id]
         routing.delete do
-          # letter = JSON.parse(routing.body.read)
-          DeleteLetter.call( letter_id:)
-
-          # { data: letter }.to_json
+          DeleteLetter.call(letter_id:)
         rescue StandardError => e
           puts e.full_message
           routing.halt 500, { message: 'API server error' }.to_json
         end
-
 
         routing.get do
           letter = GetLetterQuery.call(

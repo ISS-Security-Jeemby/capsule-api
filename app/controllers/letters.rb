@@ -78,6 +78,7 @@ module TimeCapsule
           routing.halt 500, { message: 'API server error' }.to_json
         end
 
+        # PUT api/v1/letters/[letter_id]/[letter_data]
         routing.put do
           letter = JSON.parse(routing.body.read)
           UpdateLetter.call(letter_data: letter, letter_id:)

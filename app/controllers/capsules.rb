@@ -16,18 +16,18 @@ module TimeCapsule
           routing.is 'received' do
             # GET api/v1/capsules/[caps_id]/letters/received
             routing.get do
+             
               received_letters = Letter.where(receiver_id: @auth_account[:username])
                                        .where { status > 1 }
               # .where { send_at < DateTime.now() } <-- add when send letter with send_at date
-
               letters = Array.new { TimeCapsule::Letter.new }
               received_letters.all.each do |letter|
-                policy_letter = GetLetterQuery.call(
+                policy_letter = GetReceivedLetterQuery.call(
                   requestor: @auth, letter:
                 )
                 letters.push(policy_letter)
-              end
 
+              end
               letters = { data: letters }
               JSON.pretty_generate(letters)
             rescue GetCapsuleQuery::ForbiddenError => e

@@ -19,7 +19,7 @@ module TimeCapsule
              
               received_letters = Letter.where(receiver_id: @auth_account[:username])
                                        .where { status > 1 }
-              # .where { send_at < DateTime.now() } <-- add when send letter with send_at date
+                                       .where { send_at < DateTime.now() } 
               letters = Array.new { TimeCapsule::Letter.new }
               received_letters.all.each do |letter|
                 policy_letter = GetReceivedLetterQuery.call(

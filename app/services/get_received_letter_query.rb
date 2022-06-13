@@ -25,7 +25,8 @@ module TimeCapsule
 
       policy = LetterPolicy.new(requestor[:account], letter, requestor[:scope])
     #   raise ForbiddenError unless policy.can_edit?
-
+    puts"寡規"
+      puts policy.summary
       letter.full_details.merge(policies: policy.summary)
       # binding.pry
     end

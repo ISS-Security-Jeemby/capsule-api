@@ -8,8 +8,12 @@ class LetterPolicy
     @auth_scope = auth_scope
   end
 
+  def can_open?
+    can_read? &&  account_is_receiver?
+  end
+
   def can_view?
-    can_read? && (account_is_owner? || account_is_collaborator?)
+     can_read? && (account_is_owner? || account_is_collaborator?)
   end
 
   def can_edit?
@@ -46,6 +50,7 @@ class LetterPolicy
 
   def summary
     {
+      can_open: can_open?,
       can_view: can_view?,
       can_edit: can_edit?,
       can_delete: can_delete?,
@@ -74,7 +79,17 @@ class LetterPolicy
     owner == @account
   end
 
+  def account_is_owner?
+    capsule = TimeCapsule::Capsule.first(id: @letter.capsule_id)
+    owner = TimeCapsule::Account.first(id: capsule.owner_id)
+    owner == @account
+  end
+
   def account_is_collaborator?
     @letter.capsule.collaborated_letters.include?(@letter)
+  end
+
+  def account_is_receiver?
+    @letter.receiver_id == @account.username
   end
 end

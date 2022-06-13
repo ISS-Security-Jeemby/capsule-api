@@ -12,10 +12,6 @@ class LetterPolicy
     can_read? &&  account_is_receiver?
   end
 
-  # def can_view?
-  #    can_read? && (account_is_owner? || account_is_collaborator?)
-  # end
-
   def can_edit?
     can_write? && (account_is_owner? || account_is_collaborator?)
   end
@@ -70,12 +66,6 @@ class LetterPolicy
 
   def can_write?
     @auth_scope ? @auth_scope.can_write?('letters') : false
-  end
-
-  def account_is_owner?
-    capsule = TimeCapsule::Capsule.first(id: @letter.capsule_id)
-    owner = TimeCapsule::Account.first(id: capsule.owner_id)
-    owner == @account
   end
 
   def account_is_owner?

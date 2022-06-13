@@ -24,9 +24,7 @@ module TimeCapsule
       raise NotFoundError unless letter
 
       policy = LetterPolicy.new(requestor[:account], letter, requestor[:scope])
-    #   raise ForbiddenError unless policy.can_edit?
       letter.full_details.merge(policies: policy.summary)
-      # binding.pry
     end
   end
 end

@@ -16,10 +16,9 @@ module TimeCapsule
           routing.is 'received' do
             # GET api/v1/capsules/[caps_id]/letters/received
             routing.get do
-             
               received_letters = Letter.where(receiver_id: @auth_account[:username])
                                        .where { status > 1 }
-                                       .where { send_at < DateTime.now() } 
+                                       .where { send_at < DateTime.now() }
               letters = Array.new { TimeCapsule::Letter.new }
               
               received_letters.all.each do |letter|

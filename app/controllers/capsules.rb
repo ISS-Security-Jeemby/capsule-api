@@ -21,12 +21,13 @@ module TimeCapsule
                                        .where { status > 1 }
                                        .where { send_at < DateTime.now() } 
               letters = Array.new { TimeCapsule::Letter.new }
+              
               received_letters.all.each do |letter|
+                
                 policy_letter = GetReceivedLetterQuery.call(
                   requestor: @auth, letter:
                 )
                 letters.push(policy_letter)
-
               end
               letters = { data: letters }
               JSON.pretty_generate(letters)

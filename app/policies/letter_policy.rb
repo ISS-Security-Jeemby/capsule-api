@@ -8,13 +8,13 @@ class LetterPolicy
     @auth_scope = auth_scope
   end
 
-  def can_open?
+  def can_view?
     can_read? &&  account_is_receiver?
   end
 
-  def can_view?
-     can_read? && (account_is_owner? || account_is_collaborator?)
-  end
+  # def can_view?
+  #    can_read? && (account_is_owner? || account_is_collaborator?)
+  # end
 
   def can_edit?
     can_write? && (account_is_owner? || account_is_collaborator?)
@@ -50,7 +50,6 @@ class LetterPolicy
 
   def summary
     {
-      can_open: can_open?,
       can_view: can_view?,
       can_edit: can_edit?,
       can_delete: can_delete?,

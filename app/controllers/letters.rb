@@ -64,6 +64,21 @@ module TimeCapsule
           end
         end
 
+        # GET api/v1/letters/[letter_id]/received
+        routing.on('received') do
+          letter = GetReceivedLetterQuery.call(
+            requestor: @auth, letter: @req_letter
+          )
+          { data: letter }.to_json
+        rescue GetLetterQuery::ForbiddenError => e
+          routing.halt 403, { message: e.message }.to_json
+        rescue GetLetterQuery::NotFoundError => e
+          routing.halt 404, { message: e.message }.to_json
+        rescue StandardError => e
+          puts "GET LETTER ERROR: #{e.inspect}"
+          routing.halt 500, { message: 'API server error' }.to_json
+        end
+
         # DELETE api/v1/letters/[letter_id]
         routing.delete do
           DeleteLetter.call(letter_id:)
@@ -72,6 +87,7 @@ module TimeCapsule
           routing.halt 500, { message: 'API server error' }.to_json
         end
 
+        # GET api/v1/letters/[letter_id]
         routing.get do
           letter = GetLetterQuery.call(
             requestor: @auth, letter: @req_letter
@@ -86,7 +102,7 @@ module TimeCapsule
           routing.halt 500, { message: 'API server error' }.to_json
         end
 
-        # PUT api/v1/letters/[letter_id]/[letter_data]
+        # PUT api/v1/letters/[letter_id]
         routing.put do
           letter = JSON.parse(routing.body.read)
           UpdateLetter.call(letter_data: letter, letter_id:)

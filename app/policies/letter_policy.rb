@@ -9,7 +9,7 @@ class LetterPolicy
   end
 
   def can_view?
-    can_read? && (account_is_owner? || account_is_collaborator?)
+    can_read? &&  account_is_receiver?
   end
 
   def can_edit?
@@ -76,5 +76,9 @@ class LetterPolicy
 
   def account_is_collaborator?
     @letter.capsule.collaborated_letters.include?(@letter)
+  end
+
+  def account_is_receiver?
+    @letter.receiver_id == @account.username
   end
 end

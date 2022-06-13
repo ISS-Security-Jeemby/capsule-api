@@ -19,7 +19,7 @@ module TimeCapsule
     plugin :uuid, field: :id
     plugin :timestamps, update_on_create: true
     plugin :whitelist_security
-    set_allowed_columns :title, :content, :status, :receiver_id, :is_private, :is_locked
+    set_allowed_columns :title, :content, :status, :receiver_id, :is_private, :is_locked, :send_at
 
     # Secure getters and setters
     def content
@@ -41,7 +41,8 @@ module TimeCapsule
           receiver_id:,
           status:,
           is_private:,
-          is_locked:
+          is_locked:,
+          send_at:
         }
       }
     end

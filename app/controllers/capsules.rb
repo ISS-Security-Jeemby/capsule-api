@@ -16,13 +16,14 @@ module TimeCapsule
           routing.is 'received' do
             # GET api/v1/capsules/[caps_id]/letters/received
             routing.get do
+              # rubocop: disable Style/MethodCallWithoutArgsParentheses
               received_letters = Letter.where(receiver_id: @auth_account[:username])
                                        .where { status > 1 }
                                        .where { send_at < DateTime.now() }
+              # rubocop: enable Style/MethodCallWithoutArgsParentheses
               letters = Array.new { TimeCapsule::Letter.new }
-              
+
               received_letters.all.each do |letter|
-                
                 policy_letter = GetReceivedLetterQuery.call(
                   requestor: @auth, letter:
                 )

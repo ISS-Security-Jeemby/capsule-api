@@ -54,6 +54,9 @@ module TimeCapsule
         auth_request_token = JSON.parse(auth_request)['access_token']
         auth_account = AuthorizeGoogleSso.new.call(auth_request_token)
         { data: auth_account }.to_json
+      rescue AuthorizeGoogleSso::InvalidRegistration => e
+        puts e.full_message
+        routing.halt 400, { message: e.message }.to_json
       rescue StandardError => e
         puts "FAILED to validate Google account: #{e.inspect}"
         puts e.backtrace

@@ -12,7 +12,7 @@ module TimeCapsule
       github_account = get_github_account(access_token)
       sso_account = Account.first(username: github_account[:email], email: github_account[:email])
       @is_register = true unless sso_account
-      sso_account = create_sso_account(github_account)unless sso_account
+      sso_account ||= create_sso_account(github_account)
       account_and_token(sso_account)
     end
 

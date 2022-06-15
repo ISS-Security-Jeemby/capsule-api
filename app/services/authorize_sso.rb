@@ -5,10 +5,11 @@ require 'http'
 module TimeCapsule
   # Find or create an SsoAccount based on Github code
   class AuthorizeSso
+    class InvalidRegistration < StandardError; end
+
     def call(access_token)
       github_account = get_github_account(access_token)
-      sso_account = find_or_create_sso_account(github_account)
-
+      sso_account = create_sso_account(github_account)
       account_and_token(sso_account)
     end
 
@@ -22,22 +23,26 @@ module TimeCapsule
       raise unless gh_response.status == 200
 
       # 有人的github email private
-      account = GithubAccount.new(JSON.parse(gh_response))
-      { username: account.username, email: account.email }
+      account_email = JSON.parse(gh_response)['email']
+      { username: account_email, email: account_email }
     end
 
-    def find_or_create_sso_account(account_data)
-      Account.first(email: account_data[:email]) ||
-        Account.create_sso_account(account_data)
+    def create_sso_account(account_data)
+      exist_account = Account.first(email: account_data[:email])
+      raise(InvalidRegistration, 'Email already used') if exist_account
+
+      Account.create_sso_account(account_data)
     end
 
     # rubocop:disable Style/HashSyntax
     def account_and_token(account)
+      binding.pry
       {
         type: 'sso_account',
         attributes: {
           account: account,
-          auth_token: AuthToken.create(account)
+          auth_token: AuthToken.create(account),
+          account_id: account.id
         }
       }
     end

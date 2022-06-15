@@ -8,7 +8,6 @@ module TimeCapsule
     def call(access_token)
       google_account = get_google_account(access_token)
       google_sso_account = find_or_create_google_sso_account(google_account)
-
       account_and_token(google_sso_account)
     end
 
@@ -22,8 +21,8 @@ module TimeCapsule
 
       raise unless google_response.status == 200
 
-      account = GoogleAccount.new(JSON.parse(google_response))
-      { username: account.username, email: account.email }
+      account_email = JSON.parse(google_response)['email']
+      { username: account_email, email: account_email }
     end
 
     def find_or_create_google_sso_account(account_data)
@@ -37,7 +36,8 @@ module TimeCapsule
         type: 'sso_account',
         attributes: {
           account: account,
-          auth_token: AuthToken.create(account)
+          auth_token: AuthToken.create(account),
+          account_id: account.id
         }
       }
     end

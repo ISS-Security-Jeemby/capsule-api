@@ -5,9 +5,11 @@ require 'http'
 module TimeCapsule
   # Find or create an SsoAccount based on Github code
   class AuthorizeGoogleSso
+    class InvalidRegistration < StandardError; end
+
     def call(access_token)
       google_account = get_google_account(access_token)
-      google_sso_account = find_or_create_google_sso_account(google_account)
+      google_sso_account = create_google_sso_account(google_account)
       account_and_token(google_sso_account)
     end
 
@@ -25,9 +27,11 @@ module TimeCapsule
       { username: account_email, email: account_email }
     end
 
-    def find_or_create_google_sso_account(account_data)
-      Account.first(email: account_data[:email]) ||
-        Account.create_sso_account(account_data)
+    def create_google_sso_account(account_data)
+      exist_account = Account.first(email: account_data[:email])
+      raise(InvalidRegistration, 'Email already used') if exist_account
+
+      Account.create_sso_account(account_data)
     end
 
     # rubocop:disable Style/HashSyntax

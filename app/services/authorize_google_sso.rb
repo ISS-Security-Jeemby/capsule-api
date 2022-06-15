@@ -8,8 +8,11 @@ module TimeCapsule
     class InvalidRegistration < StandardError; end
 
     def call(access_token)
+      @is_register = false
       google_account = get_google_account(access_token)
-      google_sso_account = create_google_sso_account(google_account)
+      google_sso_account = Account.first(username: google_account[:email], email: google_account[:email])
+      @is_register = true unless google_sso_account
+      google_sso_account = create_google_sso_account(google_account) unless google_sso_account
       account_and_token(google_sso_account)
     end
 
@@ -41,7 +44,8 @@ module TimeCapsule
         attributes: {
           account: account,
           auth_token: AuthToken.create(account),
-          account_id: account.id
+          account_id: account.id,
+          is_register: @is_register
         }
       }
     end

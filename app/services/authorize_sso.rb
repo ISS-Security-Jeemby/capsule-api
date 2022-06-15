@@ -36,7 +36,6 @@ module TimeCapsule
 
     # rubocop:disable Style/HashSyntax
     def account_and_token(account)
-      binding.pry
       {
         type: 'sso_account',
         attributes: {

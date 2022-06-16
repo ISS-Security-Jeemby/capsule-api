@@ -23,13 +23,15 @@ module TimeCapsule
               # rubocop: enable Style/MethodCallWithoutArgsParentheses
               letters = Array.new { TimeCapsule::Letter.new }
 
+              senders = []
               received_letters.all.each do |letter|
-                policy_letter = GetReceivedLetterQuery.call(
-                  requestor: @auth, letter:
-                )
+                policy_letter = GetReceivedLetterQuery.call(requestor: @auth, letter:)
                 letters.push(policy_letter)
+                # get senders
+                senders_array = GetLetterSenders.call(letter:)
+                senders.push(senders_array)
               end
-              letters = { data: letters }
+              letters = { data: letters, senders: }
               JSON.pretty_generate(letters)
             rescue GetCapsuleQuery::ForbiddenError => e
               puts e.full_message

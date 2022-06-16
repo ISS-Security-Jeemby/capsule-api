@@ -24,7 +24,7 @@ module TimeCapsule
     end
 
     def email_available?
-      Account.first(email: @co_info[:email]).exist?
+      !Account.first(email: @co_info['email']).nil?
     end
 
     def html_email

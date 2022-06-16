@@ -26,6 +26,18 @@ module TimeCapsule
         end
       end
 
+      # POST api/v1/letters/notice
+      routing.is 'notice' do
+        routing.post do
+          reg_data = JSON.parse(routing.body.read)
+
+          NoticeCollaborator.new(reg_data).call
+
+          response.status = 202
+          { message: 'Notice email sent' }.to_json
+        end
+      end
+
       # GET api/v1/letters/[letter_id]
       routing.on String do |letter_id| # rubocop:disable Metrics/BlockLength
         @req_letter = Letter.first(id: letter_id)

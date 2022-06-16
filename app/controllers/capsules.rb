@@ -82,9 +82,7 @@ module TimeCapsule
 
           # GET api/v1/capsules/[caps_id]/letters
           routing.get do
-            caps = GetCapsuleQuery.call(
-              auth: @auth, capsule: Capsule.first(id: caps_id)
-            )
+            caps = Capsule.first(id: caps_id)
             letters = Array.new { TimeCapsule::Letter.new }
             caps.owned_letters.each do |letter|
               policy_letter = GetLetterQuery.call(

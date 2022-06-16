@@ -5,6 +5,7 @@ module TimeCapsule
   class UpdateLetter
     # find the letter and update the letter
     def self.call(letter_data:, letter_id:)
+      letter_data['is_locked'] = false if letter_data['is_locked'] == 'false'
       letter = Letter.first(id: letter_id)
       letter.update(letter_data)
     end

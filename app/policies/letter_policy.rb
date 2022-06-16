@@ -10,11 +10,15 @@ module TimeCapsule
     end
 
     def can_view?
-      can_read? &&  account_is_receiver?
+      can_read? && account_is_receiver?
     end
 
     def can_edit?
       can_write?
+    end
+
+    def can_access?
+      can_write? && !letter_is_locked?
     end
 
     def can_delete?
@@ -45,6 +49,7 @@ module TimeCapsule
       {
         can_view: can_view?,
         can_edit: can_edit?,
+        can_access: can_access?,
         can_delete: can_delete?,
         can_add_letters: can_add_letters?,
         can_delete_letters: can_remove_letters?,
@@ -76,6 +81,10 @@ module TimeCapsule
 
     def account_is_receiver?
       @letter.receiver_id == @account.username
+    end
+
+    def letter_is_locked?
+      @letter.is_locked
     end
   end
 end

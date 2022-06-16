@@ -25,7 +25,7 @@ module TimeCapsule
       policy = CapsulePolicy.new(auth[:account], capsule, auth[:scope])
       raise ForbiddenError unless policy.can_view?
 
-      capsule
+      capsule.full_details.merge(policies: policy.summary)
     end
   end
 end

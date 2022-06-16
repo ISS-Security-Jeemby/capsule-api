@@ -20,7 +20,6 @@ module TimeCapsule
     def call
       
       raise(InvalidRegistration, 'This Email did not registered') unless email_available?
-      binding.pry
       send_email_verification
     end
 

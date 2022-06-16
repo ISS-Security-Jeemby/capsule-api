@@ -18,13 +18,13 @@ module TimeCapsule
     def mail_url = 'https://api.sendgrid.com/v3/mail/send'
 
     def call
-      
       raise(InvalidRegistration, 'This Email did not registered') unless email_available?
+
       send_email_verification
     end
 
     def email_available?
-      !(Account.first(email: @co_info['email']).nil?)
+      !Account.first(email: @co_info['email']).nil?
     end
 
     def html_email

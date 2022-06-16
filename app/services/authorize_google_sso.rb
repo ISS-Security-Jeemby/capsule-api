@@ -13,8 +13,7 @@ module TimeCapsule
       google_sso_account = Account.first(username: google_account[:email], email: google_account[:email])
       @is_register = true unless google_sso_account
       google_sso_account ||= create_google_sso_account(google_account)
-      account_info = account_and_token(google_sso_account)
-      account_info
+      account_and_token(google_sso_account)
     end
 
     def get_google_account(access_token)

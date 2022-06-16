@@ -33,7 +33,6 @@ module TimeCapsule
     def create_google_sso_account(account_data)
       exist_account = Account.first(email: account_data[:email])
       raise(InvalidRegistration, 'Email already used') if exist_account
-
       Account.create_sso_account(account_data)
     end
 

@@ -24,7 +24,8 @@ module TimeCapsule
         return 'Already a collaborator'
       end
 
-      return 'Receiver can not be a collaborator' if collaborator.id == letter_data.receiver_id
+      binding.irb
+      return 'Receiver can not be a collaborator' if collaborator.email == letter_data.receiver_id
 
       owner_id = TimeCapsule::Capsule.first(id: letter_data.capsule_id).owner_id
 

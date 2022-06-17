@@ -13,28 +13,42 @@ describe 'Test Letter Handling' do
 
     @account = TimeCapsule::Account.create(@account_data)
     @account.add_owned_capsule(DATA[:capsules][0])
-    @account.add_owned_capsule(DATA[:capsules][1])
+    @capsule = @account.add_owned_capsule(DATA[:capsules][1])
+
     @wrong_account = TimeCapsule::Account.create(@wrong_account_data)
     @wrong_account.add_owned_capsule(DATA[:capsules][1])
-
-    @capsule = TimeCapsule::Capsule.first
     @wrong_letter_data = DATA[:letters][5]
 
     header 'CONTENT_TYPE', 'application/json'
   end
 
   describe 'Getting Letters' do
-    it 'HAPPY: should be able to get list of all letters' do
+    before do
       DATA[:letters].each do |letter|
         @capsule.add_owned_letter(letter)
       end
+    end
 
+    it 'HAPPY: should be able to get list of all letters' do
       header 'AUTHORIZATION', auth_header(@account_data)
-      get "api/v1/capsules/#{@capsule.id}/letters"
+      get "/api/v1/capsules/#{@capsule.id}/letters"
       _(last_response.status).must_equal 200
 
       result = JSON.parse last_response.body
       _(result['data'].count).must_equal 6
+    end
+
+    it 'SAD: should return error if unauthorized account requested' do
+      header 'AUTHORIZATION', auth_header(@wrong_account_data)
+      get "/api/v1/capsules/#{@capsule.id}/letters"
+      _(last_response.status).must_equal 403
+    end
+
+    it 'SAD: should return error if unknown capsule requested' do
+      header 'AUTHORIZATION', auth_header(@account_data)
+      get '/api/v1/capsules/foobar/letters'
+
+      _(last_response.status).must_equal 404
     end
   end
 
@@ -165,31 +179,64 @@ describe 'Test Letter Handling' do
       _(created['attributes']['content']).must_equal @letter_data['content']
     end
 
-    it 'BAD: should return error when wrong letter data' do
-      wrong_capsule_id = 'wrong_id'
+    it 'SAD: should return error when wrong letter data' do
       header 'AUTHORIZATION', auth_header(@account_data)
-      post "api/v1/capsules/#{wrong_capsule_id}/letters", @letter_data.to_json
+      post 'api/v1/capsules/foobar/letters', @letter_data.to_json
       _(last_response.status).must_equal 400
     end
-
-    # it 'HAPPY: should be able to get received letters' do
-    #   header 'AUTHORIZATION', auth_header(@account_data)
-    #   post "api/v1/capsules/#{@capsule.id}/letters", @letter_data.to_json
-    #   _(last_response.status).must_equal 201
-    #   _(last_response.header['Location'].size).must_be :>, 0
-
-    #   created = JSON.parse(last_response.body)['data']
-    #   letter = TimeCapsule::Letter.first
-    #   _(created['attributes']['id']).must_equal letter.id
-    #   _(created['attributes']['title']).must_equal @letter_data['title']
-    #   _(created['attributes']['content']).must_equal @letter_data['content']
-    # end
-
-    # it 'BAD: should return error when wrong letter data' do
-    #   wrong_capsule_id = 'wrong_id'
-    #   header 'AUTHORIZATION', auth_header(@account_data)
-    #   post "api/v1/capsules/#{wrong_capsule_id}/letters", @letter_data.to_json
-    #   _(last_response.status).must_equal 400
-    # end
   end
+
+  # describe 'Getting Letters' do
+  #   before do
+  #     DATA[:letters].each do |letter|
+  #       @capsule.add_owned_letter(letter)
+  #     end
+  #     # collaborator
+  #     # DATA[:owners_letters]
+  #     # DATA[:collaborators_letters]
+  #     # @collaborator_data = DATA[:accounts][2]
+  #     # @collaborator = TimeCapsule::Account.create(@collaborator_data)
+  #     # @collaborator_shared_capsule = @account.add_owned_capsule(DATA[:capsules][1])
+  #     # DATA[:letters].each do |letter|
+  #     #   @collaborator_shared_capsule.add_owned_letter(letter)
+  #     # end
+  #   end
+
+  #   describe 'Getting Received Letters' do
+  #     it 'HAPPY: should be able to get received letters' do
+  #       header 'AUTHORIZATION', auth_header(@account_data)
+  #       get "api/v1/capsules/#{@capsule.id}/letters/received"
+  #       _(last_response.status).must_equal 200
+  #       binding.pry
+
+  #       result = JSON.parse last_response.body
+  #       # _(result['data']).must_equal 'Delete success'
+  #     end
+
+  #     # it 'SAD: should return error when unauthorized account request' do
+
+  #     #   header 'AUTHORIZATION', auth_header(@account_data)
+  #     #   post "api/v1/capsules/#{wrong_capsule_id}/letters", @letter_data.to_json
+  #     #   _(last_response.status).must_equal 403
+  #     # end
+  #   end
+
+  #   describe 'Getting Shared Letters' do
+  #     it 'HAPPY: should be able to get shared letters' do
+  #       header 'AUTHORIZATION', auth_header(@account_data)
+  #       get "api/v1/capsules/#{@capsule.id}/letters/shared"
+  #       _(last_response.status).must_equal 200
+
+  #       result = JSON.parse last_response.body
+  #       binding.pry
+  #       _(result['data'].size).must_be :>, 0
+  #     end
+
+  #     it 'SAD: should return error when unauthorized account request' do
+  #       header 'AUTHORIZATION', auth_header(@account_data)
+  #       get "api/v1/capsules/#{@capsule.id}/letters/shared"
+  #       _(last_response.status).must_equal 403
+  #     end
+  #   end
+  # end
 end

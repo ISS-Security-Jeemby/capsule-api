@@ -41,5 +41,7 @@ end
 DATA = {
   letters: YAML.load(File.read('app/db/seeds/letters_seed.yml')),
   capsules: YAML.load(File.read('app/db/seeds/capsules_seed.yml')),
-  accounts: YAML.load(File.read('app/db/seeds/accounts_seed.yml'))
+  accounts: YAML.load(File.read('app/db/seeds/accounts_seed.yml')),
+  owners_letters: YAML.load(File.read('app/db/seeds/letters_owner.yml')),
+  collaborators_letters: YAML.load(File.read('app/db/seeds/letters_collaborators.yml'))
 }.freeze

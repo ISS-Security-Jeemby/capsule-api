@@ -82,7 +82,7 @@ module TimeCapsule
             routing.halt 404, { message: 'Could not find any projects' }.to_json
           end
 
-          # POST api/v1/capsules/[ID]/letters
+          # POST api/v1/capsules/[caps_id]/letters
           routing.post do
             new_letter = CreateLetterForOwner.call(
               capsule_id: caps_id,
@@ -100,7 +100,7 @@ module TimeCapsule
           end
         end
 
-        # GET api/v1/capsules/[ID]
+        # GET api/v1/capsules/[caps_id]
         routing.get do
           req_caps = Capsule.first(id: caps_id)
           caps = GetCapsuleQuery.call(

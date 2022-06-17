@@ -16,6 +16,7 @@ describe 'Test Letter Handling' do
     @account.add_owned_capsule(DATA[:capsules][1])
     TimeCapsule::Account.create(@wrong_account_data)
 
+    @capsule = TimeCapsule::Capsule.first
     # DATA[:capsules].each do |capsule_data|
     #   TimeCapsule::Capsule.create(capsule_data)
     # end
@@ -24,13 +25,12 @@ describe 'Test Letter Handling' do
   end
 
   it 'HAPPY: should be able to get list of all letters' do
-    capsule = TimeCapsule::Capsule.first
     DATA[:letters].each do |letter|
-      capsule.add_owned_letter(letter)
+      @capsule.add_owned_letter(letter)
     end
 
     header 'AUTHORIZATION', auth_header(@account_data)
-    get "api/v1/capsules/#{capsule.id}/letters"
+    get "api/v1/capsules/#{@capsule.id}/letters"
     _(last_response.status).must_equal 200
 
     result = JSON.parse last_response.body
@@ -39,11 +39,10 @@ describe 'Test Letter Handling' do
 
   it 'HAPPY: should be able to get details of a single letter' do
     letter_data = DATA[:letters][1]
-    capsule = TimeCapsule::Capsule.first
-    letter = capsule.add_owned_letter(letter_data)
+    letter = @capsule.add_owned_letter(letter_data)
 
     header 'AUTHORIZATION', auth_header(@account_data)
-    get "/api/v1/capsules/#{capsule.id}/letters/#{letter.id}"
+    get "/api/v1/capsules/#{@capsule.id}/letters/#{letter.id}"
     _(last_response.status).must_equal 200
 
     result = JSON.parse last_response.body
@@ -52,11 +51,32 @@ describe 'Test Letter Handling' do
   end
 
   it 'SAD: should return error if unknown letter requested' do
-    capsule = TimeCapsule::Capsule.first
     header 'AUTHORIZATION', auth_header(@account_data)
-    get "/api/v1/capsules/#{capsule.id}/letters/foobar"
+    get "/api/v1/capsules/#{@capsule.id}/letters/foobar"
 
     _(last_response.status).must_equal 404
+  end
+
+  it 'HAPPY: should be able to update details of a single letter' do
+    letter_data = DATA[:letters][1]
+    letter = @capsule.add_owned_letter(letter_data)
+    new_letter_data = DATA[:letters][2]
+
+    header 'AUTHORIZATION', auth_header(@account_data)
+    put "/api/v1/letters/#{letter.id}", new_letter_data.to_json
+    _(last_response.status).must_equal 200
+
+    result = JSON.parse last_response.body
+    _(result['data']['title']).must_equal new_letter_data['title']
+    _(result['data']['status']).must_equal new_letter_data['status']
+  end
+
+  it 'SAD: should return error if unknown letter requested' do
+    letter = DATA[:letters][1]
+    header 'AUTHORIZATION', auth_header(@account_data)
+    put "/api/v1/letters/123", letter.to_json
+
+    _(last_response.status).must_equal 400
   end
 
   describe 'Creating Letters' do

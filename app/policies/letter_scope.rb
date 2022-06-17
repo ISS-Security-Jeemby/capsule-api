@@ -24,7 +24,6 @@ module TimeCapsule
 
       def all_letters(account, auth)
         shared_capsule = account.owned_capsules.select { |owned_capsule| owned_capsule.type == 2 }.first
-        # shared_capsule.collaborated_letters + shared_capsule.owned_letters
         letters = shared_capsule.collaborated_letters + shared_capsule.owned_letters
         letters.map do |letter|
           GetLetterQuery.call(

@@ -128,5 +128,12 @@ describe 'Test Letter Handling' do
       _(created['attributes']['title']).must_equal @letter_data['title']
       _(created['attributes']['content']).must_equal @letter_data['content']
     end
+
+    it 'BAD: should return error when wrong letter data' do
+      wrong_capsule_id = 'wrong_id'
+      header 'AUTHORIZATION', auth_header(@account_data)
+      post "api/v1/capsules/#{wrong_capsule_id}/letters", @letter_data.to_json
+      _(last_response.status).must_equal 400
+    end
   end
 end

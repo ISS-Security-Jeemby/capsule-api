@@ -82,9 +82,9 @@ module TimeCapsule
             requestor: @auth, letter: @req_letter
           )
           { data: letter }.to_json
-        rescue GetLetterQuery::ForbiddenError => e
+        rescue GetReceivedLetterQuery::ForbiddenError => e
           routing.halt 403, { message: e.message }.to_json
-        rescue GetLetterQuery::NotFoundError => e
+        rescue GetReceivedLetterQuery::NotFoundError => e
           routing.halt 404, { message: e.message }.to_json
         rescue StandardError => e
           puts "GET LETTER ERROR: #{e.inspect}"

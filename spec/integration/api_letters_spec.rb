@@ -17,6 +17,7 @@ describe 'Test Letter Handling' do
     TimeCapsule::Account.create(@wrong_account_data)
 
     @capsule = TimeCapsule::Capsule.first
+    @wrong_letter_data = DATA[:letters][5]
     # DATA[:capsules].each do |capsule_data|
     #   TimeCapsule::Capsule.create(capsule_data)
     # end
@@ -57,6 +58,35 @@ describe 'Test Letter Handling' do
     _(last_response.status).must_equal 404
   end
 
+  it 'HAPPY: should be able to get details of a single received letter' do
+    letter_data = DATA[:letters][4]
+    letter = @capsule.add_owned_letter(letter_data)
+
+    header 'AUTHORIZATION', auth_header(@account_data)
+    get "/api/v1/letters/#{letter.id}/received"
+    _(last_response.status).must_equal 200
+
+    result = JSON.parse last_response.body
+    _(result['data']['attributes']['id']).must_equal letter.id
+    _(result['data']['policies']['can_view']).must_equal true
+  end
+
+  it 'SAD: should return error if unauthorized account requests single received letter' do
+    wrong_letter_id = '1234'
+    header 'AUTHORIZATION', auth_header(@account_data)
+    get "/api/v1/letters/#{wrong_letter_id}/received"
+
+    _(last_response.status).must_equal 404
+  end
+
+  it 'SAD: should return error if unauthorized account requests single received letter' do
+    letter = @capsule.add_owned_letter(@wrong_letter_data)
+    header 'AUTHORIZATION', auth_header(@account_data)
+    get "/api/v1/letters/#{letter.id}/received"
+
+    _(last_response.status).must_equal 403
+  end
+
   it 'HAPPY: should be able to update details of a single letter' do
     letter_data = DATA[:letters][1]
     letter = @capsule.add_owned_letter(letter_data)
@@ -72,7 +102,7 @@ describe 'Test Letter Handling' do
     _(result['data']['is_locked']).must_equal false
   end
 
-  it 'SAD: should return error if unknown letter requested' do
+  it 'SAD: should return error if unknown letter requested (update)' do
     letter = DATA[:letters][1]
     header 'AUTHORIZATION', auth_header(@account_data)
     put "/api/v1/letters/123", letter.to_json

@@ -123,7 +123,7 @@ module TimeCapsule
 
           { data: letter }.to_json
         rescue UpdateLetter::NotFoundLetter => e
-          routing.halt 400, { message: 'Cannot find the letter.' }.to_json
+          routing.halt 400, { message: e.message }.to_json
         rescue StandardError => e
           puts e.full_message
           routing.halt 500, { message: 'API server error' }.to_json

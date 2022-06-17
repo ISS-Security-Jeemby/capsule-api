@@ -17,6 +17,7 @@ describe 'Test Letter Handling' do
     TimeCapsule::Account.create(@wrong_account_data)
 
     @capsule = TimeCapsule::Capsule.first
+    @wrong_letter_id = '1234'
     @wrong_letter_data = DATA[:letters][5]
     # DATA[:capsules].each do |capsule_data|
     #   TimeCapsule::Capsule.create(capsule_data)
@@ -72,9 +73,8 @@ describe 'Test Letter Handling' do
   end
 
   it 'SAD: should return error if unauthorized account requests single received letter' do
-    wrong_letter_id = '1234'
     header 'AUTHORIZATION', auth_header(@account_data)
-    get "/api/v1/letters/#{wrong_letter_id}/received"
+    get "/api/v1/letters/#{@wrong_letter_id}/received"
 
     _(last_response.status).must_equal 404
   end
@@ -105,7 +105,7 @@ describe 'Test Letter Handling' do
   it 'SAD: should return error if unknown letter requested (update)' do
     letter = DATA[:letters][1]
     header 'AUTHORIZATION', auth_header(@account_data)
-    put "/api/v1/letters/123", letter.to_json
+    put "/api/v1/letters/#{@wrong_letter_id}", letter.to_json
 
     _(last_response.status).must_equal 400
   end

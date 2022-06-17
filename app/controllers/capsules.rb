@@ -109,15 +109,12 @@ module TimeCapsule
           # POST api/v1/capsules/[ID]/letters
           routing.post do
             new_letter = CreateLetterForOwner.call(
-              # account: @auth_account,
               capsule_id: caps_id,
               letter_data: JSON.parse(routing.body.read)
             )
             response.status = 201
             response['Location'] = "#{@letter_route}/#{new_letter.id}"
             { message: 'Letter saved', data: new_letter }.to_json
-          rescue CreateLetterForOwner::ForbiddenError => e
-            routing.halt 403, { message: e.message }.to_json
           rescue CreateLetterForOwner::IllegalRequestError => e
             routing.halt 400, { message: e.message }.to_json
           rescue StandardError => e
@@ -126,7 +123,6 @@ module TimeCapsule
             routing.halt 500, { message: 'API server error' }.to_json
           end
         end
-        # end
 
         # GET api/v1/capsules/[ID]
         routing.get do

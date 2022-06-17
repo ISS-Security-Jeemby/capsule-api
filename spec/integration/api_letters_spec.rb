@@ -69,6 +69,7 @@ describe 'Test Letter Handling' do
     result = JSON.parse last_response.body
     _(result['data']['title']).must_equal new_letter_data['title']
     _(result['data']['status']).must_equal new_letter_data['status']
+    _(result['data']['is_locked']).must_equal false
   end
 
   it 'SAD: should return error if unknown letter requested' do

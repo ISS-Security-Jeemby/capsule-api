@@ -16,7 +16,7 @@
     receiver_id: 'Sir3'
     status: 2
     is_private: true
-    is_locked: false
+    is_locked: "false"
   - title: 'Public 4'
     content: 'test contnet'
     receiver_id: 'Sir3'

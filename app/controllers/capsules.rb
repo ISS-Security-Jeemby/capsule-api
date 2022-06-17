@@ -106,7 +106,6 @@ module TimeCapsule
             routing.halt 500, { message: 'API server error' }.to_json
           end
 
-          # routing.on('letters') do
           # POST api/v1/capsules/[ID]/letters
           routing.post do
             new_letter = CreateLetterForOwner.call(

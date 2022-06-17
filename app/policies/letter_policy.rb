@@ -14,7 +14,7 @@ module TimeCapsule
     end
 
     def can_edit?
-      can_write?
+      can_write? && (account_is_owner? || account_is_collaborator?)
     end
 
     def can_access?
@@ -76,7 +76,8 @@ module TimeCapsule
     end
 
     def account_is_collaborator?
-      @letter.capsule.collaborated_letters.include?(@letter)
+      collaborator_shared_capsule = TimeCapsule::Capsule.first(owner_id: @account.id, type: 2)
+      collaborator_shared_capsule.collaborated_letters.include?(@letter)
     end
 
     def account_is_receiver?

@@ -95,9 +95,10 @@ module TimeCapsule
         routing.delete do
           DeleteLetter.call(letter_id:)
           { message: 'Delete success' }.to_json
+        rescue DeleteLetter::NotFoundLetter => e
+          routing.halt 404, { message: e.message }.to_json
         rescue StandardError => e
-          puts e.full_message
-          routing.halt 500, { message: 'API server error' }.to_json
+          routing.halt 500, { message: 'API server error', error_msg: e.full_message }.to_json
         end
 
         # GET api/v1/letters/[letter_id]

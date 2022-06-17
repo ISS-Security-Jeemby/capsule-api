@@ -14,100 +14,136 @@ describe 'Test Letter Handling' do
     @account = TimeCapsule::Account.create(@account_data)
     @account.add_owned_capsule(DATA[:capsules][0])
     @account.add_owned_capsule(DATA[:capsules][1])
-    TimeCapsule::Account.create(@wrong_account_data)
+    @wrong_account = TimeCapsule::Account.create(@wrong_account_data)
+    @wrong_account.add_owned_capsule(DATA[:capsules][1])
 
     @capsule = TimeCapsule::Capsule.first
-    @wrong_letter_id = '1234'
     @wrong_letter_data = DATA[:letters][5]
-    # DATA[:capsules].each do |capsule_data|
-    #   TimeCapsule::Capsule.create(capsule_data)
-    # end
 
     header 'CONTENT_TYPE', 'application/json'
   end
 
-  it 'HAPPY: should be able to get list of all letters' do
-    DATA[:letters].each do |letter|
-      @capsule.add_owned_letter(letter)
+  describe 'Getting Letters' do
+    it 'HAPPY: should be able to get list of all letters' do
+      DATA[:letters].each do |letter|
+        @capsule.add_owned_letter(letter)
+      end
+
+      header 'AUTHORIZATION', auth_header(@account_data)
+      get "api/v1/capsules/#{@capsule.id}/letters"
+      _(last_response.status).must_equal 200
+
+      result = JSON.parse last_response.body
+      _(result['data'].count).must_equal 6
+    end
+  end
+
+  describe 'Getting Single Letter' do
+    before do
+      @letter_data = DATA[:letters][1]
+      @letter = @capsule.add_owned_letter(@letter_data)
     end
 
-    header 'AUTHORIZATION', auth_header(@account_data)
-    get "api/v1/capsules/#{@capsule.id}/letters"
-    _(last_response.status).must_equal 200
+    it 'HAPPY: should be able to get details of a single letter' do
+      header 'AUTHORIZATION', auth_header(@account_data)
+      get "/api/v1/letters/#{@letter.id}"
+      _(last_response.status).must_equal 200
 
-    result = JSON.parse last_response.body
-    _(result['data'].count).must_equal 6
+      result = JSON.parse last_response.body
+      _(result['data']['attributes']['id']).must_equal @letter.id
+      _(result['data']['attributes']['title']).must_equal @letter_data['title']
+    end
+
+    it 'SAD: should return error if unauthorized account requested' do
+      header 'AUTHORIZATION', auth_header(@wrong_account_data)
+      get "/api/v1/letters/#{@letter.id}"
+      _(last_response.status).must_equal 403
+    end
+
+    it 'SAD: should return error if unknown letter requested' do
+      header 'AUTHORIZATION', auth_header(@account_data)
+      get '/api/v1/letters/foobar'
+
+      _(last_response.status).must_equal 404
+    end
+
+    describe 'Getting Received Letter' do
+      it 'HAPPY: should be able to get details of a single received letter' do
+        letter_data = DATA[:letters][4]
+        letter = @capsule.add_owned_letter(letter_data)
+
+        header 'AUTHORIZATION', auth_header(@account_data)
+        get "/api/v1/letters/#{letter.id}/received"
+        _(last_response.status).must_equal 200
+
+        result = JSON.parse last_response.body
+        _(result['data']['attributes']['id']).must_equal letter.id
+        _(result['data']['policies']['can_view']).must_equal true
+      end
+
+      it 'SAD: should return error if wrong requests' do
+        header 'AUTHORIZATION', auth_header(@account_data)
+        get '/api/v1/letters/foobar/received'
+
+        _(last_response.status).must_equal 404
+      end
+
+      it 'SAD: should return error if unauthorized account requests' do
+        letter = @capsule.add_owned_letter(@wrong_letter_data)
+        header 'AUTHORIZATION', auth_header(@account_data)
+        get "/api/v1/letters/#{letter.id}/received"
+
+        _(last_response.status).must_equal 403
+      end
+    end
   end
 
-  it 'HAPPY: should be able to get details of a single letter' do
-    letter_data = DATA[:letters][1]
-    letter = @capsule.add_owned_letter(letter_data)
+  describe 'Updating Letter' do
+    before do
+      @letter_data = DATA[:letters][1]
+      @letter = @capsule.add_owned_letter(@letter_data)
+    end
 
-    header 'AUTHORIZATION', auth_header(@account_data)
-    get "/api/v1/capsules/#{@capsule.id}/letters/#{letter.id}"
-    _(last_response.status).must_equal 200
+    it 'HAPPY: should be able to update details of a single letter' do
+      new_letter_data = DATA[:letters][2]
 
-    result = JSON.parse last_response.body
-    _(result['attributes']['id']).must_equal letter.id
-    _(result['attributes']['title']).must_equal letter_data['title']
+      header 'AUTHORIZATION', auth_header(@account_data)
+      put "/api/v1/letters/#{@letter.id}", new_letter_data.to_json
+      _(last_response.status).must_equal 200
+
+      result = JSON.parse last_response.body
+      _(result['data']['title']).must_equal new_letter_data['title']
+      _(result['data']['status']).must_equal new_letter_data['status']
+      _(result['data']['is_locked']).must_equal false
+    end
+
+    it 'SAD: should return error if unknown letter requested (update)' do
+      header 'AUTHORIZATION', auth_header(@account_data)
+      put '/api/v1/letters/foobar', @letter_data.to_json
+
+      _(last_response.status).must_equal 400
+    end
   end
 
-  it 'SAD: should return error if unknown letter requested' do
-    header 'AUTHORIZATION', auth_header(@account_data)
-    get "/api/v1/capsules/#{@capsule.id}/letters/foobar"
+  describe 'Deleting Letter' do
+    it 'HAPPY: should be able to delete letter' do
+      letter_data = DATA[:letters][1]
+      deleted_letter = @capsule.add_owned_letter(letter_data)
 
-    _(last_response.status).must_equal 404
-  end
+      header 'AUTHORIZATION', auth_header(@account_data)
+      delete "/api/v1/letters/#{deleted_letter.id}"
+      _(last_response.status).must_equal 200
 
-  it 'HAPPY: should be able to get details of a single received letter' do
-    letter_data = DATA[:letters][4]
-    letter = @capsule.add_owned_letter(letter_data)
+      result = JSON.parse last_response.body
+      _(result['message']).must_equal 'Delete success'
+    end
 
-    header 'AUTHORIZATION', auth_header(@account_data)
-    get "/api/v1/letters/#{letter.id}/received"
-    _(last_response.status).must_equal 200
+    it 'SAD: should return error if unknown letter requested (delete)' do
+      header 'AUTHORIZATION', auth_header(@account_data)
+      delete '/api/v1/letters/foobar'
 
-    result = JSON.parse last_response.body
-    _(result['data']['attributes']['id']).must_equal letter.id
-    _(result['data']['policies']['can_view']).must_equal true
-  end
-
-  it 'SAD: should return error if unauthorized account requests single received letter' do
-    header 'AUTHORIZATION', auth_header(@account_data)
-    get "/api/v1/letters/#{@wrong_letter_id}/received"
-
-    _(last_response.status).must_equal 404
-  end
-
-  it 'SAD: should return error if unauthorized account requests single received letter' do
-    letter = @capsule.add_owned_letter(@wrong_letter_data)
-    header 'AUTHORIZATION', auth_header(@account_data)
-    get "/api/v1/letters/#{letter.id}/received"
-
-    _(last_response.status).must_equal 403
-  end
-
-  it 'HAPPY: should be able to update details of a single letter' do
-    letter_data = DATA[:letters][1]
-    letter = @capsule.add_owned_letter(letter_data)
-    new_letter_data = DATA[:letters][2]
-
-    header 'AUTHORIZATION', auth_header(@account_data)
-    put "/api/v1/letters/#{letter.id}", new_letter_data.to_json
-    _(last_response.status).must_equal 200
-
-    result = JSON.parse last_response.body
-    _(result['data']['title']).must_equal new_letter_data['title']
-    _(result['data']['status']).must_equal new_letter_data['status']
-    _(result['data']['is_locked']).must_equal false
-  end
-
-  it 'SAD: should return error if unknown letter requested (update)' do
-    letter = DATA[:letters][1]
-    header 'AUTHORIZATION', auth_header(@account_data)
-    put "/api/v1/letters/#{@wrong_letter_id}", letter.to_json
-
-    _(last_response.status).must_equal 400
+      _(last_response.status).must_equal 404
+    end
   end
 
   describe 'Creating Letters' do
@@ -135,5 +171,25 @@ describe 'Test Letter Handling' do
       post "api/v1/capsules/#{wrong_capsule_id}/letters", @letter_data.to_json
       _(last_response.status).must_equal 400
     end
+
+    # it 'HAPPY: should be able to get received letters' do
+    #   header 'AUTHORIZATION', auth_header(@account_data)
+    #   post "api/v1/capsules/#{@capsule.id}/letters", @letter_data.to_json
+    #   _(last_response.status).must_equal 201
+    #   _(last_response.header['Location'].size).must_be :>, 0
+
+    #   created = JSON.parse(last_response.body)['data']
+    #   letter = TimeCapsule::Letter.first
+    #   _(created['attributes']['id']).must_equal letter.id
+    #   _(created['attributes']['title']).must_equal @letter_data['title']
+    #   _(created['attributes']['content']).must_equal @letter_data['content']
+    # end
+
+    # it 'BAD: should return error when wrong letter data' do
+    #   wrong_capsule_id = 'wrong_id'
+    #   header 'AUTHORIZATION', auth_header(@account_data)
+    #   post "api/v1/capsules/#{wrong_capsule_id}/letters", @letter_data.to_json
+    #   _(last_response.status).must_equal 400
+    # end
   end
 end

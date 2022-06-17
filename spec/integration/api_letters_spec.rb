@@ -14,10 +14,10 @@ describe 'Test Letter Handling' do
     @account = TimeCapsule::Account.create(@account_data)
     @account.add_owned_capsule(DATA[:capsules][0])
     @account.add_owned_capsule(DATA[:capsules][1])
-    TimeCapsule::Account.create(@wrong_account_data)
+    @wrong_account = TimeCapsule::Account.create(@wrong_account_data)
+    @wrong_account.add_owned_capsule(DATA[:capsules][1])
 
     @capsule = TimeCapsule::Capsule.first
-    @wrong_letter_id = '1234'
     @wrong_letter_data = DATA[:letters][5]
 
     header 'CONTENT_TYPE', 'application/json'
@@ -39,22 +39,30 @@ describe 'Test Letter Handling' do
   end
 
   describe 'Getting Single Letter' do
-    it 'HAPPY: should be able to get details of a single letter' do
-      letter_data = DATA[:letters][1]
-      letter = @capsule.add_owned_letter(letter_data)
+    before do
+      @letter_data = DATA[:letters][1]
+      @letter = @capsule.add_owned_letter(@letter_data)
+    end
 
+    it 'HAPPY: should be able to get details of a single letter' do
       header 'AUTHORIZATION', auth_header(@account_data)
-      get "/api/v1/capsules/#{@capsule.id}/letters/#{letter.id}"
+      get "/api/v1/letters/#{@letter.id}"
       _(last_response.status).must_equal 200
 
       result = JSON.parse last_response.body
-      _(result['attributes']['id']).must_equal letter.id
-      _(result['attributes']['title']).must_equal letter_data['title']
+      _(result['data']['attributes']['id']).must_equal @letter.id
+      _(result['data']['attributes']['title']).must_equal @letter_data['title']
+    end
+
+    it 'SAD: should return error if unauthorized account requested' do
+      header 'AUTHORIZATION', auth_header(@wrong_account_data)
+      get "/api/v1/letters/#{@letter.id}"
+      _(last_response.status).must_equal 403
     end
 
     it 'SAD: should return error if unknown letter requested' do
       header 'AUTHORIZATION', auth_header(@account_data)
-      get "/api/v1/capsules/#{@capsule.id}/letters/foobar"
+      get '/api/v1/letters/foobar'
 
       _(last_response.status).must_equal 404
     end
@@ -75,7 +83,7 @@ describe 'Test Letter Handling' do
 
       it 'SAD: should return error if wrong requests' do
         header 'AUTHORIZATION', auth_header(@account_data)
-        get "/api/v1/letters/#{@wrong_letter_id}/received"
+        get '/api/v1/letters/foobar/received'
 
         _(last_response.status).must_equal 404
       end
@@ -111,7 +119,7 @@ describe 'Test Letter Handling' do
 
     it 'SAD: should return error if unknown letter requested (update)' do
       header 'AUTHORIZATION', auth_header(@account_data)
-      put "/api/v1/letters/#{@wrong_letter_id}", @letter_data.to_json
+      put '/api/v1/letters/foobar', @letter_data.to_json
 
       _(last_response.status).must_equal 400
     end
@@ -132,7 +140,7 @@ describe 'Test Letter Handling' do
 
     it 'SAD: should return error if unknown letter requested (delete)' do
       header 'AUTHORIZATION', auth_header(@account_data)
-      delete "/api/v1/letters/#{@wrong_letter_id}"
+      delete '/api/v1/letters/foobar'
 
       _(last_response.status).must_equal 404
     end

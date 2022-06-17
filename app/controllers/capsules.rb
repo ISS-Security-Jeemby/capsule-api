@@ -63,25 +63,6 @@ module TimeCapsule
             end
           end
 
-          # GET api/v1/capsules/[caps_id]/letters/[let_id]
-          routing.get String do |let_id|
-            @req_letter = Letter.first(id: let_id)
-
-            raise GetLetterQuery::NotFoundError unless @req_letter
-
-            letter = GetLetterQuery.call(
-              requestor: @auth, letter: @req_letter
-            )
-            letter ? letter.to_json : raise('Letter not found')
-          rescue GetLetterQuery::ForbiddenError => e
-            routing.halt 403, { message: e.message }.to_json
-          rescue GetLetterQuery::NotFoundError => e
-            routing.halt 404, { message: e.message }.to_json
-          rescue StandardError => e
-            Api.logger.warn "LETTER NOT FOUND: CAPS_ID - #{caps_id} / LAT_ID - #{let_id}"
-            routing.halt 500, { message: e.message }.to_json
-          end
-
           # GET api/v1/capsules/[caps_id]/letters
           routing.get do
             caps = Capsule.first(id: caps_id)

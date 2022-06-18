@@ -22,7 +22,6 @@ module TimeCapsule
         authorization: "token #{access_token}",
         accept: 'application/json'
       ).get(ENV.fetch('GITHUB_ACCOUNT_URL'))
-
       raise unless gh_response.status == 200
 
       # 有人的github email private

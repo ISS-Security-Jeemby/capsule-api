@@ -52,3 +52,10 @@ GH_ACCOUNT_RESPONSE = YAML.load(
 )
 GOOD_GH_ACCESS_TOKEN = GH_ACCOUNT_RESPONSE.keys.first
 GH_SSO_ACCOUNT = YAML.load(File.read('spec/fixtures/gh_sso_account.yml'))
+
+## Google SSO fixtures
+GOOGLE_ACCOUNT_RESPONSE = YAML.load(
+  File.read('spec/fixtures/google_token_response.yml')
+)
+GOOD_GOOGLE_ACCESS_TOKEN = GOOGLE_ACCOUNT_RESPONSE.keys.first
+GOOGLE_SSO_ACCOUNT = YAML.load(File.read('spec/fixtures/google_sso_account.yml'))

@@ -77,9 +77,8 @@ describe 'Test Authentication Routes' do
     end
 
     it 'HAPPY AUTH SSO: should authorize existing GITHUBSSO account' do
-
       wipe_database
-      
+
       TimeCapsule::Account.create(
         username: GH_SSO_ACCOUNT['gh_sso_username'],
         email: GH_SSO_ACCOUNT['gh_email']
@@ -92,7 +91,7 @@ describe 'Test Authentication Routes' do
 
       auth_account = JSON.parse(last_response.body)['data']
       account = auth_account['attributes']['account']
-      
+
       _(last_response.status).must_equal 200
       _(account['username']).must_equal(GH_SSO_ACCOUNT['gh_sso_username'])
       _(account['email']).must_equal(GH_SSO_ACCOUNT['gh_email'])
@@ -130,9 +129,7 @@ describe 'Test Authentication Routes' do
     end
 
     it 'HAPPY AUTH GOOGLE SSO: should authorize existing GOOGLE SSO account' do
-
       wipe_database
-      
 
       TimeCapsule::Account.create(
         username: GOOGLE_SSO_ACCOUNT['google_sso_username'],
@@ -140,14 +137,13 @@ describe 'Test Authentication Routes' do
       )
       google_access_token = { access_token: GOOD_GOOGLE_ACCESS_TOKEN }
 
-     
       post 'api/v1/auth/google_sso',
            SignedRequest.new(app.config).sign(google_access_token).to_json,
            @req_header
 
       auth_account = JSON.parse(last_response.body)['data']
       account = auth_account['attributes']['account']
-      
+
       _(last_response.status).must_equal 200
       _(account['username']).must_equal(GOOGLE_SSO_ACCOUNT['google_sso_username'])
       _(account['email']).must_equal(GOOGLE_SSO_ACCOUNT['google_email'])

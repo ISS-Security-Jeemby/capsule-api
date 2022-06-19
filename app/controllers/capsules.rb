@@ -17,7 +17,8 @@ module TimeCapsule
             # GET api/v1/capsules/[caps_id]/letters/received
             routing.get do
               # rubocop: disable Style/MethodCallWithoutArgsParentheses
-              received_letters = Letter.where { status > 1 }
+              received_letters = Letter.where(receiver_id: @auth_account[:username])
+                                       .where { status > 1 }
                                        .where { send_at < DateTime.now() }
               # rubocop: enable Style/MethodCallWithoutArgsParentheses
               letters = Array.new { TimeCapsule::Letter.new }
@@ -32,8 +33,6 @@ module TimeCapsule
               end
               letters = { data: letters, senders: }
               JSON.pretty_generate(letters)
-            rescue GetReceivedLetterQuery::ForbiddenError => e
-              routing.halt 403, { message: e.message }.to_json
             rescue StandardError => e
               puts e.full_message
               puts "FIND CAPSULE ERROR: #{e.inspect}"

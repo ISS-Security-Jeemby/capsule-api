@@ -229,12 +229,6 @@ describe 'Test Letter Handling' do
         _(result['data'][0]['attributes']['id']).must_equal @owner_shared.owned_letters.first.id
         _(result['data'][0]['policies']['can_view']).must_equal true
       end
-
-      it 'SAD: should return error when unauthorized account request' do
-        header 'AUTHORIZATION', auth_header(@owner_data)
-        get "api/v1/capsules/#{@receiver_received.id}/letters/received"
-        _(last_response.status).must_equal 403
-      end
     end
 
     describe 'Getting Shared Letters' do

@@ -237,22 +237,17 @@ describe 'Test Letter Handling' do
       end
     end
 
-    # describe 'Getting Shared Letters' do
-    #   it 'HAPPY: should be able to get shared letters' do
-    #     header 'AUTHORIZATION', auth_header(@account_data)
-    #     get "api/v1/capsules/#{@capsule.id}/letters/shared"
-    #     _(last_response.status).must_equal 200
+    describe 'Getting Shared Letters' do
+      it 'HAPPY: should be able to get shared letters' do
+        header 'AUTHORIZATION', auth_header(@owner_data)
+        get "api/v1/capsules/#{@owner_shared.id}/letters/shared"
+        _(last_response.status).must_equal 200
 
-    #     result = JSON.parse last_response.body
-    #     binding.pry
-    #     _(result['data'].size).must_be :>, 0
-    #   end
-
-    #   it 'SAD: should return error when unauthorized account request' do
-    #     header 'AUTHORIZATION', auth_header(@account_data)
-    #     get "api/v1/capsules/#{@capsule.id}/letters/shared"
-    #     _(last_response.status).must_equal 403
-    #   end
-    # end
+        result = JSON.parse last_response.body
+        _(result['data'].count).must_equal 2
+        _(result['data'][0]['attributes']['id']).must_equal @owner_shared.owned_letters.first.id
+        _(result['data'][0]['policies']['can_edit']).must_equal true
+      end
+    end
   end
 end

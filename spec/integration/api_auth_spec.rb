@@ -14,10 +14,9 @@ describe 'Test Authentication Routes' do
   describe 'Register and send verification email' do
     before do
       @token = { username: 'ruby',
-        email: 'hanchien.yu@iss.nthu.edu.tw',
-       }
+                 email: 'hanchien.yu@iss.nthu.edu.tw' }
 
-       def mail_json # rubocop:disable Metrics/MethodLength
+      def mail_json # rubocop:disable Metrics/MethodLength
         {
           personalizations: [{
             to: [{ 'email' => @token[:email] }]
@@ -42,7 +41,6 @@ describe 'Test Authentication Routes' do
     end
 
     it 'HAPPY: should send verification email' do
-
       post 'api/v1/auth/register',
            SignedRequest.new(app.config).sign(@token).to_json,
            @req_header

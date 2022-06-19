@@ -13,13 +13,13 @@
     is_locked: false
   - title: 'Private 3'
     content: 'stupdi contnet'
-    receiver_id: 'Sir3'
+    receiver_id: 'ruby.yu'
     status: 2
     is_private: true
     is_locked: "false"
   - title: 'Public 4'
     content: 'test contnet'
-    receiver_id: 'Sir3'
+    receiver_id: 'ruby.yu'
     status: 2
     is_private: false
     is_locked: false
@@ -31,7 +31,7 @@
     is_locked: false
   - title: 'Public 33'
     content: 'content 33'
-    receiver_id: 'ruby.yu'
+    receiver_id: 'jhuang@nthu.edu.tw'
     status: 2
     is_private: false
     is_locked: false

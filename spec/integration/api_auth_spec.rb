@@ -11,6 +11,46 @@ describe 'Test Authentication Routes' do
     wipe_database
   end
 
+  describe 'Register and send verification email' do
+    before do
+      @token = { username: 'ruby',
+        email: 'hanchien.yu@iss.nthu.edu.tw',
+       }
+
+       def mail_json # rubocop:disable Metrics/MethodLength
+        {
+          personalizations: [{
+            to: [{ 'email' => @token[:email] }]
+          }],
+          from: { 'email' => 'jessica.huang+timecapsule@iss.nthu.edu.tw' },
+          subject: 'Time Capsule Registration Verification',
+          content: [
+            { type: 'text/html',
+              value: 'test' }
+          ]
+        }
+      end
+      WebMock.enable!
+      WebMock.stub_request(:post, 'https://api.sendgrid.com/v3/mail/send')
+             .to_return(body: mail_json.to_json,
+                        status: 200,
+                        headers: { 'content-type' => 'application/json' })
+    end
+
+    after do
+      WebMock.disable!
+    end
+
+    it 'HAPPY: should send verification email' do
+
+      post 'api/v1/auth/register',
+           SignedRequest.new(app.config).sign(@token).to_json,
+           @req_header
+
+      _(last_response.status).must_equal 202
+    end
+  end
+
   describe 'Account Authentication' do
     before do
       @account_data = DATA[:accounts][1]

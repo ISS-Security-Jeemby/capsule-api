@@ -1,7 +1,7 @@
 {
   "RSpec": {
     "coverage": {
-      "/home/ruby/capsule-api/spec/test_load_all.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/spec/test_load_all.rb": {
         "lines": [
           null,
           null,
@@ -18,7 +18,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/require_app.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/require_app.rb": {
         "lines": [
           null,
           null,
@@ -39,7 +39,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/config/environments.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/config/environments.rb": {
         "lines": [
           null,
           null,
@@ -90,7 +90,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/lib/auth_scope.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/lib/auth_scope.rb": {
         "lines": [
           null,
           null,
@@ -145,7 +145,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/lib/auth_token.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/lib/auth_token.rb": {
         "lines": [
           null,
           null,
@@ -234,7 +234,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/lib/securable.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/lib/securable.rb": {
         "lines": [
           null,
           null,
@@ -276,7 +276,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/lib/json_request_body.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/lib/json_request_body.rb": {
         "lines": [
           null,
           null,
@@ -288,7 +288,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/lib/key_stretch.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/lib/key_stretch.rb": {
         "lines": [
           null,
           null,
@@ -314,7 +314,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/lib/secure_db.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/lib/secure_db.rb": {
         "lines": [
           null,
           null,
@@ -342,7 +342,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/lib/signed_request.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/lib/signed_request.rb": {
         "lines": [
           null,
           null,
@@ -393,7 +393,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/models/account.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/models/account.rb": {
         "lines": [
           null,
           null,
@@ -445,7 +445,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/models/password.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/models/password.rb": {
         "lines": [
           null,
           null,
@@ -491,7 +491,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/models/capsule.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/models/capsule.rb": {
         "lines": [
           null,
           null,
@@ -545,7 +545,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/models/letter.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/models/letter.rb": {
         "lines": [
           null,
           null,
@@ -613,7 +613,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/policies/account_policy.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/policies/account_policy.rb": {
         "lines": [
           null,
           null,
@@ -652,7 +652,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/policies/capsule_policy.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/policies/capsule_policy.rb": {
         "lines": [
           null,
           null,
@@ -727,7 +727,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/policies/collaboration_request_policy.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/policies/collaboration_request_policy.rb": {
         "lines": [
           null,
           null,
@@ -759,7 +759,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/policies/letter_policy.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/policies/letter_policy.rb": {
         "lines": [
           null,
           null,
@@ -854,7 +854,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/policies/letter_scope.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/policies/letter_scope.rb": {
         "lines": [
           null,
           null,
@@ -894,7 +894,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/services/add_collaborator_to_letter.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/services/add_collaborator_to_letter.rb": {
         "lines": [
           null,
           null,
@@ -936,7 +936,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/services/authenticate_account.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/services/authenticate_account.rb": {
         "lines": [
           null,
           null,
@@ -977,7 +977,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/services/authorize_account.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/services/authorize_account.rb": {
         "lines": [
           null,
           null,
@@ -1016,7 +1016,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/services/authorize_google_sso.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/services/authorize_google_sso.rb": {
         "lines": [
           null,
           null,
@@ -1074,7 +1074,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/services/authorize_sso.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/services/authorize_sso.rb": {
         "lines": [
           null,
           null,
@@ -1131,7 +1131,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/services/create_capsule_for_owner.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/services/create_capsule_for_owner.rb": {
         "lines": [
           null,
           null,
@@ -1146,7 +1146,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/services/create_letter_for_owner.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/services/create_letter_for_owner.rb": {
         "lines": [
           null,
           null,
@@ -1171,7 +1171,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/services/delete_letter.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/services/delete_letter.rb": {
         "lines": [
           null,
           null,
@@ -1191,7 +1191,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/services/get_all_collaborators.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/services/get_all_collaborators.rb": {
         "lines": [
           null,
           null,
@@ -1223,7 +1223,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/services/get_capsule_query.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/services/get_capsule_query.rb": {
         "lines": [
           null,
           null,
@@ -1258,7 +1258,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/services/get_letter_collaborators.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/services/get_letter_collaborators.rb": {
         "lines": [
           null,
           null,
@@ -1285,7 +1285,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/services/get_letter_query.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/services/get_letter_query.rb": {
         "lines": [
           null,
           null,
@@ -1321,7 +1321,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/services/get_letter_senders.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/services/get_letter_senders.rb": {
         "lines": [
           null,
           null,
@@ -1349,7 +1349,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/services/get_received_letter_query.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/services/get_received_letter_query.rb": {
         "lines": [
           null,
           null,
@@ -1385,7 +1385,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/services/get_shared_capsule_query.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/services/get_shared_capsule_query.rb": {
         "lines": [
           null,
           null,
@@ -1420,7 +1420,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/services/notice_collaborator.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/services/notice_collaborator.rb": {
         "lines": [
           null,
           null,
@@ -1484,7 +1484,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/services/update_letter.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/services/update_letter.rb": {
         "lines": [
           null,
           null,
@@ -1505,7 +1505,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/services/verify_registration.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/services/verify_registration.rb": {
         "lines": [
           null,
           null,
@@ -1578,7 +1578,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/controllers/accounts.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/controllers/accounts.rb": {
         "lines": [
           null,
           null,
@@ -1630,7 +1630,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/controllers/app.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/controllers/app.rb": {
         "lines": [
           null,
           null,
@@ -1679,7 +1679,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/controllers/helpers.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/controllers/helpers.rb": {
         "lines": [
           null,
           null,
@@ -1713,7 +1713,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/controllers/auth.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/controllers/auth.rb": {
         "lines": [
           null,
           null,
@@ -1762,7 +1762,6 @@
           null,
           null,
           4,
-          null,
           2,
           2,
           null,
@@ -1787,7 +1786,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/controllers/capsules.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/controllers/capsules.rb": {
         "lines": [
           null,
           null,
@@ -1951,7 +1950,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/app/controllers/letters.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/app/controllers/letters.rb": {
         "lines": [
           null,
           null,
@@ -2090,7 +2089,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/spec/integration/api_accounts_spec.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/spec/integration/api_accounts_spec.rb": {
         "lines": [
           null,
           null,
@@ -2160,7 +2159,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/spec/integration/api_auth_spec.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/spec/integration/api_auth_spec.rb": {
         "lines": [
           null,
           null,
@@ -2241,7 +2240,6 @@
           null,
           null,
           1,
-          null,
           1,
           null,
           1,
@@ -2294,16 +2292,13 @@
           null,
           null,
           1,
-          null,
           1,
-          null,
           null,
           1,
           null,
           null,
           null,
           1,
-          null,
           null,
           1,
           null,
@@ -2321,7 +2316,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/spec/integration/api_capsules_spec.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/spec/integration/api_capsules_spec.rb": {
         "lines": [
           null,
           null,
@@ -2417,7 +2412,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/spec/integration/api_letters_spec.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/spec/integration/api_letters_spec.rb": {
         "lines": [
           null,
           null,
@@ -2441,6 +2436,140 @@
           15,
           null,
           15,
+          null,
+          null,
+          1,
+          1,
+          6,
+          6,
+          null,
+          null,
+          1,
+          1,
+          1,
+          1,
+          null,
+          1,
+          1,
+          1,
+          null,
+          null,
+          1,
+          1,
+          1,
+          1,
+          null,
+          null,
+          1,
+          1,
+          1,
+          null,
+          1,
+          null,
+          null,
+          1,
+          1,
+          1,
+          1,
+          null,
+          1,
+          1,
+          1,
+          null,
+          1,
+          1,
+          1,
+          null,
+          null,
+          1,
+          1,
+          1,
+          null,
+          1,
+          null,
+          null,
+          1,
+          1,
+          1,
+          1,
+          null,
+          1,
+          null,
+          null,
+          null,
+          null,
+          1,
+          1,
+          2,
+          2,
+          null,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
+          1,
+          null,
+          1,
+          1,
+          1,
+          1,
+          null,
+          null,
+          1,
+          1,
+          1,
+          null,
+          1,
+          null,
+          null,
+          null,
+          1,
+          1,
+          1,
+          1,
+          null,
+          1,
+          1,
+          1,
+          null,
+          1,
+          1,
+          null,
+          null,
+          1,
+          1,
+          1,
+          null,
+          1,
+          null,
+          null,
+          null,
+          1,
+          1,
+          2,
+          2,
+          null,
+          null,
+          1,
+          1,
+          1,
+          1,
+          1,
+          null,
+          1,
+          1,
+          1,
+          1,
+          1,
+          null,
+          null,
+          1,
+          1,
+          1,
+          1,
+          null,
           null,
           null,
           1,
@@ -2450,113 +2579,12 @@
           null,
           null,
           null,
-          1,
-          1,
-          1,
-          1,
-          null,
-          1,
-          1,
-          null,
-          null,
-          1,
-          1,
-          1,
-          1,
-          null,
-          null,
-          1,
-          1,
-          1,
-          null,
-          1,
-          null,
-          null,
-          null,
-          1,
-          1,
-          6,
-          6,
-          null,
-          null,
-          1,
-          1,
-          1,
-          1,
-          null,
-          1,
-          1,
-          1,
-          null,
-          null,
-          1,
-          1,
-          1,
-          1,
-          null,
-          null,
-          1,
-          1,
-          1,
-          null,
-          1,
-          null,
-          null,
-          1,
-          1,
-          1,
-          1,
-          null,
-          1,
-          1,
-          1,
-          null,
-          1,
-          1,
-          1,
-          null,
-          null,
-          1,
-          1,
-          1,
-          null,
-          1,
-          null,
-          null,
-          1,
-          1,
-          1,
-          1,
-          null,
-          1,
-          null,
-          null,
-          null,
           null,
-          1,
-          1,
-          2,
-          2,
-          null,
-          null,
-          1,
-          1,
           null,
-          1,
-          1,
-          1,
           null,
-          1,
-          1,
-          1,
-          1,
           null,
           null,
-          1,
-          1,
-          1,
           null,
-          1,
           null,
           null,
           null,
@@ -2567,60 +2595,19 @@
           null,
           1,
           1,
-          1,
-          null,
-          1,
-          1,
           null,
           null,
-          1,
           1,
           1,
-          null,
-          1,
-          null,
-          null,
-          null,
           1,
           1,
-          2,
-          2,
-          null,
           null,
-          1,
-          1,
-          1,
-          1,
-          1,
           null,
-          1,
           1,
           1,
           1,
-          1,
-          null,
           null,
-          1,
-          1,
-          1,
           1,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
           null,
           null,
           null,
@@ -2663,7 +2650,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/spec/integration/api_spec.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/spec/integration/api_spec.rb": {
         "lines": [
           null,
           null,
@@ -2679,7 +2666,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/spec/integration/service_add_collaborator_spec.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/spec/integration/service_add_collaborator_spec.rb": {
         "lines": [
           null,
           null,
@@ -2745,7 +2732,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/spec/integration/service_authenticate_account_spec.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/spec/integration/service_authenticate_account_spec.rb": {
         "lines": [
           null,
           null,
@@ -2787,7 +2774,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/spec/unit/letters_spec.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/spec/unit/letters_spec.rb": {
         "lines": [
           null,
           null,
@@ -2835,7 +2822,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/spec/unit/passwords_spec.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/spec/unit/passwords_spec.rb": {
         "lines": [
           null,
           null,
@@ -2868,7 +2855,7 @@
           null
         ]
       },
-      "/home/ruby/capsule-api/spec/unit/secure_db_spec.rb": {
+      "/Users/7jess/Desktop/NTHU_ISS/Security/Team_Project/capsule-api/spec/unit/secure_db_spec.rb": {
         "lines": [
           null,
           null,
@@ -2898,6 +2885,6 @@
         ]
       }
     },
-    "timestamp": 1655537813
+    "timestamp": 1655610045
   }
 }

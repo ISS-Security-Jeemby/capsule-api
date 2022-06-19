@@ -36,6 +36,13 @@
     is_private: false
     is_locked: false
     send_at: '2022-06-19T12:36:39+08:00'
+  - title: 'Public 2'
+    content: 'content 2'
+    receiver_id: 'jessica.huang'
+    status: 2
+    is_private: false
+    is_locked: false
+    send_at: '2022-06-19T12:36:39+08:00'
   - title: 'Public 44'
     content: 'content 44'
     receiver_id: 'ruby.yu'

@@ -13,10 +13,13 @@ module TimeCapsule
       def message = 'Owner cannot be collaborator of letter'
     end
 
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     def self.call(collaborator_email:, letter_data:)
       # find account and its "shared capsule"
       collaborator = TimeCapsule::Account.first(email: collaborator_email)
+
+      return 'Collaborator not found' unless collaborator
+
       collaborator_capsule = TimeCapsule::Capsule.first(owner_id: collaborator.id, type: 2)
 
       # see if the new collaborator is already a collaborator
@@ -33,6 +36,6 @@ module TimeCapsule
       collaborator_capsule.add_collaborated_letter(letter_data)
       collaborator
     end
-    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
   end
 end

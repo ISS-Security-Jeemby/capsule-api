@@ -11,22 +11,6 @@ class AccountPolicy
     self_request?
   end
 
-  def can_edit?
-    self_request?
-  end
-
-  def can_delete?
-    self_request?
-  end
-
-  def summary
-    {
-      can_view: can_view?,
-      can_edit: can_edit?,
-      can_delete: can_delete?
-    }
-  end
-
   private
 
   def self_request?

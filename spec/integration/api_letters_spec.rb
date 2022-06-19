@@ -154,6 +154,12 @@ describe 'Test Letter Handling' do
       post 'api/v1/capsules/foobar/letters', @letter_data.to_json
       _(last_response.status).must_equal 400
     end
+
+    it 'BAD: fail to create letter' do
+      header 'AUTHORIZATION', auth_header(@account_data)
+      post 'api/v1/capsules/foobar/letters'
+      _(last_response.status).must_equal 500
+    end
   end
 
   describe 'Getting Letters' do
@@ -169,7 +175,7 @@ describe 'Test Letter Handling' do
       _(last_response.status).must_equal 200
 
       result = JSON.parse last_response.body
-      _(result['data'].count).must_equal 7
+      _(result['data'].count).must_equal 8
     end
 
     it 'SAD: should return error if unauthorized account requested' do

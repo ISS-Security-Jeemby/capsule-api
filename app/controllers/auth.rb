@@ -22,13 +22,10 @@ module TimeCapsule
           response.status = 202
           { message: 'Verification email sent' }.to_json
         rescue VerifyRegistration::InvalidRegistration => e
-          puts e.full_message
           routing.halt 400, { message: e.message }.to_json
-        rescue VerifyRegistration::EmailProviderError => e
-          puts e.full_message
+        rescue VerifyRegistration::EmailProviderError
           routing.halt 500, { message: 'Error sending email' }.to_json
-        rescue StandardError => e
-          puts e.full_message
+        rescue StandardError
           Api.logger.error "Could not verify registration: #{e.inspect}"
           routing.halt 500
         end
@@ -57,7 +54,6 @@ module TimeCapsule
         auth_account = AuthorizeGoogleSso.new.call(@request_data[:access_token])
         { data: auth_account }.to_json
       rescue AuthorizeGoogleSso::InvalidRegistration => e
-        puts e.full_message
         routing.halt 400, { message: e.message }.to_json
       rescue StandardError => e
         puts "FAILED to validate Google account: #{e.inspect}"

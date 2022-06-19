@@ -15,13 +15,10 @@ module TimeCapsule
         routing.get do
           letters = JSON.parse(routing.body.read)
           collaborators = GetAllCollaborators.call(letters:)
-
           { data: collaborators }.to_json
         rescue GetAllCollaborators::ForbiddenError => e
-          puts e.full_message
           routing.halt 403, { message: e.message }.to_json
-        rescue StandardError => e
-          puts e.full_message
+        rescue StandardError
           routing.halt 500, { message: 'API server error' }.to_json
         end
       end
@@ -51,14 +48,11 @@ module TimeCapsule
               collaborator_email: req_data['email'],
               letter_data: @req_letter
             )
-
             collaborator = { data: collaborator }
             JSON.pretty_generate(collaborator)
           rescue AddCollaboratorToLetter::ForbiddenError => e
-            puts e.full_message
             routing.halt 403, { message: e.message }.to_json
-          rescue StandardError => e
-            puts e.full_message
+          rescue StandardError
             routing.halt 500, { message: 'API server error' }.to_json
           end
 
@@ -68,10 +62,8 @@ module TimeCapsule
 
             { data: collaborators }.to_json
           rescue GetLetterCollaborators::ForbiddenError => e
-            puts e.full_message
             routing.halt 403, { message: e.message }.to_json
-          rescue StandardError => e
-            puts e.full_message
+          rescue StandardError
             routing.halt 500, { message: 'API server error' }.to_json
           end
         end
@@ -112,7 +104,6 @@ module TimeCapsule
         rescue GetLetterQuery::NotFoundError => e
           routing.halt 404, { message: e.message }.to_json
         rescue StandardError => e
-          puts e.full_message
           puts "GET LETTER ERROR: #{e.inspect}"
           routing.halt 500, { message: 'API server error' }.to_json
         end
@@ -125,8 +116,7 @@ module TimeCapsule
           { data: letter }.to_json
         rescue UpdateLetter::NotFoundLetter => e
           routing.halt 400, { message: e.message }.to_json
-        rescue StandardError => e
-          puts e.full_message
+        rescue StandardError
           routing.halt 500, { message: 'API server error' }.to_json
         end
       end

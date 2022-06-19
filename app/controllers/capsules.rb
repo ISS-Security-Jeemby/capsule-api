@@ -34,7 +34,6 @@ module TimeCapsule
               letters = { data: letters, senders: }
               JSON.pretty_generate(letters)
             rescue StandardError => e
-              puts e.full_message
               puts "FIND CAPSULE ERROR: #{e.inspect}"
               routing.halt 500, { message: 'API server error' }.to_json
             end
@@ -82,7 +81,6 @@ module TimeCapsule
           rescue CreateLetterForOwner::IllegalRequestError => e
             routing.halt 400, { message: e.message }.to_json
           rescue StandardError => e
-            puts e.full_message
             Api.logger.warn "Could not create letter: #{e.message}"
             routing.halt 500, { message: 'API server error' }.to_json
           end
@@ -126,9 +124,6 @@ module TimeCapsule
           response.status = 201
           response['Location'] = @caps_route.to_s
           { message: 'Capsules created for owner', data: new_caps }.to_json
-        rescue Sequel::MassAssignmentRestriction
-          Api.logger.warn "MASS-ASSIGNMENT: #{new_data.keys}"
-          routing.halt 400, { message: 'Illegal Attributes' }.to_json
         rescue StandardError => e
           Api.logger.error "UNKOWN ERROR: #{e.message}"
           routing.halt 500, { message: 'Unknown server error' }.to_json

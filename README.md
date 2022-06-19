@@ -10,7 +10,7 @@ All routes return Json
 * POST `api/v1/accounts`: Create a new acounts
 
 ### `api/v1/auth`
-* POST `api/v1/auth/register`: return an auth token if login success
+* POST `api/v1/auth/register`: return an verification email if register success
 * POST `/api/v1/auth/authenticate`: return an result if register success
 * POST `/api/v1/auth/sso`: Get Github account information from Github url and create one in our db
 * POST `/api/v1/auth/google_sso`:Get Google account information from Google url and create one in our db

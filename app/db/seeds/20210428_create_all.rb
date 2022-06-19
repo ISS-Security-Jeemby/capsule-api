@@ -6,7 +6,6 @@ Sequel.seed(:development) do
     create_accounts
     create_owned_capsules
     create_owned_letters
-    add_collaborators
   end
 end
 
@@ -48,20 +47,6 @@ def create_owned_letters
       letter = LETTER_INFO.find { |let| let['title'] == letter_title }
       TimeCapsule::CreateLetterForOwner.call(
         capsule_id: capsule.id, letter_data: letter
-      )
-    end
-  end
-end
-
-def add_collaborators
-  CONTRIB_INFO.each do |contrib_info|
-    account = TimeCapsule::Account.first(username: contrib_info['ownername'])
-    capsule = TimeCapsule::Capsule.first(owner_id: account.id, name: contrib_info['capsule_name'])
-    letter = TimeCapsule::Letter.first(capsule_id: capsule.id, title: contrib_info['title_name'])
-    contrib_info['collaborator'].each do |collaborator_email|
-      # find collaborator's id, letter_id and join
-      TimeCapsule::AddCollaboratorToLetter.call(
-        collaborator_email:, letter_data: letter
       )
     end
   end

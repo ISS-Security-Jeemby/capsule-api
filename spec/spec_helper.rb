@@ -43,7 +43,6 @@ DATA = {
   capsules: YAML.load(File.read('app/db/seeds/capsules_seed.yml')),
   accounts: YAML.load(File.read('app/db/seeds/accounts_seed.yml')),
   owners_letters: YAML.load(File.read('app/db/seeds/letters_owner.yml')),
-  collaborators_letters: YAML.load(File.read('app/db/seeds/letters_collaborators.yml'))
 }.freeze
 
 ## Github SSO fixtures

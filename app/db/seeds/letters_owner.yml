@@ -1,15 +1,15 @@
 ---
   - username: emily.liu
-    capsule_name: My Capsule
-    letters: 
-      - Private 1
-      - Private 2
-  - username: emily.liu
     capsule_name: Shared Capsule
-    letters: 
-      - Public 4
+    letters:
+      - Public 44
+      - Public 33
+  - username: emily.liu
+    capsule_name: Received Capsule
+    letters:
       - Public 33
   - username: jessica.huang
-    capsule_name: My Capsule
-    letters: 
-      - Private 3
+    capsule_name: Shared Capsule
+    letters:
+      - Public 44
+      - Public 33

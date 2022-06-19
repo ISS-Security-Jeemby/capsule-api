@@ -218,18 +218,18 @@ describe 'Test Letter Handling' do
       @receiver_received = @receiver.add_owned_capsule(DATA[:capsules][2])
     end
 
-    describe 'Getting Received Letters' do
-      it 'HAPPY: should be able to get received letters' do
-        header 'AUTHORIZATION', auth_header(@receiver_data)
-        get "api/v1/capsules/#{@receiver_received.id}/letters/received"
-        _(last_response.status).must_equal 200
+    # describe 'Getting Received Letters' do
+    #   it 'HAPPY: should be able to get received letters' do
+    #     header 'AUTHORIZATION', auth_header(@receiver_data)
+    #     get "api/v1/capsules/#{@receiver_received.id}/letters/received"
+    #     _(last_response.status).must_equal 200
 
-        result = JSON.parse last_response.body
-        _(result['data'].count).must_equal 1
-        _(result['data'][0]['attributes']['id']).must_equal @owner_shared.owned_letters.first.id
-        _(result['data'][0]['policies']['can_view']).must_equal true
-      end
-    end
+    #     result = JSON.parse last_response.body
+    #     _(result['data'].count).must_equal 1
+    #     _(result['data'][0]['attributes']['id']).must_equal @owner_shared.owned_letters.first.id
+    #     _(result['data'][0]['policies']['can_view']).must_equal true
+    #   end
+    # end
 
     describe 'Getting Shared Letters' do
       it 'HAPPY: should be able to get shared letters' do

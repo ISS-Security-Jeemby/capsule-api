@@ -15,7 +15,6 @@ module TimeCapsule
         routing.get do
           letters = JSON.parse(routing.body.read)
           collaborators = GetAllCollaborators.call(letters:)
-
           { data: collaborators }.to_json
         rescue GetAllCollaborators::ForbiddenError => e
           puts e.full_message
@@ -51,7 +50,6 @@ module TimeCapsule
               collaborator_email: req_data['email'],
               letter_data: @req_letter
             )
-
             collaborator = { data: collaborator }
             JSON.pretty_generate(collaborator)
           rescue AddCollaboratorToLetter::ForbiddenError => e

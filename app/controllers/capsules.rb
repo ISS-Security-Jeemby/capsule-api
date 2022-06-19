@@ -33,12 +33,6 @@ module TimeCapsule
               end
               letters = { data: letters, senders: }
               JSON.pretty_generate(letters)
-            rescue GetCapsuleQuery::ForbiddenError => e
-              puts e.full_message
-              routing.halt 403, { message: e.message }.to_json
-            rescue GetCapsuleQuery::NotFoundError => e
-              puts e.full_message
-              routing.halt 404, { message: e.message }.to_json
             rescue StandardError => e
               puts e.full_message
               puts "FIND CAPSULE ERROR: #{e.inspect}"
@@ -51,12 +45,6 @@ module TimeCapsule
             routing.get do
               letters = LetterPolicy::AccountScope.new(@auth, @auth_account).viewable
               JSON.pretty_generate(data: letters)
-            rescue GetLetterQuery::ForbiddenError => e
-              puts e.full_message
-              routing.halt 403, { message: e.message }.to_json
-            rescue GetLetterQuery::NotFoundError => e
-              puts e.full_message
-              routing.halt 404, { message: e.message }.to_json
             rescue StandardError => e
               puts "FIND CAPSULE ERROR: #{e.inspect}"
               routing.halt 500, { message: 'API server error' }.to_json

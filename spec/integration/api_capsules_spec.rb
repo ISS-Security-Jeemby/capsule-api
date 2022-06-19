@@ -24,7 +24,7 @@ describe 'Test Capsule Handling' do
         @account.add_owned_capsule(DATA[:capsules][2])
       end
 
-      it 'HAPPY: should get list for authorized account' do
+      it 'HAPPY: should get all capsules for authorized account' do
         header 'AUTHORIZATION', auth_header(@account_data)
         get 'api/v1/capsules'
         _(last_response.status).must_equal 200
@@ -34,6 +34,14 @@ describe 'Test Capsule Handling' do
 
       it 'BAD: should not process for unauthorized account' do
         header 'AUTHORIZATION', 'Bearer bad_token'
+        get 'api/v1/capsules'
+        _(last_response.status).must_equal 403
+
+        result = JSON.parse last_response.body
+        _(result['data']).must_be_nil
+      end
+
+      it 'BAD: should not process without authorization' do
         get 'api/v1/capsules'
         _(last_response.status).must_equal 403
 

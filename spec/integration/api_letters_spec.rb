@@ -203,15 +203,15 @@ describe 'Test Letter Handling' do
       @collaborator_shared = @wrong_account_capsule
       @owner_shared.owned_letters.each do |letter|
         is_owner_shared_letter = DATA[:owners_letters][2]['letters'].include? letter.title
-        if is_owner_shared_letter
-          TimeCapsule::AddCollaboratorToLetter.call(
-            collaborator_email: @collaborator.email,
-            letter_data: letter
-          )
-        end
+        next if is_owner_shared_letter
+
+        TimeCapsule::AddCollaboratorToLetter.call(
+          collaborator_email: @collaborator.email,
+          letter_data: letter
+        )
       end
 
-      #receiver
+      # receiver
       @receiver_data = DATA[:accounts][2]
       @receiver = TimeCapsule::Account.create(@receiver_data)
       @receiver_shared = @receiver.add_owned_capsule(DATA[:capsules][1])
